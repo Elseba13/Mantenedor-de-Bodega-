@@ -1,0 +1,8 @@
+C:\Users\sebas\OneDrive\Escritorio\Mantenedor de bodega\obj\Debug\net8.0\Mantenedor de bodega.csproj.AssemblyReference.cache
+C:\Users\sebas\OneDrive\Escritorio\Mantenedor de bodega\obj\Debug\net8.0\Mantenedor de bodega.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sebas\OneDrive\Escritorio\Mantenedor de bodega\obj\Debug\net8.0\Mantenedor de bodega.AssemblyInfoInputs.cache
+C:\Users\sebas\OneDrive\Escritorio\Mantenedor de bodega\obj\Debug\net8.0\Mantenedor de bodega.AssemblyInfo.cs
+C:\Users\sebas\OneDrive\Escritorio\Mantenedor de bodega\obj\Debug\net8.0\Mantenedor de bodega.csproj.CoreCompileInputs.cache
+C:\Users\sebas\OneDrive\Escritorio\Mantenedor de bodega\obj\Debug\net8.0\Mantenedor de bodega.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\sebas\OneDrive\Escritorio\Mantenedor de bodega\obj\Debug\net8.0\Mantenedor de bodega.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\sebas\OneDrive\Escritorio\Mantenedor de bodega\obj\Debug\net8.0\Mantenedor de bodega.sourcelink.json
