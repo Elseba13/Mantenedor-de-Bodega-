@@ -8,31 +8,31 @@ namespace Mantenedor.Data
     public interface IMantenedorRepo
     {
         // Métodos para obtener todas las Bodegas y una Bodega por su Id
-        IEnumerable<Bodega> GetAppBodegas();
+        IEnumerable<Bodega> GetAllBodegas();
         Bodega GetBodegaById(int id);
 
         // Métodos para obtener todos los Centros de Salud y un Centro de Salud por su Id
-        IEnumerable<CentroDeSalud> GetAppCentroSalud(); 
+        IEnumerable<CentroDeSalud> GetAllCentroSalud(); 
         CentroDeSalud GetCentroDeSaludById(int id); 
 
         // Métodos para obtener todos los Artículos y un Artículo por su Id
-        IEnumerable<Articulos> GetAppArticulos(); 
+        IEnumerable<Articulos> GetAllArticulos(); 
         Articulos GetArticulosById(int id);
 
         // Métodos para obtener todos los Motivos y un Motivo por su Id
-        IEnumerable<Motivos> GetAppMotivos(); 
+        IEnumerable<Motivos> GetAllMotivos(); 
         Motivos GetMotivosById(int id);
 
         // Métodos para obtener todos los Usuarios y un Usuario por su Id
-        IEnumerable<Usuarios> GetAppUsuarios(); 
+        IEnumerable<Usuarios> GetAllUsuarios();
         Usuarios GetUsuariosById(int id); 
 
         // Métodos para obtener todos los Inventarios y un Inventario por su Id
-        IEnumerable<Inventario> GetAppInventario(); 
+        IEnumerable<Inventario> GetAllInventario(); 
         Inventario GetInventarioById(int id); 
 
         // Métodos para obtener todos los Movimientos de Inventario y un Movimiento de Inventario por su Id
-        IEnumerable<MovimientosInventario> GetAppMovimientosInventario(); 
+        IEnumerable<MovimientosInventario> GetAllMovimientosInventario(); 
         MovimientosInventario GetMovimientosInventarioById(int id);
     }
 } 

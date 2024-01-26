@@ -27,8 +27,8 @@ namespace Mantenedor
             (Configuration.GetConnectionString("MantenedorConnection")));
 
             services.AddControllers(); 
-
-            services.AddScoped<IMantenedorRepo,MockMantenedorRepo>();
+            
+            services.AddScoped<IMantenedorRepo, SqlMantenedorRepo>();
             
         }
 

@@ -67,7 +67,7 @@ namespace models
         
         public int IdMovimiento { get; set; } // Identificador único del Movimiento de Inventario
         public int Cantidad { get; set; } // Cantidad del movimiento
-        public DateTime FechaDeMovimiento { get; set; } // Fecha del movimiento
+        public string FechaDeMovimiento { get; set; } // Fecha del movimiento
         public int IdMotivo { get; set; } // Identificador del Motivo del movimiento
         public int IdUsuario { get; set; } // Identificador del Usuario responsable del movimiento
         public int CodigoBodega { get; set; } // Código de la Bodega relacionada con el movimiento

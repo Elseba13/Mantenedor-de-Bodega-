@@ -23,7 +23,7 @@ namespace Mantenedor.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Bodega>> GetAllBodegas()
         {
-            var bodegaItems = _repository.GetAppBodegas();
+            var bodegaItems = _repository.GetAllBodegas();
             return Ok(bodegaItems);
         }
 
@@ -39,7 +39,7 @@ namespace Mantenedor.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<CentroDeSalud>> GetAllCentroDeSalud()
         {
-            var centroDeSaludItems = _repository.GetAppCentroSalud();
+            var centroDeSaludItems = _repository.GetAllCentroSalud();
             return Ok(centroDeSaludItems);
         }
 
@@ -55,7 +55,7 @@ namespace Mantenedor.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Articulos>> GetAllArticulos()
         {
-            var articulosItems = _repository.GetAppArticulos();
+            var articulosItems = _repository.GetAllArticulos();
             return Ok(articulosItems);
         }
 
@@ -71,7 +71,7 @@ namespace Mantenedor.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Motivos>> GetAllMotivos()
         {
-            var motivosItems = _repository.GetAppMotivos();
+            var motivosItems = _repository.GetAllMotivos();
             return Ok(motivosItems);
         }
 
@@ -87,7 +87,7 @@ namespace Mantenedor.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Usuarios>> GetAllUsuarios()
         {
-            var usuariosItems = _repository.GetAppUsuarios();
+            var usuariosItems = _repository.GetAllUsuarios();
             return Ok(usuariosItems);
         }
 
@@ -103,7 +103,7 @@ namespace Mantenedor.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Inventario>> GetAllInventarios()
         {
-            var inventarioItems = _repository.GetAppInventario();
+            var inventarioItems = _repository.GetAllInventario();
             return Ok(inventarioItems);
         }
 
@@ -119,7 +119,7 @@ namespace Mantenedor.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<MovimientosInventario>> GetAllMovimientosInventario()
         {
-            var movimientosInventarioItems = _repository.GetAppMovimientosInventario();
+            var movimientosInventarioItems = _repository.GetAllMovimientosInventario();
             return Ok(movimientosInventarioItems);
         }
 

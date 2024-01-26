@@ -7,9 +7,8 @@ using models;
 // Define una clase llamada "MantenedorContext" que hereda de DbContext
 public class MantenedorContext : DbContext
 {
-    public MantenedorContext(DbContextOptions<MantenedorContext> opt): base(opt)
-    {
-        
+    public MantenedorContext(DbContextOptions<MantenedorContext> options): base(options)
+    {   
     }
 
     public DbSet<Bodega> Bodegas { get; set; } 
