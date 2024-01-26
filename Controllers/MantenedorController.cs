@@ -6,8 +6,6 @@ using models;
 namespace Mantenedor.Controllers
 {
 
-    
-
     [Route("api/mantenedor")] // Ruta base para las acciones del controlador
     [ApiController] // Indica que este controlador es de tipo API
     public class MantenedorController : ControllerBase
