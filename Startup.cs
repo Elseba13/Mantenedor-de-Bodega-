@@ -28,6 +28,8 @@ namespace Mantenedor
 
             services.AddControllers(); 
             
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddScoped<IMantenedorRepo, SqlMantenedorRepo>();
             
         }

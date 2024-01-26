@@ -1,5 +1,7 @@
 // Importa los espacios de nombres necesarios
+using AutoMapper;
 using Mantenedor.Data;
+using Mantenedor.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using models; 
 
@@ -11,14 +13,14 @@ namespace Mantenedor.Controllers
     public class MantenedorController : ControllerBase
     {
         private readonly IMantenedorRepo _repository;
+        private readonly IMapper _mapper;
 
-        public MantenedorController(IMantenedorRepo repository)
+        public MantenedorController(IMantenedorRepo repository ,IMapper mapper)
         {
             _repository = repository; 
+            _mapper = mapper;
         }
         
-        //private readonly MockMantenedorRepo _repository = new MockMantenedorRepo();
-
         // Acción para obtener todas las Bodegas
         [HttpGet]
         public ActionResult<IEnumerable<Bodega>> GetAllBodegas()
@@ -29,10 +31,14 @@ namespace Mantenedor.Controllers
 
         // Acción para obtener una Bodega por su Id
         [HttpGet("{id}")]
-        public ActionResult<Bodega> GetBodegaById(int id)
+        public ActionResult<MantenedorDtoBodega> GetBodegaById(int id)
         {
             var bodegaItems = _repository.GetBodegaById(id);
-            return Ok(bodegaItems);
+            if(bodegaItems != null)
+            {
+                return Ok(_mapper.Map<MantenedorDtoBodega>(bodegaItems));
+            }
+            return NotFound();
         }
 
         // Acción para obtener todas los Centros de Salud
@@ -45,10 +51,13 @@ namespace Mantenedor.Controllers
 
         // Acción para obtener un Centro de Salud por su Id
         [HttpGet("{id}")]
-        public ActionResult<CentroDeSalud> GetCentroDeSaludById(int id)
+        public ActionResult<MantenedorDtoCentroDeSalud> GetCentroDeSaludById(int id)
         {
             var centroDeSaludItems = _repository.GetCentroDeSaludById(id);
-            return Ok(centroDeSaludItems);
+            if(centroDeSaludItems != null){
+                return Ok(_mapper.Map<MantenedorDtoCentroDeSalud>(centroDeSaludItems)); 
+            }
+            return NotFound();
         }
 
         // Acción para obtener todas los Artículos
@@ -61,10 +70,13 @@ namespace Mantenedor.Controllers
 
         // Acción para obtener un Artículo por su Id
         [HttpGet("{id}")]
-        public ActionResult<Articulos> GetArticulosById(int id)
+        public ActionResult<MantenedorDtoArticulos> GetArticulosById(int id)
         {
             var articulosItems = _repository.GetArticulosById(id);
-            return Ok(articulosItems);
+            if(articulosItems != null){
+                return Ok(_mapper.Map<MantenedorDtoArticulos>(articulosItems));
+            }
+            return NotFound();
         }
 
         // Acción para obtener todas los Motivos
@@ -77,10 +89,13 @@ namespace Mantenedor.Controllers
 
         // Acción para obtener un Motivo por su Id
         [HttpGet("{id}")]
-        public ActionResult<Motivos> GetMotivosById(int id)
+        public ActionResult<MantenedorDtoMotivos> GetMotivosById(int id)
         {
             var motivosItems = _repository.GetMotivosById(id);
-            return Ok(motivosItems);
+            if(motivosItems != null){
+                return Ok(_mapper.Map<MantenedorDtoMotivos>(motivosItems));
+            }
+            return NotFound();
         }
 
         // Acción para obtener todas los Usuarios
@@ -93,10 +108,13 @@ namespace Mantenedor.Controllers
 
         // Acción para obtener un Usuario por su Id
         [HttpGet("{id}")]
-        public ActionResult<Usuarios> GetUsuariosById(int id)
+        public ActionResult<MantenedorDtoUsuarios> GetUsuariosById(int id)
         {
             var usuariosItems = _repository.GetUsuariosById(id);
-            return Ok(usuariosItems);
+            if(usuariosItems != null){
+                return Ok(_mapper.Map<MantenedorDtoUsuarios>(usuariosItems));
+            }
+            return NotFound();
         }
 
         // Acción para obtener todas los Inventarios
@@ -109,10 +127,13 @@ namespace Mantenedor.Controllers
 
         // Acción para obtener un Inventario por su Id
         [HttpGet("{id}")]
-        public ActionResult<Inventario> GetInventariosById(int id)
+        public ActionResult<MantenedorDtoInventario> GetInventariosById(int id)
         {
             var inventarioItems = _repository.GetInventarioById(id);
-            return Ok(inventarioItems);
+            if(inventarioItems != null){
+                return Ok(_mapper.Map<MantenedorDtoInventario>(inventarioItems));
+            }
+            return NotFound();
         }
 
         // Acción para obtener todas los Movimientos de Inventario
@@ -125,10 +146,13 @@ namespace Mantenedor.Controllers
 
         // Acción para obtener un Movimiento de Inventario por su Id
         [HttpGet("{id}")]
-        public ActionResult<MovimientosInventario> GetMovimientosInventarioById(int id)
+        public ActionResult<MantenedorDtoMovimientosInventario> GetMovimientosInventarioById(int id)
         {
             var movimientosInventarioItems = _repository.GetMovimientosInventarioById(id);
-            return Ok(movimientosInventarioItems);
+            if(movimientosInventarioItems != null){
+                return Ok(_mapper.Map<MantenedorDtoMovimientosInventario>(movimientosInventarioItems));
+            }
+            return NotFound(); 
         }
     }
 }
