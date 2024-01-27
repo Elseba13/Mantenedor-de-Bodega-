@@ -12,7 +12,73 @@ namespace Mantenedor.Data
             _context = context;
         }
 
-        
+        public void CreateArticulos(Articulos cmd)
+        {
+            if(cmd == null)
+            {
+                throw new ArgumentNullException(nameof(cmd)); 
+            }
+
+            _context.Articulos.Add(cmd);
+        }
+
+        public void CreateBodega(Bodega cmd)
+        {
+            if(cmd == null)
+            {
+                throw new ArgumentNullException(nameof(cmd)); 
+            }
+
+            _context.Bodegas.Add(cmd); 
+        }
+
+        public void CreateCentroDeSalud(CentroDeSalud cmd)
+        {
+            if(cmd == null)
+            {
+                throw new ArgumentNullException(nameof(cmd)); 
+            }
+
+            _context.CentroDeSaluds.Add(cmd); 
+        }
+
+        public void CreateInventario(Inventario cmd)
+        {
+            if(cmd == null)
+            {
+                throw new ArgumentNullException(nameof(cmd)); 
+            }
+
+            _context.Inventarios.Add(cmd); 
+        }
+
+        public void CreateMotivos(Motivos cmd)
+        {
+            if(cmd == null){
+                throw new ArgumentNullException(nameof(cmd));
+            }
+
+            _context.Motivos.Add(cmd); 
+        }
+
+        public void CreateMovimientosInventario(MovimientosInventario cmd)
+        {
+            if(cmd == null){
+                throw new ArgumentNullException(nameof(cmd)); 
+            }
+
+            _context.MovimientosInventarios.Add(cmd); 
+        }
+
+        public void CreateUsuarios(Usuarios cmd)
+        {
+            if(cmd == null){
+                throw new ArgumentNullException(nameof(cmd)); 
+            }
+
+            _context.Usuarios.Add(cmd); 
+        }
+
         public IEnumerable<Articulos> GetAllArticulos()
         {
             return _context.Articulos.ToList();
@@ -81,6 +147,11 @@ namespace Mantenedor.Data
         public Usuarios GetUsuariosById(int id)
         {
             return _context.Usuarios.FirstOrDefault(u => u.IdUsuario == id); 
+        }
+
+        public bool saveChanges()
+        {
+           return (_context.SaveChanges() >= 0);
         }
     }
 }
