@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection; 
 using Microsoft.Extensions.Hosting; 
 using Microsoft.Extensions.Logging; 
+using Newtonsoft.Json.Serialization;
 
 namespace Mantenedor
 {
@@ -26,7 +27,9 @@ namespace Mantenedor
             services.AddDbContext<MantenedorContext>(opt => opt.UseSqlServer
             (Configuration.GetConnectionString("MantenedorConnection")));
 
-            services.AddControllers(); 
+            services.AddControllers().addNewtonsoftJson(s =>{
+                s.SerializarSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); 
+            }); 
             
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

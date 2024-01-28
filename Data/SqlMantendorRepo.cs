@@ -153,5 +153,45 @@ namespace Mantenedor.Data
         {
            return (_context.SaveChanges() >= 0);
         }
+
+        public void UpadateMovimientosInventario(MovimientosInventario cmd)
+        {
+            
+        }
+
+        public void UpdateArticulos(Articulos cmd)
+        {
+           
+        }
+
+        public void UpdateBodega(Bodega cmd)
+        {
+            
+        }
+
+        public void UpdateCentroDeSalud(CentroDeSalud cmd)
+        {
+            
+        }
+
+        public void UpdateCentroDeSalud(Articulos cmd)
+        {
+            
+        }
+
+        public void UpdateInventario(Inventario cmd)
+        {
+           
+        }
+
+        public void UpdateMotivos(Motivos cmd)
+        {
+            
+        }
+
+        public void UpdateUsuarios(Usuarios cmd)
+        {
+            
+        }
     }
 }

@@ -54,6 +54,25 @@ namespace Mantenedor.Controllers
             return CreatedAtRoute(nameof(GetBodegaById),new{id = mantenedorBodegaDto.CodigoBodega},mantenedorBodegaDto);
         }
 
+        [HttpPut("{id}")]
+        public ActionResult UpdateBodega(int id, MantenedorUpdateDtoBodega mantenedorUpdateDtoBodega )
+        {
+            var bodegaModelFromRepo = _repository.GetBodegaById(id);
+            if(bodegaModelFromRepo == null){
+                return NotFound(); 
+            } 
+
+            _mapper.Map(mantenedorUpdateDtoBodega, bodegaModelFromRepo);
+
+            _repository.UpdateBodega(bodegaModelFromRepo); 
+
+            _repository.saveChanges(); 
+
+            return NoContent(); 
+            
+        } 
+
+
         // Acción para obtener todas los Centros de Salud
         [HttpGet]
         public ActionResult<IEnumerable<CentroDeSalud>> GetAllCentroDeSalud()
@@ -84,6 +103,22 @@ namespace Mantenedor.Controllers
             return CreatedAtRoute(nameof(GetCentroDeSaludById),new{id = mantenedorCentroDeSaludDto.CodigoCentroSalud},mantenedorCentroDeSaludDto);
         }
 
+        [HttpPut("{id}")] 
+        public ActionResult UpdateCentroDeSalud(int id, MantenedorUpdateDtoCentroDeSalud mantenedorUpdateDtoCentroDeSalud){
+            var centroDeSaludModelFromRepo = _repository.GetCentroDeSaludById(id); 
+            if(centroDeSaludModelFromRepo == null){
+                return NotFound(); 
+            } 
+
+            _mapper.Map(mantenedorUpdateDtoCentroDeSalud,centroDeSaludModelFromRepo); 
+
+            _repository.UpdateCentroDeSalud(centroDeSaludModelFromRepo);
+
+            _repository.saveChanges(); 
+
+            return NoContent();  
+        }
+
         // Acción para obtener todas los Artículos
         [HttpGet]
         public ActionResult<IEnumerable<Articulos>> GetAllArticulos()
@@ -112,6 +147,22 @@ namespace Mantenedor.Controllers
             var mantenedorDtoArticulos = _mapper.Map<MantenedorDtoArticulos>(articulosModel);
 
             return CreatedAtRoute(nameof(GetArticulosById),new{id = mantenedorDtoArticulos.IdArticulo},mantenedorDtoArticulos);  
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult UpdateArticulos(int id, MantenedorUpdateDtoArticulos mantenedorUpdateDtoArticulos){
+            var articulosModelFromRepo = _repository.GetArticulosById(id); 
+            if(articulosModelFromRepo == null){
+                return NotFound(); 
+            }
+
+            _mapper.Map(mantenedorUpdateDtoArticulos,articulosModelFromRepo); 
+
+            _repository.UpdateArticulos(articulosModelFromRepo);
+
+            _repository.saveChanges(); 
+
+            return NoContent();  
         }
 
         // Acción para obtener todas los Motivos
@@ -145,6 +196,23 @@ namespace Mantenedor.Controllers
             return CreatedAtRoute(nameof(GetMotivosById),new{id = mantenedorMotivos.IdMotivo},mantenedorMotivos); 
         }
 
+        [HttpPut("{id}")]
+        public ActionResult UpdateMotivos(int id, MantenedorUpdateDtoMotivos mantenedorUpdateDtoMotivos){
+            var motivosModelFromRepo = _repository.GetMotivosById(id); 
+            if(motivosModelFromRepo == null){
+                return NotFound(); 
+            }
+            
+            _mapper.Map(mantenedorUpdateDtoMotivos,motivosModelFromRepo); 
+
+            _repository.UpdateMotivos(motivosModelFromRepo); 
+
+            _repository.saveChanges(); 
+
+            return NotFound(); 
+
+        }
+
         // Acción para obtener todas los Usuarios
         [HttpGet]
         public ActionResult<IEnumerable<Usuarios>> GetAllUsuarios()
@@ -175,6 +243,22 @@ namespace Mantenedor.Controllers
             return CreatedAtRoute(nameof(GetUsuariosById),new{id = mantendorDtoUsuarios.IdUsuario},mantendorDtoUsuarios);
         }
 
+        [HttpPut("{id}")]
+        public ActionResult UpdateUsuarios(int id, MantenedorUpdateDtoUsuarios mantenedorUpdateDtoUsuarios){
+            var usuariosModelFromRepo = _repository.GetUsuariosById(id); 
+            if(usuariosModelFromRepo == null){
+                return NotFound(); 
+            }
+
+            _mapper.Map(mantenedorUpdateDtoUsuarios,usuariosModelFromRepo);
+
+            _repository.UpdateUsuarios(usuariosModelFromRepo); 
+
+            _repository.saveChanges(); 
+
+            return NotFound(); 
+
+        }
         // Acción para obtener todas los Inventarios
         [HttpGet]
         public ActionResult<IEnumerable<Inventario>> GetAllInventarios()
@@ -203,6 +287,22 @@ namespace Mantenedor.Controllers
             var mantendorDtoInventario = _mapper.Map<MantenedorDtoInventario>(inventarioModel);
 
             return CreatedAtRoute(nameof(GetInventariosById),new{id = mantendorDtoInventario.IdInventario},mantendorDtoInventario); 
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult UpdateInventario(int id, MantenedorUpdateDtoInventario mantenedorUpdateDtoInventario){
+            var inventarioModelFromRepo = _repository.GetInventarioById(id); 
+            if(inventarioModelFromRepo == null){
+                return NotFound(); 
+            }
+
+            _mapper.Map(mantenedorUpdateDtoInventario,inventarioModelFromRepo); 
+
+            _repository.UpdateInventario(inventarioModelFromRepo); 
+
+            _repository.saveChanges(); 
+
+            return NotFound(); 
         }
 
         // Acción para obtener todas los Movimientos de Inventario
@@ -234,5 +334,25 @@ namespace Mantenedor.Controllers
 
             return CreatedAtRoute(nameof(GetMovimientosInventarioById), new{id = mantenedorDtoMovimientosInventario.IdMovimiento},mantenedorDtoMovimientosInventario); 
         }
+
+        [HttpPut("{id}")]
+
+        public ActionResult UpdateMovimientosInventario(int id, MantenedorUpdateDtoMovimientosInventario mantenedorUpdateDtoMovimientosInventario){
+            var movimientosInventarioModelFromRepo = _repository.GetMovimientosInventarioById(id); 
+            if(movimientosInventarioModelFromRepo == null){
+                return NotFound(); 
+            }
+
+            _mapper.Map(mantenedorUpdateDtoMovimientosInventario,movimientosInventarioModelFromRepo); 
+
+            _repository.UpadateMovimientosInventario(movimientosInventarioModelFromRepo);
+
+            _repository.saveChanges();  
+
+            return NotFound(); 
+
+        }
     }
+
+    
 }
