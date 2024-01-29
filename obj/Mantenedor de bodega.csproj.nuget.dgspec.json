@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\sebas\\OneDrive\\Escritorio\\Mantenedor de bodega\\Mantenedor de bodega.csproj": {}
+    "C:\\Users\\sebas\\OneDrive\\Escritorio\\Practica\\Mantenedor de bodega\\Mantenedor de bodega.csproj": {}
   },
   "projects": {
-    "c:\\Users\\sebas\\OneDrive\\Escritorio\\Mantenedor de bodega\\Mantenedor de bodega.csproj": {
+    "C:\\Users\\sebas\\OneDrive\\Escritorio\\Practica\\Mantenedor de bodega\\Mantenedor de bodega.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\sebas\\OneDrive\\Escritorio\\Mantenedor de bodega\\Mantenedor de bodega.csproj",
+        "projectUniqueName": "C:\\Users\\sebas\\OneDrive\\Escritorio\\Practica\\Mantenedor de bodega\\Mantenedor de bodega.csproj",
         "projectName": "Mantenedor de bodega",
-        "projectPath": "c:\\Users\\sebas\\OneDrive\\Escritorio\\Mantenedor de bodega\\Mantenedor de bodega.csproj",
+        "projectPath": "C:\\Users\\sebas\\OneDrive\\Escritorio\\Practica\\Mantenedor de bodega\\Mantenedor de bodega.csproj",
         "packagesPath": "C:\\Users\\sebas\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\sebas\\OneDrive\\Escritorio\\Mantenedor de bodega\\obj\\",
+        "outputPath": "C:\\Users\\sebas\\OneDrive\\Escritorio\\Practica\\Mantenedor de bodega\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\sebas\\AppData\\Roaming\\NuGet\\NuGet.Config"

@@ -15,47 +15,61 @@ using Newtonsoft.Json.Serialization;
 
 namespace Mantenedor
 {
-    public class Startup{
-        public Startup(IConfiguration configuration){
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration {get;}
+        public IConfiguration Configuration { get; }
 
+        // Configuración de los servicios que se inyectarán en la aplicación
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MantenedorContext>(opt => opt.UseSqlServer
-            (Configuration.GetConnectionString("MantenedorConnection")));
+            // Configura el contexto de la base de datos utilizando SQL Server
+            services.AddDbContext<MantenedorContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("MantenedorConnection")));
 
-            services.AddControllers().addNewtonsoftJson(s =>{
-                s.SerializarSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); 
+            // Configura los controladores y personaliza la serialización JSON utilizando CamelCase
+            services.AddControllers().AddNewtonsoftJson(s =>
+            {
+                s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); 
             }); 
             
+            // Configura AutoMapper para la asignación automática de objetos
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            // Configura la inyección de dependencias para el repositorio de Mantenedor
             services.AddScoped<IMantenedorRepo, SqlMantenedorRepo>();
-            
         }
 
+        // Configuración del pipeline de solicitud HTTP
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if(env.IsDevelopment()){
+            // Configuración específica para el entorno de desarrollo
+            if(env.IsDevelopment())
+            {
                 app.UseDeveloperExceptionPage(); 
             } 
             else
             {
+                // Configuración para manejar excepciones en producción
                 app.UseExceptionHandler("/Home/Error"); 
                 app.UseHsts(); 
             }
 
+            // Redirección a HTTPS
             app.UseHttpsRedirection(); 
+            // Habilita el uso de archivos estáticos (por ejemplo, HTML, CSS, imágenes)
             app.UseStaticFiles(); 
 
-            app.UseRouting(); 
+            app.UseRouting(); // Configuración del enrutamiento
 
-            app.UseAuthorization(); 
+            app.UseAuthorization(); // Configuración de la autorización
 
-            app.UseEndpoints(endpoints => {
+            // Configuración de los endpoints de la aplicación
+            app.UseEndpoints(endpoints => 
+            {
                 endpoints.MapControllerRoute(
                     name: "default", 
                     pattern: "{controller=Home}/{action=Index}/{id?}"
@@ -63,5 +77,4 @@ namespace Mantenedor
             });
         }
     }
-
 }

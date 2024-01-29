@@ -7,7 +7,9 @@ namespace Mantenedor.Data
     // La interfaz IMantenedorRepo define los métodos que deben ser implementados por cualquier clase que la use
     public interface IMantenedorRepo
     {
+        // Método para guardar los cambios en la base de datos
         bool saveChanges(); 
+
         // Métodos para obtener todas las Bodegas y una Bodega por su Id
         IEnumerable<Bodega> GetAllBodegas();
         Bodega GetBodegaById(int id);

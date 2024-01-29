@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "VbNRqEhDLkc1McpRr3hwNOh7ailrqhLK8bc/iJVTDiK3wBu50NezNiJYEU1LLln4MXJoDzhQaC0BvEoIU9tvXQ==",
+  "dgSpecHash": "jMAZ1l68eVxwbtgwW/8dQsO3GVmjlMIqVALgtUisnQqIkVst6HnZLPDa172FXra0Jg76a1eeJDrFDRg0CDkSWQ==",
   "success": true,
-  "projectFilePath": "c:\\Users\\sebas\\OneDrive\\Escritorio\\Mantenedor de bodega\\Mantenedor de bodega.csproj",
+  "projectFilePath": "C:\\Users\\sebas\\OneDrive\\Escritorio\\Practica\\Mantenedor de bodega\\Mantenedor de bodega.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sebas\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\sebas\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

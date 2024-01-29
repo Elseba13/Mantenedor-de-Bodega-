@@ -31,7 +31,7 @@ namespace Mantenedor.Profiles
             CreateMap<Inventario, MantenedorDtoInventario>(); // Configuración de mapeo para Inventario a MantenedorDtoInventario
             CreateMap<MantenedorCreateDtoInventario,Inventario>();
             CreateMap<MantenedorUpdateDtoInventario,Inventario>(); 
-            CreateMap<Inventario,MantenedorUpdateDtoInventario>(): 
+            CreateMap<Inventario,MantenedorUpdateDtoInventario>(); 
             CreateMap<MovimientosInventario, MantenedorDtoMovimientosInventario>(); // Configuración de mapeo para MovimientosInventario a MantenedorDtoMovimientosInventario
             CreateMap<MantenedorCreateDtoMovimientosInventario,MovimientosInventario>(); 
             CreateMap<MantenedorUpdateDtoMovimientosInventario,MovimientosInventario>(); 

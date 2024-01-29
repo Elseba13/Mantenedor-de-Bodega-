@@ -12,6 +12,8 @@ namespace Mantenedor.Data
             _context = context;
         }
 
+        // Métodos de creación de entidades en la base de datos
+
         public void CreateArticulos(Articulos cmd)
         {
             if(cmd == null)
@@ -79,6 +81,8 @@ namespace Mantenedor.Data
             _context.Usuarios.Add(cmd); 
         }
 
+        // Métodos de obtención de todas las entidades
+
         public IEnumerable<Articulos> GetAllArticulos()
         {
             return _context.Articulos.ToList();
@@ -113,6 +117,8 @@ namespace Mantenedor.Data
         {
             return _context.Usuarios.ToList();
         }
+
+        // Métodos de obtención de una entidad por su Id
 
         public Articulos GetArticulosById(int id)
         {
@@ -149,10 +155,14 @@ namespace Mantenedor.Data
             return _context.Usuarios.FirstOrDefault(u => u.IdUsuario == id); 
         }
 
+        // Método para guardar cambios en la base de datos
+
         public bool saveChanges()
         {
            return (_context.SaveChanges() >= 0);
         }
+
+        // Métodos de actualización de entidades 
 
         public void UpadateMovimientosInventario(MovimientosInventario cmd)
         {
@@ -161,12 +171,12 @@ namespace Mantenedor.Data
 
         public void UpdateArticulos(Articulos cmd)
         {
-           
+            
         }
 
         public void UpdateBodega(Bodega cmd)
         {
-            
+           
         }
 
         public void UpdateCentroDeSalud(CentroDeSalud cmd)
@@ -176,12 +186,12 @@ namespace Mantenedor.Data
 
         public void UpdateCentroDeSalud(Articulos cmd)
         {
-            
+           
         }
 
         public void UpdateInventario(Inventario cmd)
         {
-           
+            
         }
 
         public void UpdateMotivos(Motivos cmd)
