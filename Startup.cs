@@ -60,6 +60,7 @@ namespace Mantenedor
 
             // Redirección a HTTPS
             app.UseHttpsRedirection(); 
+            
             // Habilita el uso de archivos estáticos (por ejemplo, HTML, CSS, imágenes)
             app.UseStaticFiles(); 
 
