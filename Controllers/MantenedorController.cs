@@ -1,7 +1,9 @@
 // Importa los espacios de nombres necesarios
 using AutoMapper;
+using Azure;
 using Mantenedor.Data;
 using Mantenedor.Dtos;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using models; 
 
@@ -71,7 +73,48 @@ namespace Mantenedor.Controllers
             return NoContent(); 
             
         } 
+        [HttpPatch("{id}")]
+        public ActionResult PartialBodegaUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoBodega> patchDoc)
+        {
+            var bodegaModelFromRepo = _repository.GetBodegaById(id); 
+            if(bodegaModelFromRepo == null)
+            {
+                return NotFound();
+            }
 
+            var bodegaToPatch = _mapper.Map<MantenedorUpdateDtoBodega>(bodegaModelFromRepo); 
+
+            patchDoc.ApplyTo(bodegaToPatch,ModelState); 
+
+            if(TryValidateModel(bodegaToPatch)){
+                return ValidationProblem(ModelState); 
+            }
+
+            _mapper.Map(bodegaToPatch,bodegaModelFromRepo); 
+
+            _repository.UpdateBodega(bodegaModelFromRepo); 
+
+            _repository.saveChanges(); 
+
+            return NoContent(); 
+
+
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteBodega(int id){
+            var bodegaModelFromRepo = _repository.GetBodegaById(id); 
+            
+            if(bodegaModelFromRepo == null){
+                return NotFound(); 
+            }
+
+            _repository.DeleteBodega(bodegaModelFromRepo); 
+            _repository.saveChanges();
+
+            return NoContent(); 
+
+        }
 
         // Acción para obtener todas los Centros de Salud
         [HttpGet]
@@ -119,6 +162,46 @@ namespace Mantenedor.Controllers
             return NoContent();  
         }
 
+        [HttpPatch("{id}")]
+        public ActionResult PartialCentroDeSaludUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoCentroDeSalud> jsonPatchDoc){
+            var centroDeSaludModelFromRepo = _repository.GetCentroDeSaludById(id); 
+            
+            if(centroDeSaludModelFromRepo == null){
+                return NotFound(); 
+            }
+
+            var centroDeSaludToPatch = _mapper.Map<MantenedorUpdateDtoCentroDeSalud>(centroDeSaludModelFromRepo); 
+
+            jsonPatchDoc.ApplyTo(centroDeSaludToPatch,ModelState); 
+
+            if(TryValidateModel(centroDeSaludToPatch)){
+                return ValidationProblem(ModelState); 
+            }
+
+            _mapper.Map(centroDeSaludToPatch,centroDeSaludModelFromRepo); 
+
+            _repository.UpdateCentroDeSalud(centroDeSaludModelFromRepo); 
+
+            _repository.saveChanges(); 
+
+            return NoContent(); 
+        }
+
+        [HttpDelete("{id}")]
+
+        public ActionResult DeleteCentroDeSalud(int id){
+            var centroDeSaludModelFromRepo = _repository.GetCentroDeSaludById(id); 
+            
+            if(centroDeSaludModelFromRepo == null){
+                return NotFound(); 
+            }
+
+            _repository.DeleteCentroDeSalud(centroDeSaludModelFromRepo); 
+            _repository.saveChanges();
+
+            return NoContent(); 
+        }
+
         // Acción para obtener todas los Artículos
         [HttpGet]
         public ActionResult<IEnumerable<Articulos>> GetAllArticulos()
@@ -163,6 +246,48 @@ namespace Mantenedor.Controllers
             _repository.saveChanges(); 
 
             return NoContent();  
+        }
+
+        [HttpPatch("{id}")]
+        public ActionResult PartialArticulosUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoArticulos> jsonPatchDocument){
+            
+            var articulosModelFromRepo = _repository.GetArticulosById(id);
+            
+            if( articulosModelFromRepo == null){
+                return NotFound(); 
+            }
+
+            var articulosToPatch = _mapper.Map<MantenedorUpdateDtoArticulos>(articulosModelFromRepo); 
+
+            jsonPatchDocument.ApplyTo(articulosToPatch,ModelState);  
+
+            if(TryValidateModel(articulosToPatch)){
+                return ValidationProblem(ModelState); 
+            }
+
+            _mapper.Map(articulosToPatch,articulosModelFromRepo); 
+
+            _repository.UpdateArticulos(articulosModelFromRepo); 
+
+            _repository.saveChanges(); 
+
+            return NoContent(); 
+        }
+
+        [HttpDelete("{id}") ]
+
+        public ActionResult DeleteArticulos(int id){
+            
+            var articulosModelFromRepo = _repository.GetArticulosById(id); 
+            
+            if(articulosModelFromRepo == null){
+                return NotFound(); 
+            }
+
+            _repository.DeleteArticulos(articulosModelFromRepo); 
+            _repository.saveChanges();
+
+            return NoContent(); 
         }
 
         // Acción para obtener todas los Motivos
@@ -213,6 +338,47 @@ namespace Mantenedor.Controllers
 
         }
 
+        [HttpPatch("{id}")]
+        public ActionResult PartialMotivosUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoMotivos> jsonPatchDocument){
+            
+            var motivosModelFromRepo = _repository.GetMotivosById(id); 
+            
+            if( motivosModelFromRepo == null){
+                return NotFound(); 
+            }
+
+            var motivosToPatch = _mapper.Map<MantenedorUpdateDtoMotivos>(motivosModelFromRepo); 
+
+            jsonPatchDocument.ApplyTo(motivosToPatch,ModelState);  
+
+            if(TryValidateModel(motivosToPatch)){
+                return ValidationProblem(ModelState); 
+            }
+
+            _mapper.Map(motivosToPatch,motivosModelFromRepo); 
+
+            _repository.UpdateMotivos(motivosModelFromRepo); 
+
+            _repository.saveChanges(); 
+
+            return NoContent(); 
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteMotivos(int id){
+            
+            var motivosModelFromRepo = _repository.GetMotivosById(id); 
+            
+            if(motivosModelFromRepo == null){
+                return NotFound(); 
+            }
+
+            _repository.DeleteMotivos(motivosModelFromRepo); 
+            _repository.saveChanges();
+
+            return NoContent(); 
+        }
+
         // Acción para obtener todas los Usuarios
         [HttpGet]
         public ActionResult<IEnumerable<Usuarios>> GetAllUsuarios()
@@ -259,6 +425,48 @@ namespace Mantenedor.Controllers
             return NotFound(); 
 
         }
+
+        [HttpPatch("{id}")]
+        public ActionResult PartialUsuariosUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoUsuarios> jsonPatchDocument)
+        {
+            var usuariosModelFromRepo = _repository.GetUsuariosById(id); 
+            
+            if( usuariosModelFromRepo == null){
+                return NotFound(); 
+            }
+
+            var usuariosToPatch = _mapper.Map<MantenedorUpdateDtoUsuarios>(usuariosModelFromRepo); 
+
+            jsonPatchDocument.ApplyTo(usuariosToPatch,ModelState);  
+
+            if(TryValidateModel(usuariosToPatch)){
+                return ValidationProblem(ModelState); 
+            }
+
+            _mapper.Map(usuariosToPatch,usuariosModelFromRepo); 
+
+            _repository.UpdateUsuarios(usuariosModelFromRepo); 
+
+            _repository.saveChanges(); 
+
+            return NoContent(); 
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteUsuarios(int id){
+           
+            var usuariosModelFromRepo = _repository.GetUsuariosById(id); 
+            
+            if(usuariosModelFromRepo == null){
+                return NotFound(); 
+            }
+
+            _repository.DeleteUsuarios(usuariosModelFromRepo); 
+            _repository.saveChanges();
+
+            return NoContent(); 
+        }
+
         // Acción para obtener todas los Inventarios
         [HttpGet]
         public ActionResult<IEnumerable<Inventario>> GetAllInventarios()
@@ -304,6 +512,49 @@ namespace Mantenedor.Controllers
 
             return NotFound(); 
         }
+
+        [HttpPatch("{id}")]
+        public ActionResult PartialInventarioUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoInventario> jsonPatchDocument)
+        {
+            var inventarioModelFromRepo = _repository.GetInventarioById(id); 
+            
+            if( inventarioModelFromRepo == null){
+                return NotFound(); 
+            }
+
+            var inventarioToPatch = _mapper.Map<MantenedorUpdateDtoInventario>(inventarioModelFromRepo); 
+
+            jsonPatchDocument.ApplyTo(inventarioToPatch,ModelState);  
+
+            if(TryValidateModel(inventarioToPatch)){
+                return ValidationProblem(ModelState); 
+            }
+
+            _mapper.Map(inventarioToPatch,inventarioModelFromRepo); 
+
+            _repository.UpdateInventario(inventarioModelFromRepo); 
+
+            _repository.saveChanges(); 
+
+            return NoContent(); 
+        }
+
+        [HttpDelete("{id}")]
+
+        public ActionResult DeleteInventario(int id){
+            var inventarioModelFromRepo = _repository.GetInventarioById(id); 
+            
+            if(inventarioModelFromRepo == null){
+                return NotFound(); 
+            }
+
+            _repository.DeleteInventario(inventarioModelFromRepo); 
+            _repository.saveChanges();
+
+            return NoContent(); 
+        }
+
+
 
         // Acción para obtener todas los Movimientos de Inventario
         [HttpGet]
@@ -352,6 +603,47 @@ namespace Mantenedor.Controllers
             return NotFound(); 
 
         }
+
+        [HttpPatch("{id}")]
+        public ActionResult PartialMovimientosInventarioUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoMovimientosInventario> jsonPatchDocument){
+            
+            var movimientoInventarioModelFromRepo = _repository.GetMovimientosInventarioById(id);
+            
+            if( movimientoInventarioModelFromRepo == null){
+                return NotFound(); 
+            }
+
+            var movimientosToPatch = _mapper.Map<MantenedorUpdateDtoMovimientosInventario>(movimientoInventarioModelFromRepo); 
+
+            jsonPatchDocument.ApplyTo(movimientosToPatch,ModelState);  
+
+            if(TryValidateModel(movimientosToPatch)){
+                return ValidationProblem(ModelState); 
+            }
+
+            _mapper.Map(movimientosToPatch,movimientoInventarioModelFromRepo); 
+
+            _repository.UpadateMovimientosInventario(movimientoInventarioModelFromRepo); 
+
+            _repository.saveChanges(); 
+
+            return NoContent(); 
+        }
+
+        public ActionResult DeleteMovimientosInventario(int id){
+            
+            var movimientoModelFromRepo = _repository.GetMovimientosInventarioById(id); 
+            
+            if(movimientoModelFromRepo == null){
+                return NotFound(); 
+            }
+
+            _repository.DeleteMovimientoInventario(movimientoModelFromRepo); 
+            _repository.saveChanges();
+
+            return NoContent(); 
+        }
+
     }
 
     

@@ -81,6 +81,67 @@ namespace Mantenedor.Data
             _context.Usuarios.Add(cmd); 
         }
 
+        public void DeleteArticulos(Articulos cmd)
+        {
+            if(cmd == null){
+                throw new ArgumentNullException(nameof(cmd)); 
+            }
+
+            _context.Articulos.Remove(cmd);
+        }
+
+        public void DeleteBodega(Bodega cmd)
+        {
+            if(cmd == null){
+                throw new ArgumentNullException(nameof(cmd)); 
+            }
+
+            _context.Bodegas.Remove(cmd); 
+        }
+
+        public void DeleteCentroDeSalud(CentroDeSalud cmd)
+        {
+            if(cmd == null){
+                throw new ArgumentNullException(nameof(cmd));
+            }
+            
+            _context.CentroDeSaluds.Remove(cmd);
+        }
+
+        public void DeleteInventario(Inventario cmd)
+        {
+            if(cmd == null){
+                throw new ArgumentNullException(nameof(cmd)); 
+            }
+            _context.Inventarios.Remove(cmd); 
+        }
+
+        public void DeleteMotivos(Motivos cmd)
+        {
+            if(cmd == null){
+                throw new ArgumentNullException(nameof(cmd)); 
+            }
+
+            _context.Motivos.Remove(cmd); 
+        }
+
+        public void DeleteMovimientoInventario(MovimientosInventario cmd)
+        {
+            if(cmd == null){
+                throw new ArgumentNullException(nameof(cmd)); 
+            }
+            _context.MovimientosInventarios.Remove(cmd); 
+
+        }
+
+        public void DeleteUsuarios(Usuarios cmd)
+        {
+            if(cmd == null){
+                throw new ArgumentNullException(nameof(cmd)); 
+            }
+            _context.Usuarios.Remove(cmd); 
+        }
+
         // Métodos de obtención de todas las entidades
 
         public IEnumerable<Articulos> GetAllArticulos()
