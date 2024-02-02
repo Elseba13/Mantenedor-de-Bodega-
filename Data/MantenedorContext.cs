@@ -11,12 +11,25 @@ public class MantenedorContext : DbContext
     {   
     }
 
-    public DbSet<Bodega> Bodegas { get; set; } 
-    public DbSet<CentroDeSalud> CentroDeSaluds { get; set; } 
-    public DbSet<Articulos> Articulos { get; set; } 
+   // DbSet para la entidad Bodega, que representa la tabla de bodegas en la base de datos
+    public DbSet<Bodega> Bodegas { get; set; }
+
+    // DbSet para la entidad CentroDeSalud, que representa la tabla de centros de salud en la base de datos
+    public DbSet<CentroDeSalud> CentroDeSaluds { get; set; }
+
+    // DbSet para la entidad Articulos, que representa la tabla de artículos en la base de datos
+    public DbSet<Articulos> Articulos { get; set; }
+    
+    // DbSet para la entidad Motivos, que representa la tabla de motivos en la base de datos
     public DbSet<Motivos> Motivos { get; set; }
+
+    // DbSet para la entidad Usuarios, que representa la tabla de usuarios en la base de datos
     public DbSet<Usuarios> Usuarios { get; set; }
+
+    // DbSet para la entidad Inventario, que representa la tabla de inventarios en la base de datos
     public DbSet<Inventario> Inventarios { get; set; }
+
+    // DbSet para la entidad MovimientosInventario, que representa la tabla de movimientos de inventario en la base de datos
     public DbSet<MovimientosInventario> MovimientosInventarios { get; set; }
     
 
@@ -52,10 +65,5 @@ public class MantenedorContext : DbContext
             .HasKey(m => m.IdMovimiento);
     }
 
-    // Override del método OnConfiguring para configurar las opciones de DbContext
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        // Configura el proveedor de base de datos y la cadena de conexión
-        optionsBuilder.UseSqlServer("TuCadenaDeConexion");
-    }
+    
 }

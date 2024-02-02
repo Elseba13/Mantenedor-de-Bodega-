@@ -43,6 +43,8 @@ namespace Mantenedor.Controllers
             return NotFound();
         }
         
+
+        // Acción para crear una bodega 
         [HttpPost("CreateBodega")]
         public ActionResult<MantenedorDtoBodega> CreateBodega(MantenedorCreateDtoBodega mantenedorCreateDtoBodega)
         {
@@ -56,6 +58,7 @@ namespace Mantenedor.Controllers
             return CreatedAtRoute(nameof(GetBodegaById),new{id = mantenedorBodegaDto.CodigoBodega},mantenedorBodegaDto);
         }
 
+        //Acción para actualizar una bodega
         [HttpPut("UpdateBodega/{id}")]
         public ActionResult UpdateBodega(int id, MantenedorUpdateDtoBodega mantenedorUpdateDtoBodega )
         {
@@ -73,6 +76,9 @@ namespace Mantenedor.Controllers
             return NoContent(); 
             
         } 
+
+
+        
         [HttpPatch("PartialBodegaUpdate/{id}")]
         public ActionResult PartialBodegaUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoBodega> patchDoc)
         {
@@ -135,72 +141,6 @@ namespace Mantenedor.Controllers
             return NotFound();
         }
 
-        [HttpPost("CreateCentroDeSalud")]
-        public ActionResult<MantenedorDtoCentroDeSalud> CreateCentroDeSalud(MantenedorCreateDtoCentroDeSalud mantenedorCreateDtoCentroDeSalud){
-            var centroDeSaludModel = _mapper.Map<CentroDeSalud>(mantenedorCreateDtoCentroDeSalud); 
-            _repository.CreateCentroDeSalud(centroDeSaludModel); 
-            _repository.saveChanges(); 
-
-            var mantenedorCentroDeSaludDto = _mapper.Map<MantenedorDtoCentroDeSalud>(centroDeSaludModel); 
-
-            return CreatedAtRoute(nameof(GetCentroDeSaludById),new{id = mantenedorCentroDeSaludDto.CodigoCentroSalud},mantenedorCentroDeSaludDto);
-        }
-
-        [HttpPut("UpdateCentroDeSalud/{id}")] 
-        public ActionResult UpdateCentroDeSalud(int id, MantenedorUpdateDtoCentroDeSalud mantenedorUpdateDtoCentroDeSalud){
-            var centroDeSaludModelFromRepo = _repository.GetCentroDeSaludById(id); 
-            if(centroDeSaludModelFromRepo == null){
-                return NotFound(); 
-            } 
-
-            _mapper.Map(mantenedorUpdateDtoCentroDeSalud,centroDeSaludModelFromRepo); 
-
-            _repository.UpdateCentroDeSalud(centroDeSaludModelFromRepo);
-
-            _repository.saveChanges(); 
-
-            return NoContent();  
-        }
-
-        [HttpPatch("PartialCentroDeSaludUpdate/{id}")]
-        public ActionResult PartialCentroDeSaludUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoCentroDeSalud> jsonPatchDoc){
-            var centroDeSaludModelFromRepo = _repository.GetCentroDeSaludById(id); 
-            
-            if(centroDeSaludModelFromRepo == null){
-                return NotFound(); 
-            }
-
-            var centroDeSaludToPatch = _mapper.Map<MantenedorUpdateDtoCentroDeSalud>(centroDeSaludModelFromRepo); 
-
-            jsonPatchDoc.ApplyTo(centroDeSaludToPatch,ModelState); 
-
-            if(TryValidateModel(centroDeSaludToPatch)){
-                return ValidationProblem(ModelState); 
-            }
-
-            _mapper.Map(centroDeSaludToPatch,centroDeSaludModelFromRepo); 
-
-            _repository.UpdateCentroDeSalud(centroDeSaludModelFromRepo); 
-
-            _repository.saveChanges(); 
-
-            return NoContent(); 
-        }
-
-        [HttpDelete("DeleteCentroDeSalud/{id}")]
-
-        public ActionResult DeleteCentroDeSalud(int id){
-            var centroDeSaludModelFromRepo = _repository.GetCentroDeSaludById(id); 
-            
-            if(centroDeSaludModelFromRepo == null){
-                return NotFound(); 
-            }
-
-            _repository.DeleteCentroDeSalud(centroDeSaludModelFromRepo); 
-            _repository.saveChanges();
-
-            return NoContent(); 
-        }
 
         // Acción para obtener todas los Artículos
         [HttpGet("GetAllArticulos")]
@@ -396,17 +336,6 @@ namespace Mantenedor.Controllers
                 return Ok(_mapper.Map<MantenedorDtoUsuarios>(usuariosItems));
             }
             return NotFound();
-        }
-
-        [HttpPost("CreateUsuarios")] 
-        public ActionResult<MantenedorDtoUsuarios> CreateUsuarios(MantenedorCreateDtoUsuarios mantenedorCreateDtoUsuarios){
-            var usuariosModel = _mapper.Map<Usuarios>(mantenedorCreateDtoUsuarios); 
-            _repository.CreateUsuarios(usuariosModel); 
-            _repository.saveChanges();
-
-            var mantendorDtoUsuarios = _mapper.Map<MantenedorDtoUsuarios>(usuariosModel);
-
-            return CreatedAtRoute(nameof(GetUsuariosById),new{id = mantendorDtoUsuarios.IdUsuario},mantendorDtoUsuarios);
         }
 
         [HttpPut("UpdateUsuarios/{id}")]

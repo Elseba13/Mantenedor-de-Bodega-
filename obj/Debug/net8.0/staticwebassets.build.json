@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "OBELAaVcsC9+Sh84HlZo/VKpBzD6+W5334cTuPHTcaU=",
+  "Hash": "QeeJfYPy7fOTDpUBgh+/J9slUFzeD4bkMihk3x9OJwg=",
   "Source": "Mantenedor de bodega",
   "BasePath": "_content/Mantenedor de bodega",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Mantenedor de bodega\\wwwroot",
+      "Source": "Mantenedor de bodega",
+      "ContentRoot": "C:\\Users\\sebas\\OneDrive\\Escritorio\\Practica\\Mantenedor de bodega\\wwwroot\\",
+      "BasePath": "_content/Mantenedor de bodega",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

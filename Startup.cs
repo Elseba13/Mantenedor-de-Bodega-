@@ -13,7 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging; 
 using Newtonsoft.Json.Serialization;
 
-namespace Mantenedor
+namespace Mantenedor.program
 {
     public class Startup
     {
@@ -41,6 +41,7 @@ namespace Mantenedor
 
             // Configura la inyección de dependencias para el repositorio de Mantenedor
             services.AddScoped<IMantenedorRepo, SqlMantenedorRepo>();
+            
         }
 
         // Configuración del pipeline de solicitud HTTP
