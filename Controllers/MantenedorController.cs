@@ -78,7 +78,7 @@ namespace Mantenedor.Controllers
         } 
 
 
-        
+        //Acción de actualizar parcialmente una bodega 
         [HttpPatch("PartialBodegaUpdate/{id}")]
         public ActionResult PartialBodegaUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoBodega> patchDoc)
         {
@@ -107,6 +107,8 @@ namespace Mantenedor.Controllers
 
         }
 
+
+        //Accion para borrar una bodega 
         [HttpDelete("DeleteBodega/{id}")]
         public ActionResult DeleteBodega(int id){
             var bodegaModelFromRepo = _repository.GetBodegaById(id); 
@@ -161,17 +163,7 @@ namespace Mantenedor.Controllers
             return NotFound();
         }
 
-        [HttpPost("CreateArticulos")]
-        public ActionResult<MantenedorDtoArticulos> CreateArticulos(MantenedorCreateDtoArticulos mantenedorCreateDtoArticulos){
-            var articulosModel = _mapper.Map<Articulos>(mantenedorCreateDtoArticulos); 
-            _repository.CreateArticulos(articulosModel); 
-            _repository.saveChanges(); 
-
-            var mantenedorDtoArticulos = _mapper.Map<MantenedorDtoArticulos>(articulosModel);
-
-            return CreatedAtRoute(nameof(GetArticulosById),new{id = mantenedorDtoArticulos.IdArticulo},mantenedorDtoArticulos);  
-        }
-
+        //Accion para Actualizar articulos 
         [HttpPut("UpdateArticulos/{id}")]
         public ActionResult UpdateArticulos(int id, MantenedorUpdateDtoArticulos mantenedorUpdateDtoArticulos){
             var articulosModelFromRepo = _repository.GetArticulosById(id); 
@@ -188,6 +180,7 @@ namespace Mantenedor.Controllers
             return NoContent();  
         }
 
+        //Accion para actulizar parcialmente articulos 
         [HttpPatch("PartialArticulosUpdate/{id}")]
         public ActionResult PartialArticulosUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoArticulos> jsonPatchDocument){
             
@@ -214,6 +207,8 @@ namespace Mantenedor.Controllers
             return NoContent(); 
         }
 
+
+        //Accion para eliminar articulos por ID 
         [HttpDelete("DeleteArticulos/{id}") ]
 
         public ActionResult DeleteArticulos(int id){
@@ -249,6 +244,7 @@ namespace Mantenedor.Controllers
             return NotFound();
         }
 
+        //Accion para crear motivos 
         [HttpPost("CreateMotivos")]
 
         public ActionResult<MantenedorDtoMotivos> CreateMotivos(MantenedorCreateDtoMotivos mantenedorCreateDtoMotivos){
@@ -261,6 +257,7 @@ namespace Mantenedor.Controllers
             return CreatedAtRoute(nameof(GetMotivosById),new{id = mantenedorMotivos.IdMotivo},mantenedorMotivos); 
         }
 
+        //Accion para actulizar los motivos por ID 
         [HttpPut("UpdateMotivos/{id}")]
         public ActionResult UpdateMotivos(int id, MantenedorUpdateDtoMotivos mantenedorUpdateDtoMotivos){
             var motivosModelFromRepo = _repository.GetMotivosById(id); 
@@ -278,6 +275,7 @@ namespace Mantenedor.Controllers
 
         }
 
+        //Acción para actuliazar parcialmente los motivos por ID
         [HttpPatch("PartialMotivosUpdate/{id}")]
         public ActionResult PartialMotivosUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoMotivos> jsonPatchDocument){
             
@@ -304,6 +302,7 @@ namespace Mantenedor.Controllers
             return NoContent(); 
         }
 
+        //Accion para eliminar un motivo Por ID
         [HttpDelete("DeleteMotivos/{id}")]
         public ActionResult DeleteMotivos(int id){
             
@@ -338,63 +337,6 @@ namespace Mantenedor.Controllers
             return NotFound();
         }
 
-        [HttpPut("UpdateUsuarios/{id}")]
-        public ActionResult UpdateUsuarios(int id, MantenedorUpdateDtoUsuarios mantenedorUpdateDtoUsuarios){
-            var usuariosModelFromRepo = _repository.GetUsuariosById(id); 
-            if(usuariosModelFromRepo == null){
-                return NotFound(); 
-            }
-
-            _mapper.Map(mantenedorUpdateDtoUsuarios,usuariosModelFromRepo);
-
-            _repository.UpdateUsuarios(usuariosModelFromRepo); 
-
-            _repository.saveChanges(); 
-
-            return NotFound(); 
-
-        }
-
-        [HttpPatch("PartialUsuariosUpdate/{id}")]
-        public ActionResult PartialUsuariosUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoUsuarios> jsonPatchDocument)
-        {
-            var usuariosModelFromRepo = _repository.GetUsuariosById(id); 
-            
-            if( usuariosModelFromRepo == null){
-                return NotFound(); 
-            }
-
-            var usuariosToPatch = _mapper.Map<MantenedorUpdateDtoUsuarios>(usuariosModelFromRepo); 
-
-            jsonPatchDocument.ApplyTo(usuariosToPatch,ModelState);  
-
-            if(TryValidateModel(usuariosToPatch)){
-                return ValidationProblem(ModelState); 
-            }
-
-            _mapper.Map(usuariosToPatch,usuariosModelFromRepo); 
-
-            _repository.UpdateUsuarios(usuariosModelFromRepo); 
-
-            _repository.saveChanges(); 
-
-            return NoContent(); 
-        }
-
-        [HttpDelete("DeleteUsuarios/{id}")]
-        public ActionResult DeleteUsuarios(int id){
-           
-            var usuariosModelFromRepo = _repository.GetUsuariosById(id); 
-            
-            if(usuariosModelFromRepo == null){
-                return NotFound(); 
-            }
-
-            _repository.DeleteUsuarios(usuariosModelFromRepo); 
-            _repository.saveChanges();
-
-            return NoContent(); 
-        }
 
         // Acción para obtener todas los Inventarios
         [HttpGet("GetAllInventarios")]
@@ -415,6 +357,7 @@ namespace Mantenedor.Controllers
             return NotFound();
         }
 
+        //Accion de crear un inventario 
         [HttpPost("CreateInventario")]
         public ActionResult<MantenedorDtoInventario> CreateInventario(MantenedorCreateDtoInventario mantenedorCreateDtoInventario){
             var inventarioModel = _mapper.Map<Inventario>(mantenedorCreateDtoInventario);
@@ -426,6 +369,8 @@ namespace Mantenedor.Controllers
             return CreatedAtRoute(nameof(GetInventariosById),new{id = mantendorDtoInventario.IdInventario},mantendorDtoInventario); 
         }
 
+
+        //Accion para actulizar un inventario
         [HttpPut("UpdateInventario/{id}")]
         public ActionResult UpdateInventario(int id, MantenedorUpdateDtoInventario mantenedorUpdateDtoInventario){
             var inventarioModelFromRepo = _repository.GetInventarioById(id); 
@@ -442,6 +387,7 @@ namespace Mantenedor.Controllers
             return NotFound(); 
         }
 
+        //Accion para actualizar parcialmente un inventario
         [HttpPatch("PartialInventarioUpdate/{id}")]
         public ActionResult PartialInventarioUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoInventario> jsonPatchDocument)
         {
@@ -468,6 +414,8 @@ namespace Mantenedor.Controllers
             return NoContent(); 
         }
 
+
+        //Accion para borrar un inventario
         [HttpDelete("DeleteInventario/{id}")]
 
         public ActionResult DeleteInventario(int id){
@@ -504,6 +452,7 @@ namespace Mantenedor.Controllers
             return NotFound(); 
         }
 
+        //Accion para crear los movimeinto de inventario 
         [HttpPost("CreateMovimientosInventario")] 
         public ActionResult<MantenedorDtoMovimientosInventario> CreateMovimientosInventario(MantenedorCreateDtoMovimientosInventario mantenedorCreateDtoMovimientosInventario){
             var movimientosModel = _mapper.Map<MovimientosInventario>(mantenedorCreateDtoMovimientosInventario);
@@ -515,6 +464,8 @@ namespace Mantenedor.Controllers
             return CreatedAtRoute(nameof(GetMovimientosInventarioById), new{id = mantenedorDtoMovimientosInventario.IdMovimiento},mantenedorDtoMovimientosInventario); 
         }
 
+
+        //Accion para actualizar los movimientos de inventario por ID 
         [HttpPut("UpdateMovimientosInventario/{id}")]
 
         public ActionResult UpdateMovimientosInventario(int id, MantenedorUpdateDtoMovimientosInventario mantenedorUpdateDtoMovimientosInventario){
@@ -533,6 +484,8 @@ namespace Mantenedor.Controllers
 
         }
 
+
+        //Accion para actualizar parcialmente los movimientos de inventario por ID 
         [HttpPatch("PartialMovimientosInventarioUpdate/{id}")]
         public ActionResult PartialMovimientosInventarioUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoMovimientosInventario> jsonPatchDocument){
             
@@ -555,21 +508,6 @@ namespace Mantenedor.Controllers
             _repository.UpadateMovimientosInventario(movimientoInventarioModelFromRepo); 
 
             _repository.saveChanges(); 
-
-            return NoContent(); 
-        }
-
-        [HttpDelete("DeleteMovimientosInventario/{id}")]
-        public ActionResult DeleteMovimientosInventario(int id){
-            
-            var movimientoModelFromRepo = _repository.GetMovimientosInventarioById(id); 
-            
-            if(movimientoModelFromRepo == null){
-                return NotFound(); 
-            }
-
-            _repository.DeleteMovimientoInventario(movimientoModelFromRepo); 
-            _repository.saveChanges();
 
             return NoContent(); 
         }
