@@ -1,8 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Controllers"
+    "\\Models"
   ],
-  "SelectedNode": "\\Controllers\\MantenedorController.cs",
+  "SelectedNode": "\\Mantenedor de bodega.csproj",
   "PreviewInSolutionExplorer": false
 }

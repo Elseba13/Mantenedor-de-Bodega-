@@ -67,56 +67,6 @@ namespace Mantenedor.Controllers
             return CreatedAtRoute(nameof(GetBodegaById),new{id = mantenedorBodegaDto.CodigoBodega},mantenedorBodegaDto);
         }
 
-        //Acción para actualizar una bodega
-        [HttpPut("UpdateBodega/{id}")]
-        public ActionResult UpdateBodega(int id, MantenedorUpdateDtoBodega mantenedorUpdateDtoBodega )
-        {
-            var bodegaModelFromRepo = _repository.GetBodegaById(id);
-            if(bodegaModelFromRepo == null){
-                return NotFound(); 
-            } 
-
-            _mapper.Map(mantenedorUpdateDtoBodega, bodegaModelFromRepo);
-
-            _repository.UpdateBodega(bodegaModelFromRepo); 
-
-            _repository.saveChanges(); 
-
-            return NoContent(); 
-            
-        } 
-
-
-        //Acción de actualizar parcialmente una bodega 
-        [HttpPatch("PartialBodegaUpdate/{id}")]
-        public ActionResult PartialBodegaUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoBodega> patchDoc)
-        {
-            var bodegaModelFromRepo = _repository.GetBodegaById(id); 
-            if(bodegaModelFromRepo == null)
-            {
-                return NotFound();
-            }
-
-            var bodegaToPatch = _mapper.Map<MantenedorUpdateDtoBodega>(bodegaModelFromRepo); 
-
-            patchDoc.ApplyTo(bodegaToPatch,ModelState); 
-
-            if(TryValidateModel(bodegaToPatch)){
-                return ValidationProblem(ModelState); 
-            }
-
-            _mapper.Map(bodegaToPatch,bodegaModelFromRepo); 
-
-            _repository.UpdateBodega(bodegaModelFromRepo); 
-
-            _repository.saveChanges(); 
-
-            return NoContent(); 
-
-
-        }
-
-
         //Accion para borrar una bodega 
         [HttpDelete("DeleteBodega/{id}")]
         public ActionResult DeleteBodega(int id){
