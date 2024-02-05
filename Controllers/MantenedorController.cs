@@ -27,7 +27,11 @@ namespace Mantenedor.Controllers
         [HttpGet("GetAllBodegas")]
         public ActionResult<IEnumerable<Bodega>> GetAllBodegas()
         {
+            //var bodegaItems = new List<Bodega>();
+            //bodegaItems.Add(new Bodega()); 
+            
             var bodegaItems = _repository.GetAllBodegas();
+
             return Ok(_mapper.Map<IEnumerable<MantenedorDtoBodega>>(bodegaItems));
         }
 
@@ -36,10 +40,15 @@ namespace Mantenedor.Controllers
         public ActionResult<MantenedorDtoBodega> GetBodegaById(int id)
         {
             var bodegaItems = _repository.GetBodegaById(id);
+
+            //var bodegaItems = new List<Bodega>();
+            //bodegaItems.Add(new Bodega()); 
+
             if(bodegaItems != null)
             {
                 return Ok(_mapper.Map<MantenedorDtoBodega>(bodegaItems));
             }
+
             return NotFound();
         }
         

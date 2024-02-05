@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting; 
 using Microsoft.Extensions.Logging; 
 using Newtonsoft.Json.Serialization;
+using Microsoft.OpenApi.Models;
 
 namespace Mantenedor.program
 {
@@ -33,31 +34,38 @@ namespace Mantenedor.program
             // Configura los controladores y personaliza la serialización JSON utilizando CamelCase
             services.AddControllers().AddNewtonsoftJson(s =>
             {
-                s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); 
-            }); 
-            
+                s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
+
             // Configura AutoMapper para la asignación automática de objetos
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // Configura la inyección de dependencias para el repositorio de Mantenedor
             services.AddScoped<IMantenedorRepo, SqlMantenedorRepo>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mantenedor API", Version = "v1" });
+            }); 
             
         }
 
         // Configuración del pipeline de solicitud HTTP
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mantenedor API v1");
+            });
+            
+            
             // Configuración específica para el entorno de desarrollo
             if(env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage(); 
             } 
-            else
-            {
-                // Configuración para manejar excepciones en producción
-                app.UseExceptionHandler("/Home/Error"); 
-                app.UseHsts(); 
-            }
 
             // Redirección a HTTPS
             app.UseHttpsRedirection(); 
@@ -72,10 +80,7 @@ namespace Mantenedor.program
             // Configuración de los endpoints de la aplicación
             app.UseEndpoints(endpoints => 
             {
-                endpoints.MapControllerRoute(
-                    name: "default", 
-                    pattern: "{controller=Home}/{action=Index}/{id?}"
-                );
+                endpoints.MapControllers();
             });
         }
     }
