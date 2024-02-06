@@ -11,6 +11,8 @@ namespace models
         public string Descripcion { get; set; } // Descripción de la Bodega
         public string CodigoCentroSalud { get; set; } // Código del Centro de Salud al que pertenece la Bodega
         public string Sucursal { get; set; } // Sucursal de la Bodega
+
+        public ICollection<CentroDeSalud> CentroDeSaluds { get; set; } 
     }
 
     // Clase que representa un Centro de Salud
@@ -58,7 +60,12 @@ namespace models
         public int IdArticulo { get; set; } // Identificador del Artículo en el Inventario
         public int CodigoBodega { get; set; } // Código de la Bodega a la que pertenece el Inventario
         public int StockActual { get; set; } // Stock actual en el Inventario
-        public int StockInicial { get; set; } // Stock inicial en el Inventario
+        public int StockInicial { get; set; } // Stock inicial en el Inventario 
+
+        public ICollection<Articulos> Articulos { get; set; }
+        public ICollection<Bodega> Bodegas { get; set; }
+
+
     }
 
     // Clase que representa un Movimiento de Inventario
@@ -72,5 +79,10 @@ namespace models
         public int IdUsuario { get; set; } // Identificador del Usuario responsable del movimiento
         public int CodigoBodega { get; set; } // Código de la Bodega relacionada con el movimiento
         public int IdArticulo { get; set; } // Identificador del Artículo relacionado con el movimiento
+
+        public ICollection<Motivos> Motivos { get; set; }
+        public ICollection<Usuarios> Usuarios { get; set; }
+        public ICollection<Bodega> Bodegas { get; set; }
+        public ICollection<Articulos> Articulos { get; set; }
     }
 }
