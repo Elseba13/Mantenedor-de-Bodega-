@@ -7,11 +7,11 @@ using models;
 // Define una clase llamada "MantenedorContext" que hereda de DbContext
 public class MantenedorContext : DbContext
 {
-    public MantenedorContext(DbContextOptions<MantenedorContext> options): base(options)
-    {   
+    public MantenedorContext(DbContextOptions<MantenedorContext> options) : base(options)
+    {
     }
 
-   // DbSet para la entidad Bodega, que representa la tabla de bodegas en la base de datos
+    // DbSet para la entidad Bodega, que representa la tabla de bodegas en la base de datos
     public DbSet<Bodega> Bodegas { get; set; }
 
     // DbSet para la entidad CentroDeSalud, que representa la tabla de centros de salud en la base de datos
@@ -19,7 +19,7 @@ public class MantenedorContext : DbContext
 
     // DbSet para la entidad Articulos, que representa la tabla de artículos en la base de datos
     public DbSet<Articulos> Articulos { get; set; }
-    
+
     // DbSet para la entidad Motivos, que representa la tabla de motivos en la base de datos
     public DbSet<Motivos> Motivos { get; set; }
 
@@ -31,7 +31,7 @@ public class MantenedorContext : DbContext
 
     // DbSet para la entidad MovimientosInventario, que representa la tabla de movimientos de inventario en la base de datos
     public DbSet<MovimientosInventario> MovimientosInventarios { get; set; }
-    
+
 
     // Override del método OnModelCreating para configurar las claves primarias compuestas
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -65,5 +65,5 @@ public class MantenedorContext : DbContext
             .HasKey(m => m.IdMovimiento);
     }
 
-    
+
 }

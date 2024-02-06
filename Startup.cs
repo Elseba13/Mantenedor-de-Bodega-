@@ -43,6 +43,7 @@ namespace Mantenedor.program
             // Configura la inyección de dependencias para el repositorio de Mantenedor
             services.AddScoped<IMantenedorRepo, SqlMantenedorRepo>();
 
+            // Configura Swagger para documentar la API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mantenedor API", Version = "v1" });
@@ -53,8 +54,10 @@ namespace Mantenedor.program
         // Configuración del pipeline de solicitud HTTP
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Habilita Swagger
             app.UseSwagger();
 
+            // Configura Swagger UI
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mantenedor API v1");
