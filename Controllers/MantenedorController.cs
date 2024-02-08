@@ -122,6 +122,22 @@ namespace Mantenedor.Controllers
             return NotFound();
         }
 
+        // Acción para crear una bodega 
+        [HttpPost("CreateArticulos")]
+        public ActionResult<MantenedorDtoArticulos> CreateBodega(MantenedorCreateDtoArticulos mantenedorCreateDtoArticulos)
+        {
+            var articulosModel = _mapper.Map<Articulos>(mantenedorCreateDtoArticulos);
+            _repository.CreateArticulos(articulosModel);
+            _repository.saveChanges();
+
+            var mantenedorArticulosDto = _mapper.Map<MantenedorDtoArticulos>(articulosModel);
+
+
+            return CreatedAtRoute(nameof(GetArticulosById), new { id = mantenedorArticulosDto.IdArticulo }, mantenedorArticulosDto);
+        }
+
+
+
         //Accion para Actualizar articulos 
         [HttpPut("UpdateArticulos/{id}")]
         public ActionResult UpdateArticulos(int id, MantenedorUpdateDtoArticulos mantenedorUpdateDtoArticulos){
