@@ -169,7 +169,7 @@ namespace Mantenedor.Controllers
 
             jsonPatchDocument.ApplyTo(articulosToPatch,ModelState);  
 
-            if(TryValidateModel(articulosToPatch)){
+            if(!TryValidateModel(articulosToPatch)){
                 return ValidationProblem(ModelState); 
             }
 
@@ -264,7 +264,7 @@ namespace Mantenedor.Controllers
 
             jsonPatchDocument.ApplyTo(motivosToPatch,ModelState);  
 
-            if(TryValidateModel(motivosToPatch)){
+            if(!TryValidateModel(motivosToPatch)){
                 return ValidationProblem(ModelState); 
             }
 
@@ -376,7 +376,7 @@ namespace Mantenedor.Controllers
 
             jsonPatchDocument.ApplyTo(inventarioToPatch,ModelState);  
 
-            if(TryValidateModel(inventarioToPatch)){
+            if(!TryValidateModel(inventarioToPatch)){
                 return ValidationProblem(ModelState); 
             }
 
@@ -474,7 +474,7 @@ namespace Mantenedor.Controllers
 
             jsonPatchDocument.ApplyTo(movimientosToPatch,ModelState);  
 
-            if(TryValidateModel(movimientosToPatch)){
+            if(!TryValidateModel(movimientosToPatch)){
                 return ValidationProblem(ModelState); 
             }
 
