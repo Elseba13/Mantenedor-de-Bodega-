@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Mantenedor_de_bodega.Migrations
 {
     [DbContext(typeof(MantenedorContext))]
-    partial class MantenedorContextModelSnapshot : ModelSnapshot
+    [Migration("20240213210927_migration13")]
+    partial class migration13
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -212,7 +215,7 @@ namespace Mantenedor_de_bodega.Migrations
             modelBuilder.Entity("models.Bodega", b =>
                 {
                     b.HasOne("models.CentroDeSalud", "CentroDeSaluds")
-                        .WithMany()
+                        .WithMany("Bodegas")
                         .HasForeignKey("CentroDeSaludsCodigoCentroSalud")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -252,6 +255,11 @@ namespace Mantenedor_de_bodega.Migrations
             modelBuilder.Entity("models.Articulos", b =>
                 {
                     b.Navigation("Inventarios");
+                });
+
+            modelBuilder.Entity("models.CentroDeSalud", b =>
+                {
+                    b.Navigation("Bodegas");
                 });
 
             modelBuilder.Entity("models.Inventario", b =>

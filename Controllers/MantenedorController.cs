@@ -58,8 +58,19 @@ namespace Mantenedor.Controllers
         public ActionResult<MantenedorDtoBodega> CreateBodega(MantenedorCreateDtoBodega mantenedorCreateDtoBodega)
         {
             var bodegaModel = _mapper.Map<Bodega>(mantenedorCreateDtoBodega);
+
+            var centroSalud = _repository.GetCentroDeSaludById(mantenedorCreateDtoBodega.CentroDeSalud); 
+            if(centroSalud == null)
+            {
+                return NotFound(); 
+            }
+
+            bodegaModel.CentroDeSaluds = centroSalud; 
+
             _repository.CreateBodega(bodegaModel); 
             _repository.saveChanges(); 
+
+
 
             var mantenedorBodegaDto = _mapper.Map<MantenedorDtoBodega>(bodegaModel); 
 
@@ -82,6 +93,21 @@ namespace Mantenedor.Controllers
             return NoContent(); 
 
         }
+
+        [HttpPost("CreateCentroDeSalud")]
+        public ActionResult<MantenedorDtoCentroDeSalud> CreateBodega(MantenedorCreateDtoCentroDeSalud mantenedorCreateDtoCentroDeSalud)
+        {
+            var centroDeSaludModel = _mapper.Map<CentroDeSalud>(mantenedorCreateDtoCentroDeSalud);
+            _repository.CreateCentroDeSalud(centroDeSaludModel);
+            _repository.saveChanges();
+
+            var mantenedorDtoCentroDeSalud = _mapper.Map<MantenedorDtoCentroDeSalud>(centroDeSaludModel);
+
+
+            return CreatedAtRoute(nameof(GetCentroDeSaludById), new { id = mantenedorDtoCentroDeSalud.CodigoCentroSalud }, mantenedorDtoCentroDeSalud);
+        }
+
+
 
         // Acción para obtener todas los Centros de Salud
         [HttpGet("GetAllCentroDeSalud")]
@@ -127,6 +153,7 @@ namespace Mantenedor.Controllers
         public ActionResult<MantenedorDtoArticulos> CreateBodega(MantenedorCreateDtoArticulos mantenedorCreateDtoArticulos)
         {
             var articulosModel = _mapper.Map<Articulos>(mantenedorCreateDtoArticulos);
+            
             _repository.CreateArticulos(articulosModel);
             _repository.saveChanges();
 
@@ -335,7 +362,10 @@ namespace Mantenedor.Controllers
         //Accion de crear un inventario 
         [HttpPost("CreateInventario")]
         public ActionResult<MantenedorDtoInventario> CreateInventario(MantenedorCreateDtoInventario mantenedorCreateDtoInventario){
+            
+            
             var inventarioModel = _mapper.Map<Inventario>(mantenedorCreateDtoInventario);
+            
             _repository.CreateInventario(inventarioModel); 
             _repository.saveChanges();
 

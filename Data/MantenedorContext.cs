@@ -58,7 +58,7 @@ public class MantenedorContext : DbContext
 
         // Configura la clave primaria compuesta para la entidad Inventario
         modelBuilder.Entity<Inventario>()
-            .HasKey(i => new { i.CodigoBodega, i.IdArticulo });
+            .HasKey(i => new {i.IdInventario});
 
         // Configura la clave primaria para la entidad MovimientosInventario
         modelBuilder.Entity<MovimientosInventario>()

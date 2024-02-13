@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Mantenedor_de_bodega.Migrations
 {
     [DbContext(typeof(MantenedorContext))]
-    partial class MantenedorContextModelSnapshot : ModelSnapshot
+    [Migration("20240213140125_Migracion5")]
+    partial class Migracion5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,6 +36,12 @@ namespace Mantenedor_de_bodega.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("InventarioCodigoBodega")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("InventarioIdArticulo")
+                        .HasColumnType("int");
+
                     b.Property<int?>("MovimientosInventarioIdMovimiento")
                         .HasColumnType("int");
 
@@ -43,6 +52,8 @@ namespace Mantenedor_de_bodega.Migrations
                     b.HasKey("IdArticulo");
 
                     b.HasIndex("MovimientosInventarioIdMovimiento");
+
+                    b.HasIndex("InventarioCodigoBodega", "InventarioIdArticulo");
 
                     b.ToTable("Articulos");
                 });
@@ -55,29 +66,32 @@ namespace Mantenedor_de_bodega.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CodigoBodega"));
 
-                    b.Property<int>("CentroDeSalud")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CentroDeSaludsCodigoCentroSalud")
-                        .HasColumnType("int");
+                    b.Property<string>("CodigoCentroSalud")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("InventarioIdInventario")
+                    b.Property<int?>("InventarioCodigoBodega")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("InventarioIdArticulo")
                         .HasColumnType("int");
 
                     b.Property<int?>("MovimientosInventarioIdMovimiento")
                         .HasColumnType("int");
 
+                    b.Property<string>("Sucursal")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("CodigoBodega");
 
-                    b.HasIndex("CentroDeSaludsCodigoCentroSalud");
-
-                    b.HasIndex("InventarioIdInventario");
-
                     b.HasIndex("MovimientosInventarioIdMovimiento");
+
+                    b.HasIndex("InventarioCodigoBodega", "InventarioIdArticulo");
 
                     b.ToTable("Bodegas");
                 });
@@ -89,6 +103,9 @@ namespace Mantenedor_de_bodega.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CodigoCentroSalud"));
+
+                    b.Property<int?>("BodegaCodigoBodega")
+                        .HasColumnType("int");
 
                     b.Property<string>("Ciudad")
                         .IsRequired()
@@ -108,18 +125,20 @@ namespace Mantenedor_de_bodega.Migrations
 
                     b.HasKey("CodigoCentroSalud");
 
+                    b.HasIndex("BodegaCodigoBodega");
+
                     b.ToTable("CentroDeSaluds");
                 });
 
             modelBuilder.Entity("models.Inventario", b =>
                 {
-                    b.Property<int>("IdInventario")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("CodigoBodega")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdInventario"));
+                    b.Property<int>("IdArticulo")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("ArticulosIdArticulo")
+                    b.Property<int>("IdInventario")
                         .HasColumnType("int");
 
                     b.Property<int>("StockActual")
@@ -128,9 +147,7 @@ namespace Mantenedor_de_bodega.Migrations
                     b.Property<int>("StockInicial")
                         .HasColumnType("int");
 
-                    b.HasKey("IdInventario");
-
-                    b.HasIndex("ArticulosIdArticulo");
+                    b.HasKey("CodigoBodega", "IdArticulo");
 
                     b.ToTable("Inventarios");
                 });
@@ -168,8 +185,21 @@ namespace Mantenedor_de_bodega.Migrations
                     b.Property<int>("Cantidad")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("FechaDeMovimiento")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("CodigoBodega")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FechaDeMovimiento")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdArticulo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdMotivo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("int");
 
                     b.HasKey("IdMovimiento");
 
@@ -207,32 +237,28 @@ namespace Mantenedor_de_bodega.Migrations
                     b.HasOne("models.MovimientosInventario", null)
                         .WithMany("Articulos")
                         .HasForeignKey("MovimientosInventarioIdMovimiento");
+
+                    b.HasOne("models.Inventario", null)
+                        .WithMany("Articulos")
+                        .HasForeignKey("InventarioCodigoBodega", "InventarioIdArticulo");
                 });
 
             modelBuilder.Entity("models.Bodega", b =>
                 {
-                    b.HasOne("models.CentroDeSalud", "CentroDeSaluds")
-                        .WithMany()
-                        .HasForeignKey("CentroDeSaludsCodigoCentroSalud")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("models.Inventario", null)
-                        .WithMany("Bodegas")
-                        .HasForeignKey("InventarioIdInventario");
-
                     b.HasOne("models.MovimientosInventario", null)
                         .WithMany("Bodegas")
                         .HasForeignKey("MovimientosInventarioIdMovimiento");
 
-                    b.Navigation("CentroDeSaluds");
+                    b.HasOne("models.Inventario", null)
+                        .WithMany("Bodegas")
+                        .HasForeignKey("InventarioCodigoBodega", "InventarioIdArticulo");
                 });
 
-            modelBuilder.Entity("models.Inventario", b =>
+            modelBuilder.Entity("models.CentroDeSalud", b =>
                 {
-                    b.HasOne("models.Articulos", null)
-                        .WithMany("Inventarios")
-                        .HasForeignKey("ArticulosIdArticulo");
+                    b.HasOne("models.Bodega", null)
+                        .WithMany("CentroDeSaluds")
+                        .HasForeignKey("BodegaCodigoBodega");
                 });
 
             modelBuilder.Entity("models.Motivos", b =>
@@ -249,13 +275,15 @@ namespace Mantenedor_de_bodega.Migrations
                         .HasForeignKey("MovimientosInventarioIdMovimiento");
                 });
 
-            modelBuilder.Entity("models.Articulos", b =>
+            modelBuilder.Entity("models.Bodega", b =>
                 {
-                    b.Navigation("Inventarios");
+                    b.Navigation("CentroDeSaluds");
                 });
 
             modelBuilder.Entity("models.Inventario", b =>
                 {
+                    b.Navigation("Articulos");
+
                     b.Navigation("Bodegas");
                 });
 

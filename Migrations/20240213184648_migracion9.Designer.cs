@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Mantenedor_de_bodega.Migrations
 {
     [DbContext(typeof(MantenedorContext))]
-    partial class MantenedorContextModelSnapshot : ModelSnapshot
+    [Migration("20240213184648_migracion9")]
+    partial class migracion9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,12 +58,6 @@ namespace Mantenedor_de_bodega.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CodigoBodega"));
 
-                    b.Property<int>("CentroDeSalud")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CentroDeSaludsCodigoCentroSalud")
-                        .HasColumnType("int");
-
                     b.Property<string>("Descripcion")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -72,8 +69,6 @@ namespace Mantenedor_de_bodega.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("CodigoBodega");
-
-                    b.HasIndex("CentroDeSaludsCodigoCentroSalud");
 
                     b.HasIndex("InventarioIdInventario");
 
@@ -89,6 +84,9 @@ namespace Mantenedor_de_bodega.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CodigoCentroSalud"));
+
+                    b.Property<int?>("BodegaCodigoBodega")
+                        .HasColumnType("int");
 
                     b.Property<string>("Ciudad")
                         .IsRequired()
@@ -107,6 +105,8 @@ namespace Mantenedor_de_bodega.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CodigoCentroSalud");
+
+                    b.HasIndex("BodegaCodigoBodega");
 
                     b.ToTable("CentroDeSaluds");
                 });
@@ -211,12 +211,6 @@ namespace Mantenedor_de_bodega.Migrations
 
             modelBuilder.Entity("models.Bodega", b =>
                 {
-                    b.HasOne("models.CentroDeSalud", "CentroDeSaluds")
-                        .WithMany()
-                        .HasForeignKey("CentroDeSaludsCodigoCentroSalud")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("models.Inventario", null)
                         .WithMany("Bodegas")
                         .HasForeignKey("InventarioIdInventario");
@@ -224,8 +218,13 @@ namespace Mantenedor_de_bodega.Migrations
                     b.HasOne("models.MovimientosInventario", null)
                         .WithMany("Bodegas")
                         .HasForeignKey("MovimientosInventarioIdMovimiento");
+                });
 
-                    b.Navigation("CentroDeSaluds");
+            modelBuilder.Entity("models.CentroDeSalud", b =>
+                {
+                    b.HasOne("models.Bodega", null)
+                        .WithMany("CentroDeSaluds")
+                        .HasForeignKey("BodegaCodigoBodega");
                 });
 
             modelBuilder.Entity("models.Inventario", b =>
@@ -252,6 +251,11 @@ namespace Mantenedor_de_bodega.Migrations
             modelBuilder.Entity("models.Articulos", b =>
                 {
                     b.Navigation("Inventarios");
+                });
+
+            modelBuilder.Entity("models.Bodega", b =>
+                {
+                    b.Navigation("CentroDeSaluds");
                 });
 
             modelBuilder.Entity("models.Inventario", b =>
