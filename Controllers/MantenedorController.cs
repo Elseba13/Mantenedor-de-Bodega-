@@ -416,6 +416,7 @@ namespace Mantenedor.Controllers
             return NotFound(); 
         }
 
+        //Accion para aumentar stock de un inventario asociado a un articulo
         [HttpPut("AumentoDeStock/{id}")]
         public ActionResult AumentoDeStock (int id, int stock)
         {
@@ -434,6 +435,7 @@ namespace Mantenedor.Controllers
 
         }
 
+        //Acción para disminuir stock de un inventario asociado a un articulo
         [HttpPut("DisminucionDeStock/{id}")]
         public ActionResult DisminucionDeStock(int id, int stock)
         {
