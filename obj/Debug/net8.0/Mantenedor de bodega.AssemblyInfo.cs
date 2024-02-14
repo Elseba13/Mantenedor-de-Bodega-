@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Mantenedor de bodega")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+84a80b3de62e0bece66864061b0ae083777a377d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+06b1e857f86ac9f907c1944292c6d99d3d954a28")]
 [assembly: System.Reflection.AssemblyProductAttribute("Mantenedor de bodega")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Mantenedor de bodega")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

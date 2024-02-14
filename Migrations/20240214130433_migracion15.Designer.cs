@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Mantenedor_de_bodega.Migrations
 {
     [DbContext(typeof(MantenedorContext))]
-    partial class MantenedorContextModelSnapshot : ModelSnapshot
+    [Migration("20240214130433_migracion15")]
+    partial class migracion15
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,12 +36,18 @@ namespace Mantenedor_de_bodega.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("CodigoBodega")
+                        .HasColumnType("int");
+
                     b.Property<int?>("MovimientosInventarioIdMovimiento")
                         .HasColumnType("int");
 
                     b.Property<string>("NombreArticulo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StockInicial")
+                        .HasColumnType("int");
 
                     b.HasKey("IdArticulo");
 
@@ -54,6 +63,9 @@ namespace Mantenedor_de_bodega.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CodigoBodega"));
+
+                    b.Property<int>("CentroDeSalud")
+                        .HasColumnType("int");
 
                     b.Property<int>("CentroDeSaludsCodigoCentroSalud")
                         .HasColumnType("int");
@@ -112,6 +124,9 @@ namespace Mantenedor_de_bodega.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdInventario"));
 
                     b.Property<int?>("ArticulosIdArticulo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CodigoBodega")
                         .HasColumnType("int");
 
                     b.Property<int>("StockActual")

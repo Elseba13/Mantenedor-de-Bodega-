@@ -9,8 +9,7 @@ namespace Mantenedor.Dtos
         
         public int CodigoBodega { get; set; } // Identificador único de la Bodega
         public string Descripcion { get; set; } // Descripción de la Bodega
-        
-        public int CentroDeSalud {  get; set; } 
+         
         public CentroDeSalud CentroDeSaluds { get; set; } 
     }
 
@@ -62,9 +61,10 @@ namespace Mantenedor.Dtos
         public int IdInventario { get; set; } // Identificador único de inventario 
         public int StockActual { get; set; } // Stock actual en el Inventario
         public int StockInicial { get; set; } // Stock inicial en el Inventario
+        
 
         
-        public ICollection<MantenedorDtoBodega> Bodegas { get; set; }
+        public MantenedorDtoBodega Bodegas { get; set; }
 
 
     }

@@ -2,10 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\Controllers",
-    "\\Data",
     "\\Dtos",
+    "\\Migrations",
     "\\Models"
   ],
-  "SelectedNode": "\\Models\\Command.cs",
+  "SelectedNode": "\\Controllers\\MantenedorController.cs",
   "PreviewInSolutionExplorer": false
 }
