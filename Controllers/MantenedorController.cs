@@ -16,11 +16,13 @@ namespace Mantenedor.Controllers
     {
         private readonly IMantenedorRepo _repository;
         private readonly IMapper _mapper;
+        private readonly MantenedorContext _context;
 
-        public MantenedorController(IMantenedorRepo repository ,IMapper mapper)
+        public MantenedorController(IMantenedorRepo repository ,IMapper mapper,MantenedorContext context)
         {
             _repository = repository; 
             _mapper = mapper;
+            _context = context; 
         }
         
         // Acción para obtener todas las Bodegas
@@ -31,7 +33,7 @@ namespace Mantenedor.Controllers
             //bodegaItems.Add(new Bodega()); 
             
             var bodegaItems = _repository.GetAllBodegas();
-
+             
             return Ok(_mapper.Map<IEnumerable<MantenedorDtoBodega>>(bodegaItems));
         }
 
@@ -99,6 +101,7 @@ namespace Mantenedor.Controllers
         public ActionResult<MantenedorDtoCentroDeSalud> CreateBodega(MantenedorCreateDtoCentroDeSalud mantenedorCreateDtoCentroDeSalud)
         {
             var centroDeSaludModel = _mapper.Map<CentroDeSalud>(mantenedorCreateDtoCentroDeSalud);
+            
             _repository.CreateCentroDeSalud(centroDeSaludModel);
             _repository.saveChanges();
 
@@ -157,25 +160,16 @@ namespace Mantenedor.Controllers
 
             var bodega = _repository.GetBodegaById(IdBodega);
 
-            Random random = new Random();
             
             if (bodega == null)
             {
                 return NotFound("No se encontro la bodega");
             }
-
-            var inventario = new Inventario
-            {
-                IdInventario = random.Next(1, 1000000),
-                StockActual = stock,
-                StockInicial = stock,
-                bodega = bodega
-            };
-
-
-            articulosModel.Inventarios = new List<Inventario> { inventario };
-
             
+            articulosModel.StockInicial = stock;
+            articulosModel.StockActual = stock;
+            articulosModel.Bodega = bodega;
+          
             
             _repository.CreateArticulos(articulosModel);
             _repository.saveChanges();
@@ -274,6 +268,7 @@ namespace Mantenedor.Controllers
 
         public ActionResult<MantenedorDtoMotivos> CreateMotivos(MantenedorCreateDtoMotivos mantenedorCreateDtoMotivos){
             var motivosModel = _mapper.Map<Motivos>(mantenedorCreateDtoMotivos);
+            
             _repository.CreateMotivos(motivosModel);
             _repository.saveChanges(); 
 
@@ -362,73 +357,32 @@ namespace Mantenedor.Controllers
             return NotFound();
         }
 
+        [HttpPost("CreateUsuarios")]
 
-
-        // Acción para obtener todas los Inventarios
-        [HttpGet("GetAllInventarios")]
-        public ActionResult<IEnumerable<Inventario>> GetAllInventarios()
+        public ActionResult<MantenedorDtoUsuarios> CreateUsuario(MantenedorCreateDtoUsuarios mantenedorCreateDtoUsuarios)
         {
-            var inventarioItems = _repository.GetAllInventario();
-            return Ok(_mapper.Map<IEnumerable<MantenedorDtoInventario>>(inventarioItems));
-        }
-
-        // Acción para obtener un Inventario por su Id
-        [HttpGet("GetInventariosById/{id}",Name ="GetInventariosById")]
-        public ActionResult<MantenedorDtoInventario> GetInventariosById(int id)
-        {
-            var inventarioItems = _repository.GetInventarioById(id);
-            if(inventarioItems != null){
-                return Ok(_mapper.Map<MantenedorDtoInventario>(inventarioItems));
-            }
-            return NotFound();
-        }
-
-        //Accion de crear un inventario 
-        [HttpPost("CreateInventario")]
-        public ActionResult<MantenedorDtoInventario> CreateInventario(MantenedorCreateDtoInventario mantenedorCreateDtoInventario){
-            
-            
-            var inventarioModel = _mapper.Map<Inventario>(mantenedorCreateDtoInventario);
-            
-            _repository.CreateInventario(inventarioModel); 
+            var usuariosModel = _mapper.Map<Usuarios>(mantenedorCreateDtoUsuarios);
+            _repository.CreateUsuarios(usuariosModel);
             _repository.saveChanges();
 
-            var mantendorDtoInventario = _mapper.Map<MantenedorDtoInventario>(inventarioModel);
+            var mantenedorUsuarios = _mapper.Map<MantenedorDtoUsuarios>(usuariosModel);
 
-            return CreatedAtRoute(nameof(GetInventariosById),new{id = mantendorDtoInventario.IdInventario},mantendorDtoInventario); 
-        }
-
-
-        //Accion para actulizar un inventario
-        [HttpPut("UpdateInventario/{id}")]
-        public ActionResult UpdateInventario(int id, MantenedorUpdateDtoInventario mantenedorUpdateDtoInventario){
-            var inventarioModelFromRepo = _repository.GetInventarioById(id); 
-            if(inventarioModelFromRepo == null){
-                return NotFound(); 
-            }
-
-            _mapper.Map(mantenedorUpdateDtoInventario,inventarioModelFromRepo); 
-
-            _repository.UpdateInventario(inventarioModelFromRepo); 
-
-            _repository.saveChanges(); 
-
-            return NotFound(); 
+            return CreatedAtRoute(nameof(GetUsuariosById), new { id = mantenedorUsuarios.IdUsuario }, mantenedorUsuarios);
         }
 
         //Accion para aumentar stock de un inventario asociado a un articulo
         [HttpPut("AumentoDeStock/{id}")]
         public ActionResult AumentoDeStock (int id, int stock)
         {
-            var inventarioModel = _repository.GetInventarioById(id);
-            if(inventarioModel == null)
+            var articuloModel = _repository.GetArticulosById(id);
+            if(articuloModel == null)
             {
-                return NotFound("El Inventario ingresado no fue encontrado");
+                return NotFound("El Articulo no fue encontrado");
             }
 
-            inventarioModel.StockActual += stock;
+            articuloModel.StockActual += stock;
 
-            _repository.UpdateInventario(inventarioModel); 
+            _repository.UpdateArticulos(articuloModel); 
             _repository.saveChanges();
 
             return Ok(); 
@@ -437,74 +391,48 @@ namespace Mantenedor.Controllers
 
         //Acción para disminuir stock de un inventario asociado a un articulo
         [HttpPut("DisminucionDeStock/{id}")]
-        public ActionResult DisminucionDeStock(int id, int stock)
+        public ActionResult DisminucionDeStock(int id, int stock, int idUsuario) 
         {
-            var inventarioModel = _repository.GetInventarioById(id); 
+            var articulosModel = _repository.GetArticulosById(id);
+            var usuarioModel = _repository.GetUsuariosById(idUsuario);
+            var motivoModel = _repository.GetMotivosById(2);
+            var bodegaModel = _repository.GetBodegaById(articulosModel.Bodega.CodigoBodega); 
 
-            if(inventarioModel == null)
+            if(usuarioModel == null)
             {
-                return NotFound("El Inventario Ingresado no fue encontrado"); 
+                return NotFound("El usuario ingresado no existe");
             }
 
-            if(inventarioModel.StockActual < stock)
+            if(articulosModel == null)
+            {
+                return NotFound("El articulo ingresado no existe"); 
+            }
+
+            if(articulosModel.StockActual < stock)
             {
                 return BadRequest("La cantidad a disminuir excede el stock actual"); 
             }
 
-            inventarioModel.StockActual -= stock;
-            _repository.UpdateInventario(inventarioModel); 
+            var movimientosInventarioModel = new MovimientosInventario
+            {
+                Cantidad = stock,
+                FechaDeMovimiento = DateTime.Now,
+                Motivo = motivoModel, 
+                BodegaDeOrigen = bodegaModel, 
+                BodegaDestino = null,
+                Articulo = articulosModel,
+                Usuario = usuarioModel
+            };
+
+            articulosModel.StockActual -= stock;
+            _repository.UpdateArticulos(articulosModel);
+            _repository.CreateMovimientosInventario(movimientosInventarioModel);
             _repository.saveChanges();
 
             return Ok(); 
 
         }
-             
-        //Accion para actualizar parcialmente un inventario
-        [HttpPatch("PartialInventarioUpdate/{id}")]
-        public ActionResult PartialInventarioUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoInventario> jsonPatchDocument)
-        {
-            var inventarioModelFromRepo = _repository.GetInventarioById(id); 
             
-            if( inventarioModelFromRepo == null){
-                return NotFound(); 
-            }
-
-            var inventarioToPatch = _mapper.Map<MantenedorUpdateDtoInventario>(inventarioModelFromRepo); 
-
-            jsonPatchDocument.ApplyTo(inventarioToPatch,ModelState);  
-
-            if(!TryValidateModel(inventarioToPatch)){
-                return ValidationProblem(ModelState); 
-            }
-
-            _mapper.Map(inventarioToPatch,inventarioModelFromRepo); 
-
-            _repository.UpdateInventario(inventarioModelFromRepo); 
-
-            _repository.saveChanges(); 
-
-            return NoContent(); 
-        }
-
-
-        //Accion para borrar un inventario
-        [HttpDelete("DeleteInventario/{id}")]
-
-        public ActionResult DeleteInventario(int id){
-            var inventarioModelFromRepo = _repository.GetInventarioById(id); 
-            
-            if(inventarioModelFromRepo == null){
-                return NotFound(); 
-            }
-
-            _repository.DeleteInventario(inventarioModelFromRepo); 
-            _repository.saveChanges();
-
-            return NoContent(); 
-        }
-
-
-
         // Acción para obtener todas los Movimientos de Inventario
         [HttpGet("GetAllMovimientosInventario")]
         public ActionResult<IEnumerable<MovimientosInventario>> GetAllMovimientosInventario()

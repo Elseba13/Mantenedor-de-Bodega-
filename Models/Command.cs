@@ -33,8 +33,10 @@ namespace models
         public int IdArticulo { get; set; } // Identificador único del Artículo
         public string NombreArticulo { get; set; } // Nombre del Artículo
         public string ClasificacioArticulo { get; set; } // Clasificación del Artículo
+        public int StockInicial { get; set; } 
+        public int StockActual { get; set; }
 
-        public ICollection<Inventario> Inventarios { get; set; }
+        public Bodega Bodega { get; set; }
     }
 
     // Clase que representa un Motivo
@@ -54,20 +56,6 @@ namespace models
         public string NombreUsuario { get; set; } // Nombre del Usuario
     }
 
-    // Clase que representa un Inventario
-    public class Inventario
-    {
-
-        public int IdInventario { get; set; } // Identificador único del Inventario
-        public int StockActual { get; set; } // Stock actual en el Inventario
-        public int StockInicial { get; set; } // Stock inicial en el Inventario 
-       
-        public Bodega bodega { get; set; } 
-        
-
-
-    }
-
     // Clase que representa un Movimiento de Inventario
     public class MovimientosInventario
     {
@@ -75,10 +63,12 @@ namespace models
         public int IdMovimiento { get; set; } // Identificador único del Movimiento de Inventario
         public int Cantidad { get; set; } // Cantidad del movimiento
         public DateTime? FechaDeMovimiento { get; set; } // Fecha del movimiento
-
-        public ICollection<Motivos> Motivos { get; set; }
-        public ICollection<Usuarios> Usuarios { get; set; }
-        public ICollection<Bodega> Bodegas { get; set; }
-        public ICollection<Articulos> Articulos { get; set; }
+       
+        public Bodega BodegaDeOrigen { get; set; } 
+        public Motivos Motivo { get; set; }
+        public Bodega? BodegaDestino { get; set; } 
+        public Articulos Articulo { get; set; }
+        public Usuarios Usuario { get; set; }
+    
     }
 }

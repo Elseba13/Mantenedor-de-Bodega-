@@ -44,15 +44,6 @@ namespace Mantenedor.Data
             _context.CentroDeSaluds.Add(cmd); 
         }
 
-        public void CreateInventario(Inventario cmd)
-        {
-            if(cmd == null)
-            {
-                throw new ArgumentNullException(nameof(cmd)); 
-            }
-
-            _context.Inventarios.Add(cmd); 
-        }
 
         public void CreateMotivos(Motivos cmd)
         {
@@ -108,14 +99,6 @@ namespace Mantenedor.Data
             _context.CentroDeSaluds.Remove(cmd);
         }
 
-        public void DeleteInventario(Inventario cmd)
-        {
-            if(cmd == null){
-                throw new ArgumentNullException(nameof(cmd)); 
-            }
-            _context.Inventarios.Remove(cmd); 
-        }
-
         public void DeleteMotivos(Motivos cmd)
         {
             if(cmd == null){
@@ -146,22 +129,17 @@ namespace Mantenedor.Data
 
         public IEnumerable<Articulos> GetAllArticulos()
         {
-            return _context.Articulos.ToList();
+            return _context.Articulos.Include(a => a.Bodega).ToList();
         }
 
         public IEnumerable<Bodega> GetAllBodegas()
         {
-            return _context.Bodegas.ToList();
+            return _context.Bodegas.Include(b => b.CentroDeSaluds).ToList();
         }
 
         public IEnumerable<CentroDeSalud> GetAllCentroSalud()
         {
             return _context.CentroDeSaluds.ToList();
-        }
-
-        public IEnumerable<Inventario> GetAllInventario()
-        {
-            return _context.Inventarios.ToList();
         }
 
         public IEnumerable<Motivos> GetAllMotivos()
@@ -183,7 +161,7 @@ namespace Mantenedor.Data
 
         public Articulos GetArticulosById(int id)
         {
-            return _context.Articulos.FirstOrDefault(a => a.IdArticulo == id ); 
+            return _context.Articulos.Include(a => a.Bodega).FirstOrDefault(a => a.IdArticulo == id ); 
         }
 
         public Bodega GetBodegaById(int id)
@@ -194,11 +172,6 @@ namespace Mantenedor.Data
         public CentroDeSalud GetCentroDeSaludById(int id)
         {
             return _context.CentroDeSaluds.FirstOrDefault(c => c.CodigoCentroSalud == id );
-        }
-
-        public Inventario GetInventarioById(int id)
-        {
-            return _context.Inventarios.FirstOrDefault(i => i.IdInventario == id);
         }
 
         public Motivos GetMotivosById(int id)
@@ -248,11 +221,6 @@ namespace Mantenedor.Data
         public void UpdateCentroDeSalud(Articulos cmd)
         {
            
-        }
-
-        public void UpdateInventario(Inventario cmd)
-        {
-            
         }
 
         public void UpdateMotivos(Motivos cmd)

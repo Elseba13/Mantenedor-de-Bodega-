@@ -33,8 +33,11 @@ namespace Mantenedor.Dtos
         public int IdArticulo { get; set; } // Identificador único del Artículo
         public string NombreArticulo { get; set; } // Nombre del Artículo
         public string ClasificacioArticulo { get; set; } // Clasificación del Artículo
+        public int StockInicial { get; set; }
+        public int StockActual { get; set; } 
 
-       public ICollection<MantenedorCreateDtoInventario> Inventarios { get; set; }
+
+       public Bodega Bodega { get; set; }
     }
 
     // Clase que representa un Motivo
@@ -54,20 +57,6 @@ namespace Mantenedor.Dtos
         public string NombreUsuario { get; set; } // Nombre del Usuario
     }
 
-    // Clase que representa un Inventario
-    public class MantenedorCreateDtoInventario
-    {
-
-        public int IdInventario { get; set; } // Identificador único de Inventario
-        public int StockActual { get; set; } // Stock actual en el Inventario
-        public int StockInicial { get; set; } // Stock inicial en el Inventario
-
-        
- 
-        public MantenedorCreateDtoBodega Bodegas { get; set; }
-
-    }
-
     // Clase que representa un Movimiento de Inventario
     public class MantenedorCreateDtoMovimientosInventario
     {
@@ -75,11 +64,11 @@ namespace Mantenedor.Dtos
         public int IdMovimiento { get; set; } // Identificador único del Movimiento de Inventario
         public int Cantidad { get; set; } // Cantidad del movimiento
         public DateTime? FechaDeMovimiento { get; set; } // Fecha del movimiento
-
-        public ICollection<MantenedorCreateDtoMotivos> Motivos { get; set; }
-        public ICollection<MantenedorCreateDtoInventario> Usuarios { get; set; }
-        public ICollection<MantenedorCreateDtoBodega> Bodegas { get; set; }
-        public ICollection<MantenedorCreateDtoArticulos> Articulos { get; set; }
+        public Bodega BodegaDeOrigen { get; set; }
+        public Motivos Motivo { get; set; }
+        public Bodega? BodegaDestino { get; set; }
+        public Articulos Articulo { get; set; }
+        public Usuarios Usuario { get; set; }
     }
 
 

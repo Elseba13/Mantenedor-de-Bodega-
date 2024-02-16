@@ -45,13 +45,6 @@ namespace Mantenedor.Data
         void UpdateUsuarios(Usuarios cmd); 
         void DeleteUsuarios(Usuarios cmd); 
 
-        // Métodos para obtener todos los Inventarios y un Inventario por su Id
-        IEnumerable<Inventario> GetAllInventario(); 
-        Inventario GetInventarioById(int id); 
-        void CreateInventario(Inventario cmd);
-        void UpdateInventario(Inventario cmd);
-        void DeleteInventario(Inventario cmd); 
-
         // Métodos para obtener todos los Movimientos de Inventario y un Movimiento de Inventario por su Id
         IEnumerable<MovimientosInventario> GetAllMovimientosInventario(); 
         MovimientosInventario GetMovimientosInventarioById(int id);

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Mantenedor_de_bodega.Migrations
 {
     [DbContext(typeof(MantenedorContext))]
-    partial class MantenedorContextModelSnapshot : ModelSnapshot
+    [Migration("20240216140441_migracion21")]
+    partial class migracion21
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +46,7 @@ namespace Mantenedor_de_bodega.Migrations
                     b.Property<int>("StockActual")
                         .HasColumnType("int");
 
-                    b.Property<int>("StockInicial")
+                    b.Property<int>("StockInical")
                         .HasColumnType("int");
 
                     b.HasKey("IdArticulo");
@@ -135,7 +138,7 @@ namespace Mantenedor_de_bodega.Migrations
                     b.Property<int>("BodegaDeOrigenCodigoBodega")
                         .HasColumnType("int");
 
-                    b.Property<int?>("BodegaDestinoCodigoBodega")
+                    b.Property<int>("BodegaDestinoCodigoBodega")
                         .HasColumnType("int");
 
                     b.Property<int>("Cantidad")
@@ -213,29 +216,31 @@ namespace Mantenedor_de_bodega.Migrations
                     b.HasOne("models.Articulos", "Articulo")
                         .WithMany()
                         .HasForeignKey("ArticuloIdArticulo")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("models.Bodega", "BodegaDeOrigen")
                         .WithMany()
                         .HasForeignKey("BodegaDeOrigenCodigoBodega")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("models.Bodega", "BodegaDestino")
                         .WithMany()
-                        .HasForeignKey("BodegaDestinoCodigoBodega");
+                        .HasForeignKey("BodegaDestinoCodigoBodega")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("models.Motivos", "Motivo")
                         .WithMany()
                         .HasForeignKey("MotivoIdMotivo")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("models.Usuarios", "Usuario")
                         .WithMany()
                         .HasForeignKey("UsuarioIdUsuario")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Articulo");

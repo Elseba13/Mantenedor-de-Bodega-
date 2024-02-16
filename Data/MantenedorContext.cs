@@ -26,9 +26,6 @@ public class MantenedorContext : DbContext
     // DbSet para la entidad Usuarios, que representa la tabla de usuarios en la base de datos
     public DbSet<Usuarios> Usuarios { get; set; }
 
-    // DbSet para la entidad Inventario, que representa la tabla de inventarios en la base de datos
-    public DbSet<Inventario> Inventarios { get; set; }
-
     // DbSet para la entidad MovimientosInventario, que representa la tabla de movimientos de inventario en la base de datos
     public DbSet<MovimientosInventario> MovimientosInventarios { get; set; }
 
@@ -56,14 +53,8 @@ public class MantenedorContext : DbContext
         modelBuilder.Entity<Usuarios>()
             .HasKey(u => u.IdUsuario);
 
-        // Configura la clave primaria compuesta para la entidad Inventario
-        modelBuilder.Entity<Inventario>()
-            .HasKey(i => new {i.IdInventario});
-
         // Configura la clave primaria para la entidad MovimientosInventario
         modelBuilder.Entity<MovimientosInventario>()
             .HasKey(m => m.IdMovimiento);
     }
-
-
 }
