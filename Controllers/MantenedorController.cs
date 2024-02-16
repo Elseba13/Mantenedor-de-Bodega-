@@ -372,17 +372,41 @@ namespace Mantenedor.Controllers
 
         //Accion para aumentar stock de un inventario asociado a un articulo
         [HttpPut("AumentoDeStock/{id}")]
-        public ActionResult AumentoDeStock (int id, int stock)
+        public ActionResult AumentoDeStock (int id, int stock,int idUsuario)
         {
             var articuloModel = _repository.GetArticulosById(id);
+            var usuarioModel = _repository.GetUsuariosById(idUsuario);
+            var motivoModel = _repository.GetMotivosById(3);
+            var bodegaModel = _repository.GetBodegaById(articuloModel.Bodega.CodigoBodega);
+
+
             if(articuloModel == null)
             {
                 return NotFound("El Articulo no fue encontrado");
             }
 
+            if(usuarioModel == null)
+            {
+                return NotFound("El Usuario no fue encontrado"); 
+            }
+
+            var movimientosInventario = new MovimientosInventario
+            {
+                Cantidad = stock,
+                FechaDeMovimiento = DateTime.Now,
+                Motivo = motivoModel,
+                BodegaDeOrigen = bodegaModel,
+                BodegaDestino = null,
+                Articulo = articuloModel,
+                Usuario = usuarioModel
+
+            };
+
+
             articuloModel.StockActual += stock;
 
-            _repository.UpdateArticulos(articuloModel); 
+            _repository.UpdateArticulos(articuloModel);
+            _repository.CreateMovimientosInventario(movimientosInventario);
             _repository.saveChanges();
 
             return Ok(); 
