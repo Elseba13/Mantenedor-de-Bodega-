@@ -65,7 +65,7 @@ namespace models
         public DateTime? FechaDeMovimiento { get; set; } // Fecha del movimiento
        
         public Bodega BodegaDeOrigen { get; set; } 
-        public Motivos Motivo { get; set; }
+        public Motivos? Motivo { get; set; }
         public Bodega? BodegaDestino { get; set; } 
         public Articulos Articulo { get; set; }
         public Usuarios Usuario { get; set; }

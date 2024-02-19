@@ -18,27 +18,27 @@ namespace Mantenedor.Controllers
         private readonly IMapper _mapper;
         private readonly MantenedorContext _context;
 
-        public MantenedorController(IMantenedorRepo repository ,IMapper mapper,MantenedorContext context)
+        public MantenedorController(IMantenedorRepo repository, IMapper mapper, MantenedorContext context)
         {
-            _repository = repository; 
+            _repository = repository;
             _mapper = mapper;
-            _context = context; 
+            _context = context;
         }
-        
+
         // Acción para obtener todas las Bodegas
         [HttpGet("GetAllBodegas")]
         public ActionResult<IEnumerable<Bodega>> GetAllBodegas()
         {
             //var bodegaItems = new List<Bodega>();
             //bodegaItems.Add(new Bodega()); 
-            
+
             var bodegaItems = _repository.GetAllBodegas();
-             
+
             return Ok(_mapper.Map<IEnumerable<MantenedorDtoBodega>>(bodegaItems));
         }
 
         // Acción para obtener una Bodega por su Id
-        [HttpGet("GetBodegaById/{id}",Name = "GetBodegaById")] 
+        [HttpGet("GetBodegaById/{id}", Name = "GetBodegaById")]
         public ActionResult<MantenedorDtoBodega> GetBodegaById(int id)
         {
             var bodegaItems = _repository.GetBodegaById(id);
@@ -46,54 +46,54 @@ namespace Mantenedor.Controllers
             //var bodegaItems = new List<Bodega>();
             //bodegaItems.Add(new Bodega()); 
 
-            if(bodegaItems != null)
+            if (bodegaItems != null)
             {
                 return Ok(_mapper.Map<MantenedorDtoBodega>(bodegaItems));
             }
 
             return NotFound();
         }
-        
+
 
         // Acción para crear una bodega 
         [HttpPost("CreateBodega")]
-        public ActionResult<MantenedorDtoBodega> CreateBodega(int IdCentroDeSalud,MantenedorCreateDtoBodega mantenedorCreateDtoBodega)
+        public ActionResult<MantenedorDtoBodega> CreateBodega(int IdCentroDeSalud, MantenedorCreateDtoBodega mantenedorCreateDtoBodega)
         {
             var bodegaModel = _mapper.Map<Bodega>(mantenedorCreateDtoBodega);
 
-            var centroSalud = _repository.GetCentroDeSaludById(IdCentroDeSalud); 
-            
-            if(centroSalud == null)
+            var centroSalud = _repository.GetCentroDeSaludById(IdCentroDeSalud);
+
+            if (centroSalud == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
 
-            bodegaModel.CentroDeSaluds = centroSalud; 
+            bodegaModel.CentroDeSaluds = centroSalud;
 
-            _repository.CreateBodega(bodegaModel); 
-            _repository.saveChanges(); 
-
-
-
-            var mantenedorBodegaDto = _mapper.Map<MantenedorDtoBodega>(bodegaModel); 
+            _repository.CreateBodega(bodegaModel);
+            _repository.saveChanges();
 
 
-            return CreatedAtRoute(nameof(GetBodegaById),new{id = mantenedorBodegaDto.CodigoBodega},mantenedorBodegaDto);
+
+            var mantenedorBodegaDto = _mapper.Map<MantenedorDtoBodega>(bodegaModel);
+
+
+            return CreatedAtRoute(nameof(GetBodegaById), new { id = mantenedorBodegaDto.CodigoBodega }, mantenedorBodegaDto);
         }
 
         //Accion para borrar una bodega 
         [HttpDelete("DeleteBodega/{id}")]
-        public ActionResult DeleteBodega(int id){
-            var bodegaModelFromRepo = _repository.GetBodegaById(id); 
-            
-            if(bodegaModelFromRepo == null){
-                return NotFound(); 
+        public ActionResult DeleteBodega(int id) {
+            var bodegaModelFromRepo = _repository.GetBodegaById(id);
+
+            if (bodegaModelFromRepo == null) {
+                return NotFound();
             }
 
-            _repository.DeleteBodega(bodegaModelFromRepo); 
+            _repository.DeleteBodega(bodegaModelFromRepo);
             _repository.saveChanges();
 
-            return NoContent(); 
+            return NoContent();
 
         }
 
@@ -101,7 +101,7 @@ namespace Mantenedor.Controllers
         public ActionResult<MantenedorDtoCentroDeSalud> CreateBodega(MantenedorCreateDtoCentroDeSalud mantenedorCreateDtoCentroDeSalud)
         {
             var centroDeSaludModel = _mapper.Map<CentroDeSalud>(mantenedorCreateDtoCentroDeSalud);
-            
+
             _repository.CreateCentroDeSalud(centroDeSaludModel);
             _repository.saveChanges();
 
@@ -122,12 +122,12 @@ namespace Mantenedor.Controllers
         }
 
         // Acción para obtener un Centro de Salud por su Id
-        [HttpGet("GetCentroDeSaludById/{id}",Name = "GetCentroDeSaludById")]
+        [HttpGet("GetCentroDeSaludById/{id}", Name = "GetCentroDeSaludById")]
         public ActionResult<MantenedorDtoCentroDeSalud> GetCentroDeSaludById(int id)
         {
             var centroDeSaludItems = _repository.GetCentroDeSaludById(id);
-            if(centroDeSaludItems != null){
-                return Ok(_mapper.Map<MantenedorDtoCentroDeSalud>(centroDeSaludItems)); 
+            if (centroDeSaludItems != null) {
+                return Ok(_mapper.Map<MantenedorDtoCentroDeSalud>(centroDeSaludItems));
             }
             return NotFound();
         }
@@ -142,11 +142,11 @@ namespace Mantenedor.Controllers
         }
 
         // Acción para obtener un Artículo por su Id
-        [HttpGet("GetArticulosById/{id}",Name ="GetArticulosById")]
+        [HttpGet("GetArticulosById/{id}", Name = "GetArticulosById")]
         public ActionResult<MantenedorDtoArticulos> GetArticulosById(int id)
         {
             var articulosItems = _repository.GetArticulosById(id);
-            if(articulosItems != null){
+            if (articulosItems != null) {
                 return Ok(_mapper.Map<MantenedorDtoArticulos>(articulosItems));
             }
             return NotFound();
@@ -154,23 +154,23 @@ namespace Mantenedor.Controllers
 
         // Acción para crear una bodega 
         [HttpPost("CreateArticulos")]
-        public ActionResult<MantenedorDtoArticulos> CreateArticulo(int IdBodega,int stock,MantenedorCreateDtoArticulos mantenedorCreateDtoArticulos)
+        public ActionResult<MantenedorDtoArticulos> CreateArticulo(int IdBodega, int stock, MantenedorCreateDtoArticulos mantenedorCreateDtoArticulos)
         {
             var articulosModel = _mapper.Map<Articulos>(mantenedorCreateDtoArticulos);
 
             var bodega = _repository.GetBodegaById(IdBodega);
 
-            
+
             if (bodega == null)
             {
                 return NotFound("No se encontro la bodega");
             }
-            
+
             articulosModel.StockInicial = stock;
             articulosModel.StockActual = stock;
             articulosModel.Bodega = bodega;
-          
-            
+
+
             _repository.CreateArticulos(articulosModel);
             _repository.saveChanges();
 
@@ -184,64 +184,64 @@ namespace Mantenedor.Controllers
 
         //Accion para Actualizar articulos 
         [HttpPut("UpdateArticulos/{id}")]
-        public ActionResult UpdateArticulos(int id, MantenedorUpdateDtoArticulos mantenedorUpdateDtoArticulos){
-            var articulosModelFromRepo = _repository.GetArticulosById(id); 
-            if(articulosModelFromRepo == null){
-                return NotFound(); 
+        public ActionResult UpdateArticulos(int id, MantenedorUpdateDtoArticulos mantenedorUpdateDtoArticulos) {
+            var articulosModelFromRepo = _repository.GetArticulosById(id);
+            if (articulosModelFromRepo == null) {
+                return NotFound();
             }
 
-            _mapper.Map(mantenedorUpdateDtoArticulos,articulosModelFromRepo); 
+            _mapper.Map(mantenedorUpdateDtoArticulos, articulosModelFromRepo);
 
             _repository.UpdateArticulos(articulosModelFromRepo);
 
-            _repository.saveChanges(); 
+            _repository.saveChanges();
 
-            return NoContent();  
+            return NoContent();
         }
 
         //Accion para actulizar parcialmente articulos 
         [HttpPatch("PartialArticulosUpdate/{id}")]
-        public ActionResult PartialArticulosUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoArticulos> jsonPatchDocument){
-            
+        public ActionResult PartialArticulosUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoArticulos> jsonPatchDocument) {
+
             var articulosModelFromRepo = _repository.GetArticulosById(id);
-            
-            if( articulosModelFromRepo == null){
-                return NotFound(); 
+
+            if (articulosModelFromRepo == null) {
+                return NotFound();
             }
 
-            var articulosToPatch = _mapper.Map<MantenedorUpdateDtoArticulos>(articulosModelFromRepo); 
+            var articulosToPatch = _mapper.Map<MantenedorUpdateDtoArticulos>(articulosModelFromRepo);
 
-            jsonPatchDocument.ApplyTo(articulosToPatch,ModelState);  
+            jsonPatchDocument.ApplyTo(articulosToPatch, ModelState);
 
-            if(!TryValidateModel(articulosToPatch)){
-                return ValidationProblem(ModelState); 
+            if (!TryValidateModel(articulosToPatch)) {
+                return ValidationProblem(ModelState);
             }
 
-            _mapper.Map(articulosToPatch,articulosModelFromRepo); 
+            _mapper.Map(articulosToPatch, articulosModelFromRepo);
 
-            _repository.UpdateArticulos(articulosModelFromRepo); 
+            _repository.UpdateArticulos(articulosModelFromRepo);
 
-            _repository.saveChanges(); 
+            _repository.saveChanges();
 
-            return NoContent(); 
+            return NoContent();
         }
 
 
         //Accion para eliminar articulos por ID 
-        [HttpDelete("DeleteArticulos/{id}") ]
+        [HttpDelete("DeleteArticulos/{id}")]
 
-        public ActionResult DeleteArticulos(int id){
-            
-            var articulosModelFromRepo = _repository.GetArticulosById(id); 
-            
-            if(articulosModelFromRepo == null){
-                return NotFound(); 
+        public ActionResult DeleteArticulos(int id) {
+
+            var articulosModelFromRepo = _repository.GetArticulosById(id);
+
+            if (articulosModelFromRepo == null) {
+                return NotFound();
             }
 
-            _repository.DeleteArticulos(articulosModelFromRepo); 
+            _repository.DeleteArticulos(articulosModelFromRepo);
             _repository.saveChanges();
 
-            return NoContent(); 
+            return NoContent();
         }
 
         // Acción para obtener todas los Motivos
@@ -253,11 +253,11 @@ namespace Mantenedor.Controllers
         }
 
         // Acción para obtener un Motivo por su Id
-        [HttpGet("GetMotivosById/{id}",Name = "GetMotivosById")]
+        [HttpGet("GetMotivosById/{id}", Name = "GetMotivosById")]
         public ActionResult<MantenedorDtoMotivos> GetMotivosById(int id)
         {
             var motivosItems = _repository.GetMotivosById(id);
-            if(motivosItems != null){
+            if (motivosItems != null) {
                 return Ok(_mapper.Map<MantenedorDtoMotivos>(motivosItems));
             }
             return NotFound();
@@ -266,76 +266,76 @@ namespace Mantenedor.Controllers
         //Accion para crear motivos 
         [HttpPost("CreateMotivos")]
 
-        public ActionResult<MantenedorDtoMotivos> CreateMotivos(MantenedorCreateDtoMotivos mantenedorCreateDtoMotivos){
+        public ActionResult<MantenedorDtoMotivos> CreateMotivos(MantenedorCreateDtoMotivos mantenedorCreateDtoMotivos) {
             var motivosModel = _mapper.Map<Motivos>(mantenedorCreateDtoMotivos);
-            
+
             _repository.CreateMotivos(motivosModel);
-            _repository.saveChanges(); 
+            _repository.saveChanges();
 
             var mantenedorMotivos = _mapper.Map<MantenedorDtoMotivos>(motivosModel);
 
-            return CreatedAtRoute(nameof(GetMotivosById),new{id = mantenedorMotivos.IdMotivo},mantenedorMotivos); 
+            return CreatedAtRoute(nameof(GetMotivosById), new { id = mantenedorMotivos.IdMotivo }, mantenedorMotivos);
         }
 
         //Accion para actulizar los motivos por ID 
         [HttpPut("UpdateMotivos/{id}")]
-        public ActionResult UpdateMotivos(int id, MantenedorUpdateDtoMotivos mantenedorUpdateDtoMotivos){
-            var motivosModelFromRepo = _repository.GetMotivosById(id); 
-            if(motivosModelFromRepo == null){
-                return NotFound(); 
+        public ActionResult UpdateMotivos(int id, MantenedorUpdateDtoMotivos mantenedorUpdateDtoMotivos) {
+            var motivosModelFromRepo = _repository.GetMotivosById(id);
+            if (motivosModelFromRepo == null) {
+                return NotFound();
             }
-            
-            _mapper.Map(mantenedorUpdateDtoMotivos,motivosModelFromRepo); 
 
-            _repository.UpdateMotivos(motivosModelFromRepo); 
+            _mapper.Map(mantenedorUpdateDtoMotivos, motivosModelFromRepo);
 
-            _repository.saveChanges(); 
+            _repository.UpdateMotivos(motivosModelFromRepo);
 
-            return NotFound(); 
+            _repository.saveChanges();
+
+            return NotFound();
 
         }
 
         //Acción para actuliazar parcialmente los motivos por ID
         [HttpPatch("PartialMotivosUpdate/{id}")]
-        public ActionResult PartialMotivosUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoMotivos> jsonPatchDocument){
-            
-            var motivosModelFromRepo = _repository.GetMotivosById(id); 
-            
-            if( motivosModelFromRepo == null){
-                return NotFound(); 
+        public ActionResult PartialMotivosUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoMotivos> jsonPatchDocument) {
+
+            var motivosModelFromRepo = _repository.GetMotivosById(id);
+
+            if (motivosModelFromRepo == null) {
+                return NotFound();
             }
 
-            var motivosToPatch = _mapper.Map<MantenedorUpdateDtoMotivos>(motivosModelFromRepo); 
+            var motivosToPatch = _mapper.Map<MantenedorUpdateDtoMotivos>(motivosModelFromRepo);
 
-            jsonPatchDocument.ApplyTo(motivosToPatch,ModelState);  
+            jsonPatchDocument.ApplyTo(motivosToPatch, ModelState);
 
-            if(!TryValidateModel(motivosToPatch)){
-                return ValidationProblem(ModelState); 
+            if (!TryValidateModel(motivosToPatch)) {
+                return ValidationProblem(ModelState);
             }
 
-            _mapper.Map(motivosToPatch,motivosModelFromRepo); 
+            _mapper.Map(motivosToPatch, motivosModelFromRepo);
 
-            _repository.UpdateMotivos(motivosModelFromRepo); 
+            _repository.UpdateMotivos(motivosModelFromRepo);
 
-            _repository.saveChanges(); 
+            _repository.saveChanges();
 
-            return NoContent(); 
+            return NoContent();
         }
 
         //Accion para eliminar un motivo Por ID
         [HttpDelete("DeleteMotivos/{id}")]
-        public ActionResult DeleteMotivos(int id){
-            
-            var motivosModelFromRepo = _repository.GetMotivosById(id); 
-            
-            if(motivosModelFromRepo == null){
-                return NotFound(); 
+        public ActionResult DeleteMotivos(int id) {
+
+            var motivosModelFromRepo = _repository.GetMotivosById(id);
+
+            if (motivosModelFromRepo == null) {
+                return NotFound();
             }
 
-            _repository.DeleteMotivos(motivosModelFromRepo); 
+            _repository.DeleteMotivos(motivosModelFromRepo);
             _repository.saveChanges();
 
-            return NoContent(); 
+            return NoContent();
         }
 
         // Acción para obtener todas los Usuarios
@@ -347,11 +347,11 @@ namespace Mantenedor.Controllers
         }
 
         // Acción para obtener un Usuario por su Id
-        [HttpGet("GetUsuariosById/{id}",Name = "GetUsuariosById")]
+        [HttpGet("GetUsuariosById/{id}", Name = "GetUsuariosById")]
         public ActionResult<MantenedorDtoUsuarios> GetUsuariosById(int id)
         {
             var usuariosItems = _repository.GetUsuariosById(id);
-            if(usuariosItems != null){
+            if (usuariosItems != null) {
                 return Ok(_mapper.Map<MantenedorDtoUsuarios>(usuariosItems));
             }
             return NotFound();
@@ -372,29 +372,33 @@ namespace Mantenedor.Controllers
 
         //Accion para aumentar stock de un inventario asociado a un articulo
         [HttpPut("AumentoDeStock/{id}")]
-        public ActionResult AumentoDeStock (int id, int stock,int idUsuario)
+        public ActionResult AumentoDeStock(int id, int stock, int idUsuario)
         {
             var articuloModel = _repository.GetArticulosById(id);
             var usuarioModel = _repository.GetUsuariosById(idUsuario);
-            var motivoModel = _repository.GetMotivosById(3);
             var bodegaModel = _repository.GetBodegaById(articuloModel.Bodega.CodigoBodega);
 
 
-            if(articuloModel == null)
+            if (articuloModel == null)
             {
                 return NotFound("El Articulo no fue encontrado");
             }
 
-            if(usuarioModel == null)
+            if (usuarioModel == null)
             {
-                return NotFound("El Usuario no fue encontrado"); 
+                return NotFound("El Usuario no fue encontrado");
             }
+
+            var motivosModel = new Motivos
+            {
+                Motivo = "Aumento de stock"
+            };
 
             var movimientosInventario = new MovimientosInventario
             {
                 Cantidad = stock,
                 FechaDeMovimiento = DateTime.Now,
-                Motivo = motivoModel,
+                Motivo = motivosModel,
                 BodegaDeOrigen = bodegaModel,
                 BodegaDestino = null,
                 Articulo = articuloModel,
@@ -407,11 +411,14 @@ namespace Mantenedor.Controllers
 
             _repository.UpdateArticulos(articuloModel);
             _repository.CreateMovimientosInventario(movimientosInventario);
+            _repository.CreateMotivos(motivosModel);
             _repository.saveChanges();
 
-            return Ok(); 
 
+
+            return Ok();
         }
+
 
         //Acción para disminuir stock de un inventario asociado a un articulo
         [HttpPut("DisminucionDeStock/{id}")]
@@ -419,7 +426,6 @@ namespace Mantenedor.Controllers
         {
             var articulosModel = _repository.GetArticulosById(id);
             var usuarioModel = _repository.GetUsuariosById(idUsuario);
-            var motivoModel = _repository.GetMotivosById(2);
             var bodegaModel = _repository.GetBodegaById(articulosModel.Bodega.CodigoBodega); 
 
             if(usuarioModel == null)
@@ -437,11 +443,16 @@ namespace Mantenedor.Controllers
                 return BadRequest("La cantidad a disminuir excede el stock actual"); 
             }
 
+            var motivosModel = new Motivos
+            {
+                Motivo = "Descuento de stock" 
+            };
+
             var movimientosInventarioModel = new MovimientosInventario
             {
                 Cantidad = stock,
                 FechaDeMovimiento = DateTime.Now,
-                Motivo = motivoModel, 
+                Motivo = motivosModel, 
                 BodegaDeOrigen = bodegaModel, 
                 BodegaDestino = null,
                 Articulo = articulosModel,
@@ -451,6 +462,7 @@ namespace Mantenedor.Controllers
             articulosModel.StockActual -= stock;
             _repository.UpdateArticulos(articulosModel);
             _repository.CreateMovimientosInventario(movimientosInventarioModel);
+            _repository.CreateMotivos(motivosModel); 
             _repository.saveChanges();
 
             return Ok(); 
