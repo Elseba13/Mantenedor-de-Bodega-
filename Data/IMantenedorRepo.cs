@@ -31,6 +31,11 @@ namespace Mantenedor.Data
         void UpdateArticulos(Articulos cmd); 
         void DeleteArticulos(Articulos cmd);
 
+        IEnumerable<Inventario> GetAllInventarios(); 
+        void CreateInventario(Inventario cmd);
+        void UpdateInventario(Inventario cmd);
+        void DeleteInventario(Inventario cmd);
+
         // Métodos para obtener todos los Motivos y un Motivo por su Id
         IEnumerable<Motivos> GetAllMotivos(); 
         Motivos GetMotivosById(int id);

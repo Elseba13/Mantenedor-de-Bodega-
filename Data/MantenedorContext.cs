@@ -20,6 +20,8 @@ public class MantenedorContext : DbContext
     // DbSet para la entidad Articulos, que representa la tabla de artículos en la base de datos
     public DbSet<Articulos> Articulos { get; set; }
 
+    public DbSet<Inventario> Inventarios { get; set; }
+
     // DbSet para la entidad Motivos, que representa la tabla de motivos en la base de datos
     public DbSet<Motivos> Motivos { get; set; }
 
@@ -44,6 +46,19 @@ public class MantenedorContext : DbContext
         // Configura la clave primaria para la entidad Articulos
         modelBuilder.Entity<Articulos>()
             .HasKey(a => a.IdArticulo);
+
+        modelBuilder.Entity<Inventario>()
+            .HasKey(i => new { i.IdArticulos, i.CodigoBodega });
+
+        modelBuilder.Entity<Inventario>()
+            .HasOne(i => i.articulos)
+            .WithMany(a => a.Bodegas)
+            .HasForeignKey(i => i.IdArticulos) ;
+
+        modelBuilder.Entity<Inventario>()
+            .HasOne(i => i.bodega)
+            .WithMany(a => a.Articulos)
+            .HasForeignKey(i => i.CodigoBodega);
 
         // Configura la clave primaria para la entidad Motivos
         modelBuilder.Entity<Motivos>()

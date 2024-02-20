@@ -37,6 +37,11 @@ namespace Mantenedor.program
                 s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
+
             // Configura AutoMapper para la asignación automática de objetos
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Controllers"
+    "\\Controllers",
+    "\\Data",
+    "\\Dtos",
+    "\\Models"
   ],
   "SelectedNode": "\\Controllers\\MantenedorController.cs",
   "PreviewInSolutionExplorer": false
