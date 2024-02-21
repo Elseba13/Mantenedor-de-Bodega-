@@ -99,6 +99,7 @@ namespace Mantenedor.Controllers
 
         }
 
+        //Accion para crear un centro de salud
         [HttpPost("CreateCentroDeSalud")]
         public ActionResult<MantenedorDtoCentroDeSalud> CreateBodega(MantenedorCreateDtoCentroDeSalud mantenedorCreateDtoCentroDeSalud)
         {
@@ -365,6 +366,8 @@ namespace Mantenedor.Controllers
             return NotFound();
         }
 
+
+        //Accion para crear un usuario 
         [HttpPost("CreateUsuarios")]
 
         public ActionResult<MantenedorDtoUsuarios> CreateUsuario(MantenedorCreateDtoUsuarios mantenedorCreateDtoUsuarios)
@@ -382,10 +385,16 @@ namespace Mantenedor.Controllers
         [HttpPut("AumentoDeStock/{id}")]
         public ActionResult AumentoDeStock(int id, int stock, int idUsuario, int IdBodega)
         {
+            // Obtener el modelo del artículo por su ID
             var articuloModel = _repository.GetArticulosById(id);
+
+            // Obtener el modelo del usuario por su ID
             var usuarioModel = _repository.GetUsuariosById(idUsuario);
+
+            // Modelo de bodega inicializado
             var bodegaModel = new Bodega();
 
+            // Iterar sobre las bodegas asociadas al artículo para encontrar la bodega deseada por su ID
             foreach (var bodega in articuloModel.Bodegas)
             {
                 if (bodega.bodega.CodigoBodega == IdBodega)
@@ -395,50 +404,59 @@ namespace Mantenedor.Controllers
                 }
             }
 
-
+            // Verificar si el artículo fue encontrado
             if (articuloModel == null)
             {
                 return NotFound("El Articulo no fue encontrado");
             }
 
+            // Verificar si el usuario fue encontrado
             if (usuarioModel == null)
             {
                 return NotFound("El Usuario no fue encontrado");
             }
 
+            // Crear un nuevo motivo para el movimiento de inventario (aumento de stock)
             var motivosModel = new Motivos
             {
                 Motivo = "Aumento de stock"
             };
 
+            // Crear un nuevo movimiento de inventario
             var movimientosInventario = new MovimientosInventario
             {
-                Cantidad = stock,
-                FechaDeMovimiento = DateTime.Now,
-                Motivo = motivosModel,
-                BodegaDeOrigen = bodegaModel,
-                BodegaDestino = null,
-                Articulo = articuloModel,
-                Usuario = usuarioModel
-
+                Cantidad = stock, // Establecer la cantidad de aumento de stock
+                FechaDeMovimiento = DateTime.Now, // Establecer la fecha del movimiento
+                Motivo = motivosModel, // Asignar el motivo al movimiento
+                BodegaDeOrigen = bodegaModel, // Asignar la bodega de origen al movimiento
+                BodegaDestino = null, // No hay bodega de destino en un aumento de stock
+                Articulo = articuloModel, // Asignar el artículo al movimiento
+                Usuario = usuarioModel // Asignar el usuario al movimiento
             };
 
+            // Actualizar el stock actual de la bodega correspondiente al aumento de stock
             foreach (var bodega in articuloModel.Bodegas)
             {
                 if (bodega.bodega.CodigoBodega == IdBodega)
                 {
-                    bodega.StockActual += stock;
+                    bodega.StockActual += stock; // Aumentar el stock actual
                     break;
                 }
             }
 
+            // Actualizar el artículo en el repositorio
             _repository.UpdateArticulos(articuloModel);
+
+            // Crear el nuevo movimiento de inventario en el repositorio
             _repository.CreateMovimientosInventario(movimientosInventario);
+
+            // Crear el motivo del movimiento en el repositorio
             _repository.CreateMotivos(motivosModel);
-            _repository.saveChanges();
 
+            // Guardar los cambios en el repositorio
+            _repository.saveChanges(); 
 
-
+            // Retornar una respuesta exitosa
             return Ok();
         }
 
@@ -447,10 +465,16 @@ namespace Mantenedor.Controllers
         [HttpPut("DisminucionDeStock/{id}")]
         public ActionResult DisminucionDeStock(int id, int stock, int idUsuario, int IdBodega)
         {
+            // Obtener el modelo del artículo por su ID
             var articulosModel = _repository.GetArticulosById(id);
+
+            // Obtener el modelo del usuario por su ID
             var usuarioModel = _repository.GetUsuariosById(idUsuario);
+
+            // Modelo de bodega inicializado
             var bodegaModel = new Bodega();
 
+            // Iterar sobre las bodegas asociadas al artículo para encontrar la bodega deseada por su ID
             foreach (var bodega in articulosModel.Bodegas)
             {
                 if (bodega.bodega.CodigoBodega == IdBodega)
@@ -460,49 +484,62 @@ namespace Mantenedor.Controllers
                 }
             }
 
+            // Verificar si el usuario fue encontrado
             if (usuarioModel == null)
             {
                 return NotFound("El usuario ingresado no existe");
             }
 
+            // Verificar si el artículo fue encontrado
             if (articulosModel == null)
             {
                 return NotFound("El articulo ingresado no existe");
             }
 
+            // Crear un nuevo motivo para el movimiento de inventario (descuento de stock)
             var motivosModel = new Motivos
             {
                 Motivo = "Descuento de stock"
             };
 
+            // Crear un nuevo movimiento de inventario
             var movimientosInventarioModel = new MovimientosInventario
             {
-                Cantidad = stock,
-                FechaDeMovimiento = DateTime.Now,
-                Motivo = motivosModel,
-                BodegaDeOrigen = bodegaModel,
-                BodegaDestino = null,
-                Articulo = articulosModel,
-                Usuario = usuarioModel
+                Cantidad = stock, // Establecer la cantidad de descuento de stock
+                FechaDeMovimiento = DateTime.Now, // Establecer la fecha del movimiento
+                Motivo = motivosModel, // Asignar el motivo al movimiento
+                BodegaDeOrigen = bodegaModel, // Asignar la bodega de origen al movimiento
+                BodegaDestino = null, // No hay bodega de destino en un descuento de stock
+                Articulo = articulosModel, // Asignar el artículo al movimiento
+                Usuario = usuarioModel // Asignar el usuario al movimiento
             };
 
+            // Actualizar el stock actual de la bodega correspondiente al descuento de stock
             foreach (var bodegas in articulosModel.Bodegas)
             {
                 if (bodegas.bodega.CodigoBodega == IdBodega)
                 {
-                    bodegas.StockActual -= stock;
+                    bodegas.StockActual -= stock; // Disminuir el stock actual
                     break;
                 }
             }
 
+            // Actualizar el artículo en el repositorio
             _repository.UpdateArticulos(articulosModel);
+
+            // Crear el nuevo movimiento de inventario en el repositorio
             _repository.CreateMovimientosInventario(movimientosInventarioModel);
+
+            // Crear el motivo del movimiento en el repositorio
             _repository.CreateMotivos(motivosModel);
+
+            // Guardar los cambios en el repositorio
             _repository.saveChanges();
 
+            // Retornar una respuesta exitosa
             return Ok();
-
         }
+
 
         // Acción para obtener todas los Movimientos de Inventario
         [HttpGet("GetAllMovimientosInventario")]
@@ -632,68 +669,104 @@ namespace Mantenedor.Controllers
             return Ok();
         }
 
-
+        //Acción para hacer el ajuste de inventario
         [HttpPut("AjusteDeInventario")]
         public ActionResult AjusteDeInventario(int idArticulo, int idBodega, int stockReal, int idUsuario)
         {
-            var usuarioModel = _repository.GetUsuariosById(idUsuario); 
+            // Obtener el modelo del usuario por su ID
+            var usuarioModel = _repository.GetUsuariosById(idUsuario);
+
+            // Obtener el modelo del artículo por su ID
             var articuloModel = _repository.GetArticulosById(idArticulo);
-            var bodegaModel = _repository.GetBodegaById(idBodega); 
+
+            // Obtener el modelo de la bodega por su ID
+            var bodegaModel = _repository.GetBodegaById(idBodega);
+
+            // Obtener el modelo de inventario asociado al artículo y la bodega
             var inventarioModel = _context.Inventarios.FirstOrDefault(i => i.IdArticulos == idArticulo && i.CodigoBodega == idBodega);
 
+            // Verificar si el modelo de inventario fue encontrado
             if (inventarioModel == null)
             {
                 return NotFound();
             }
 
+            // Crear un nuevo motivo para el ajuste de inventario
             var motivosModel = new Motivos
             {
                 Motivo = "Ajuste de inventario"
             };
 
+            // Calcular la cantidad de ajuste de inventario
+            var ajusteCantidad = inventarioModel.StockActual - stockReal;
+
+            // Crear un nuevo movimiento de inventario para el ajuste
             var movimientoModel = new MovimientosInventario
             {
-                Cantidad = inventarioModel.StockActual - stockReal,
-                FechaDeMovimiento = DateTime.Now,
-                BodegaDeOrigen = _repository.GetBodegaById(idBodega),
-                Motivo = motivosModel,
-                BodegaDestino = null,
-                Articulo = _repository.GetArticulosById(idArticulo),
-                Usuario = usuarioModel
+                Cantidad = ajusteCantidad, // Establecer la cantidad de ajuste
+                FechaDeMovimiento = DateTime.Now, // Establecer la fecha del movimiento
+                BodegaDeOrigen = _repository.GetBodegaById(idBodega), // Establecer la bodega de origen del movimiento
+                Motivo = motivosModel, // Asignar el motivo al movimiento
+                BodegaDestino = null, // No hay bodega de destino en un ajuste de inventario
+                Articulo = _repository.GetArticulosById(idArticulo), // Asignar el artículo al movimiento
+                Usuario = usuarioModel // Asignar el usuario al movimiento
             };
 
-        
+            // Actualizar el stock actual en el inventario con el valor real proporcionado
             inventarioModel.StockActual = stockReal;
+
+            // Crear el motivo del ajuste de inventario en el repositorio
             _repository.CreateMotivos(motivosModel);
+
+            // Crear el movimiento de inventario del ajuste en el repositorio
             _repository.CreateMovimientosInventario(movimientoModel);
+
+            // Actualizar el inventario en el repositorio con el nuevo stock actualizado
             _repository.UpdateInventario(inventarioModel);
+
+            // Guardar los cambios en el repositorio
             _repository.saveChanges();
 
+            // Retornar una respuesta exitosa
             return Ok();
         }
 
-        [HttpPost("TrasladoDeArticulos")] 
-        public ActionResult TrasladoDeArticulos(int idArticulos,int BodegaOrigen,int BodegaDestino, int idUsuario,int cantidad)
+        //Accion de traslado de articulos
+        [HttpPost("TrasladoDeArticulos")]
+        public ActionResult TrasladoDeArticulos(int idArticulos, int BodegaOrigen, int BodegaDestino, int idUsuario, int cantidad)
         {
+            // Obtener el modelo del artículo por su ID
             var articuloModel = _repository.GetArticulosById(idArticulos);
+
+            // Obtener el modelo de la bodega de origen por su ID
             var bodegaOrigenModel = _repository.GetBodegaById(BodegaOrigen);
+
+            // Obtener el modelo de la bodega de destino por su ID
             var bodegaDestinoModel = _repository.GetBodegaById(BodegaDestino);
+
+            // Obtener el modelo del usuario por su ID
             var usuarioModel = _repository.GetUsuariosById(idUsuario);
 
-            if(articuloModel == null ||  bodegaOrigenModel == null || bodegaDestinoModel == null || usuarioModel == null)
+            // Verificar si alguno de los modelos no fue encontrado
+            if (articuloModel == null || bodegaOrigenModel == null || bodegaDestinoModel == null || usuarioModel == null)
             {
-                return NotFound(); 
+                return NotFound(); // Si algún modelo no fue encontrado, retorna un error NotFound
             }
 
+            // Buscar el inventario en la bodega de origen asociado al artículo
             var inventarioOrigen = _context.Inventarios.FirstOrDefault(i => i.IdArticulos == idArticulos && i.CodigoBodega == BodegaOrigen);
-            if(inventarioOrigen == null || inventarioOrigen.StockActual < cantidad)
+
+            // Verificar si el inventario en la bodega de origen fue encontrado o si la cantidad solicitada excede el stock disponible
+            if (inventarioOrigen == null || inventarioOrigen.StockActual < cantidad)
             {
-                return BadRequest();
+                return BadRequest(); // Si el inventario no fue encontrado o la cantidad excede el stock, retorna un error BadRequest
             }
 
-            var inventarioDestino = _context.Inventarios.FirstOrDefault(i => i.IdArticulos == idArticulos && i.CodigoBodega == BodegaDestino); 
+            // Buscar el inventario en la bodega de destino asociado al artículo
+            var inventarioDestino = _context.Inventarios.FirstOrDefault(i => i.IdArticulos == idArticulos && i.CodigoBodega == BodegaDestino);
 
-            if(inventarioDestino == null)
+            // Si el inventario en la bodega de destino no existe, crear uno nuevo
+            if (inventarioDestino == null)
             {
                 inventarioDestino = new Inventario
                 {
@@ -706,19 +779,23 @@ namespace Mantenedor.Controllers
                 };
             }
 
-            inventarioOrigen.StockActual -= cantidad; 
-            inventarioDestino.StockActual += cantidad; 
+            // Actualizar el stock en el inventario de la bodega de origen y destino
+            inventarioOrigen.StockActual -= cantidad;
+            inventarioDestino.StockActual += cantidad;
 
-            if(inventarioDestino.StockInicial == 0)
+            // Si el stock inicial en el inventario de destino es 0, actualizarlo con la cantidad transferida
+            if (inventarioDestino.StockInicial == 0)
             {
-                inventarioDestino.StockInicial += cantidad; 
+                inventarioDestino.StockInicial += cantidad;
             }
 
+            // Crear un nuevo motivo para el movimiento de inventario (traspaso de artículos)
             var motivosModel = new Motivos
             {
                 Motivo = "Traspaso de articulos",
             };
 
+            // Crear un nuevo movimiento de inventario para el traspaso
             var MovimientoModel = new MovimientosInventario
             {
                 Cantidad = cantidad,
@@ -728,22 +805,29 @@ namespace Mantenedor.Controllers
                 Motivo = motivosModel,
                 Articulo = articuloModel,
                 Usuario = usuarioModel
-
             };
- 
 
+            // Crear el movimiento de inventario del traspaso en el repositorio
             _repository.CreateMovimientosInventario(MovimientoModel);
+
+            // Crear el motivo del movimiento en el repositorio
             _repository.CreateMotivos(motivosModel);
+
+            // Crear el inventario de destino en el repositorio si no existe
             _repository.CreateInventario(inventarioDestino);
+
+            // Actualizar el inventario de origen en el repositorio
             _repository.UpdateInventario(inventarioOrigen);
-            _repository.UpdateInventario(inventarioOrigen);
+
+            // Guardar los cambios en el repositorio
             _repository.saveChanges();
 
+            // Retornar una respuesta exitosa
             return Ok();
-
         }
-       
-        
+
+
+
     }
 
 

@@ -6,88 +6,127 @@ namespace models
     // Clase que representa una Bodega
     public class Bodega
     {
+        // Identificador único de la Bodega
+        public int CodigoBodega { get; set; }
 
-        public int CodigoBodega { get; set; } // Identificador único de la Bodega
-        public string Descripcion { get; set; } // Descripción de la Bodega
+        // Descripción de la Bodega
+        public string Descripcion { get; set; }
 
+        // Relación con el Centro de Salud al que pertenece esta Bodega
         public CentroDeSalud CentroDeSaluds { get; set; }
-        public ICollection<Inventario> Articulos { get; set; } = new List<Inventario>();
 
+        // Colección de artículos en esta Bodega
+        public ICollection<Inventario> Articulos { get; set; } = new List<Inventario>();
     }
 
     // Clase que representa un Centro de Salud
     public class CentroDeSalud
     {
+        // Identificador único del Centro de Salud
+        public int CodigoCentroSalud { get; set; }
 
-        public int CodigoCentroSalud { get; set; } // Identificador único del Centro de Salud
-        public string Nombre { get; set; } // Nombre del Centro de Salud
-        public string Ciudad { get; set; } // Ciudad del Centro de Salud
-        public string Region { get; set; } // Región del Centro de Salud
-        public string Sucursal { get; set; } // Sucursal del Centro de Salud 
+        // Nombre del Centro de Salud
+        public string Nombre { get; set; }
 
-        public ICollection<Bodega> bodegas { get; set; } = new List<Bodega>(); 
+        // Ciudad del Centro de Salud
+        public string Ciudad { get; set; }
 
+        // Región del Centro de Salud
+        public string Region { get; set; }
 
+        // Sucursal del Centro de Salud
+        public string Sucursal { get; set; }
+
+        // Colección de Bodegas asociadas a este Centro de Salud
+        public ICollection<Bodega> bodegas { get; set; } = new List<Bodega>();
     }
 
     // Clase que representa un Artículo
     public class Articulos
     {
+        // Identificador único del Artículo
+        public int IdArticulo { get; set; }
 
-        public int IdArticulo { get; set; } // Identificador único del Artículo
-        public string NombreArticulo { get; set; } // Nombre del Artículo
-        public string ClasificacioArticulo { get; set; } // Clasificación del Artículo
+        // Nombre del Artículo
+        public string NombreArticulo { get; set; }
 
-        public ICollection<Inventario> Bodegas { get; set; } = new List<Inventario>(); 
+        // Clasificación del Artículo
+        public string ClasificacioArticulo { get; set; }
+
+        // Colección de inventarios donde se encuentra este Artículo
+        public ICollection<Inventario> Bodegas { get; set; } = new List<Inventario>();
     }
 
+    // Clase que representa un Inventario (relación entre Artículo y Bodega)
     public class Inventario
     {
+        // Identificador del Artículo en el Inventario
         public int IdArticulos { get; set; }
         public Articulos articulos { get; set; }
 
+        // Identificador de la Bodega en el Inventario
         public int CodigoBodega { get; set; }
-        public Bodega bodega { get; set; } 
+        public Bodega bodega { get; set; }
 
+        // Stock inicial y actual del Artículo en la Bodega
         public int StockInicial { get; set; }
         public int StockActual { get; set; }
-        
     }
 
     // Clase que representa un Motivo
     public class Motivos
     {
+        // Identificador único del Motivo
+        public int IdMotivo { get; set; }
 
-        public int IdMotivo { get; set; } // Identificador único del Motivo
-        public string Motivo { get; set; } // Descripción del Motivo
+        // Descripción del Motivo
+        public string Motivo { get; set; }
 
+        // Colección de movimientos de inventario asociados a este Motivo
         public ICollection<MovimientosInventario> MovimientosInventarios { get; set; } = new List<MovimientosInventario>();
-
     }
 
     // Clase que representa un Usuario
     public class Usuarios
     {
+        // Identificador único del Usuario
+        public int IdUsuario { get; set; }
 
-        public int IdUsuario { get; set; } // Identificador único del Usuario
-        public string rol { get; set; } // Rol del Usuario
-        public string NombreUsuario { get; set; } // Nombre del Usuario
+        // Rol del Usuario
+        public string rol { get; set; }
 
+        // Nombre del Usuario
+        public string NombreUsuario { get; set; }
+
+        // Colección de movimientos de inventario realizados por este Usuario
         public ICollection<MovimientosInventario> MovimientosInventarios { get; set; } = new List<MovimientosInventario>();
     }
 
     // Clase que representa un Movimiento de Inventario
     public class MovimientosInventario
     {
+        // Identificador único del Movimiento de Inventario
+        public int IdMovimiento { get; set; }
 
-        public int IdMovimiento { get; set; } // Identificador único del Movimiento de Inventario
-        public int Cantidad { get; set; } // Cantidad del movimiento
-        public DateTime? FechaDeMovimiento { get; set; } // Fecha del movimiento
+        // Cantidad del movimiento
+        public int Cantidad { get; set; }
+
+        // Fecha del movimiento
+        public DateTime? FechaDeMovimiento { get; set; }
+
+        // Bodega de origen del movimiento
         public Bodega BodegaDeOrigen { get; set; }
-        public Motivos? Motivo { get; set; }
-        public Bodega? BodegaDestino { get; set; }
-        public Articulos Articulo { get; set; }
-        public Usuarios Usuario { get; set; }
 
+        // Motivo del movimiento (puede ser nulo)
+        public Motivos? Motivo { get; set; }
+
+        // Bodega de destino del movimiento (puede ser nulo)
+        public Bodega? BodegaDestino { get; set; }
+
+        // Artículo involucrado en el movimiento
+        public Articulos Articulo { get; set; }
+
+        // Usuario que realizó el movimiento
+        public Usuarios Usuario { get; set; }
     }
 }
