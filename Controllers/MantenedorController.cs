@@ -559,7 +559,6 @@ namespace Mantenedor.Controllers
 
         }
 
-
         //Accion para actualizar parcialmente los movimientos de inventario por ID 
         [HttpPatch("PartialMovimientosInventarioUpdate/{id}")]
         public ActionResult PartialMovimientosInventarioUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoMovimientosInventario> jsonPatchDocument)
@@ -633,8 +632,8 @@ namespace Mantenedor.Controllers
             return Ok();
         }
 
-        [HttpPut("AjusteDeInventario")]
 
+        [HttpPut("AjusteDeInventario")]
         public ActionResult AjusteDeInventario(int idArticulo, int idBodega, int stockReal, int idUsuario)
         {
             var usuarioModel = _repository.GetUsuariosById(idUsuario); 
@@ -654,7 +653,7 @@ namespace Mantenedor.Controllers
 
             var movimientoModel = new MovimientosInventario
             {
-                Cantidad = stockReal,
+                Cantidad = inventarioModel.StockActual - stockReal,
                 FechaDeMovimiento = DateTime.Now,
                 BodegaDeOrigen = _repository.GetBodegaById(idBodega),
                 Motivo = motivosModel,
@@ -663,8 +662,7 @@ namespace Mantenedor.Controllers
                 Usuario = usuarioModel
             };
 
-            inventarioModel.movimientosInventarios.Add(movimientoModel);
-
+        
             inventarioModel.StockActual = stockReal;
             _repository.CreateMotivos(motivosModel);
             _repository.CreateMovimientosInventario(movimientoModel);
@@ -732,8 +730,7 @@ namespace Mantenedor.Controllers
                 Usuario = usuarioModel
 
             };
-
-            inventarioDestino.movimientosInventarios.Add(MovimientoModel); 
+ 
 
             _repository.CreateMovimientosInventario(MovimientoModel);
             _repository.CreateMotivos(motivosModel);

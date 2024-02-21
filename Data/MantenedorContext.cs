@@ -47,14 +47,17 @@ public class MantenedorContext : DbContext
         modelBuilder.Entity<Articulos>()
             .HasKey(a => a.IdArticulo);
 
+        //Configura la clave primaria compuesta de la entidad Inventario
         modelBuilder.Entity<Inventario>()
             .HasKey(i => new { i.IdArticulos, i.CodigoBodega });
 
+        //Configura la clave foranea de articulos en la entidad de Inventario
         modelBuilder.Entity<Inventario>()
             .HasOne(i => i.articulos)
             .WithMany(a => a.Bodegas)
             .HasForeignKey(i => i.IdArticulos) ;
 
+        //Configura la clave foranea de bodegas en la entidad de Inventario
         modelBuilder.Entity<Inventario>()
             .HasOne(i => i.bodega)
             .WithMany(a => a.Articulos)

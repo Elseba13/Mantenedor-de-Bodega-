@@ -11,8 +11,7 @@ namespace Mantenedor.Dtos
         public int CodigoBodega { get; set; } // Identificador único de la Bodega
         public string Descripcion { get; set; } // Descripción de la Bodega
 
-        public CentroDeSalud CentroDeSaluds { get; set; }
-        public ICollection<MantenedorUpdateDtoInventario> Articulos { get; set; } = new List<MantenedorUpdateDtoInventario>();
+        
     }
 
     // Clase que representa un Centro de Salud
@@ -25,7 +24,7 @@ namespace Mantenedor.Dtos
         public string Region { get; set; } // Región del Centro de Salud
         public string Sucursal { get; set; } // Sucursal del Centro de Salud
 
-        public ICollection<MantenedorUpdateDtoBodega> Bodegas { get; set; } = new List<MantenedorUpdateDtoBodega>(); 
+         
 
 
     }
@@ -38,7 +37,7 @@ namespace Mantenedor.Dtos
         public string NombreArticulo { get; set; } // Nombre del Artículo
         public string ClasificacioArticulo { get; set; } // Clasificación del Artículo
        
-        public ICollection<MantenedorUpdateDtoInventario> Bodegas { get; set; } = new List<MantenedorUpdateDtoInventario>();
+        
     }
 
     public class MantenedorUpdateDtoInventario
@@ -52,8 +51,6 @@ namespace Mantenedor.Dtos
 
         public int StockInicial { get; set; }
         public int StockActual { get; set; }
-
-        public ICollection<MantenedorUpdateDtoInventario> Movimientos { get; set; } = new List<MantenedorUpdateDtoInventario>(); 
     }
 
 
@@ -64,7 +61,6 @@ namespace Mantenedor.Dtos
         public int IdMotivo { get; set; } // Identificador único del Motivo
         public string Motivo { get; set; } // Descripción del Motivo
 
-        public ICollection<MantenedorUpdateDtoInventario> Movimientos { get; set; } = new List<MantenedorUpdateDtoInventario>(); 
     }
 
     // Clase que representa un Usuario
@@ -75,7 +71,7 @@ namespace Mantenedor.Dtos
         public string rol { get; set; } // Rol del Usuario
         public string NombreUsuario { get; set; } // Nombre del Usuario
 
-        public ICollection<MantenedorUpdateDtoInventario> Movimiento { get; set; } = new List<MantenedorUpdateDtoInventario>(); 
+         
     }
 
     // Clase que representa un Movimiento de Inventario

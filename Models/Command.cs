@@ -52,7 +52,6 @@ namespace models
         public int StockInicial { get; set; }
         public int StockActual { get; set; }
         
-        public ICollection<MovimientosInventario> movimientosInventarios { get; set; } = new List<MovimientosInventario>();
     }
 
     // Clase que representa un Motivo
