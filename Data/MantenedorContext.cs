@@ -29,7 +29,9 @@ public class MantenedorContext : DbContext
     public DbSet<Usuarios> Usuarios { get; set; }
 
     // DbSet para la entidad MovimientosInventario, que representa la tabla de movimientos de inventario en la base de datos
-    public DbSet<MovimientosInventario> MovimientosInventarios { get; set; }
+    public DbSet<MovimientosInventario> MovimientosInventarios { get; set; } 
+
+    public DbSet<SolicitudDePedido> SolicitudDePedidos { get; set; }    
 
 
     // Override del método OnModelCreating para configurar las claves primarias compuestas
@@ -74,5 +76,8 @@ public class MantenedorContext : DbContext
         // Configura la clave primaria para la entidad MovimientosInventario
         modelBuilder.Entity<MovimientosInventario>()
             .HasKey(m => m.IdMovimiento);
+
+        modelBuilder.Entity<SolicitudDePedido>()
+            .HasKey(s => s.IdPedido); 
     }
 }

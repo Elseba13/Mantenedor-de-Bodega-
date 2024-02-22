@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Mantenedor_de_bodega.Migrations
 {
     [DbContext(typeof(MantenedorContext))]
-    partial class MantenedorContextModelSnapshot : ModelSnapshot
+    [Migration("20240222121041_migracion37")]
+    partial class migracion37
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,6 +107,9 @@ namespace Mantenedor_de_bodega.Migrations
                     b.Property<int>("StockActual")
                         .HasColumnType("int");
 
+                    b.Property<int>("StockInicial")
+                        .HasColumnType("int");
+
                     b.HasKey("IdArticulos", "CodigoBodega");
 
                     b.HasIndex("CodigoBodega");
@@ -182,39 +188,6 @@ namespace Mantenedor_de_bodega.Migrations
                     b.HasIndex("UsuarioIdUsuario");
 
                     b.ToTable("MovimientosInventarios");
-                });
-
-            modelBuilder.Entity("models.SolicitudDePedido", b =>
-                {
-                    b.Property<int>("IdPedido")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdPedido"));
-
-                    b.Property<int>("ArticuloIdArticulo")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Cantidad")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("FechaDePedido")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TipoDeSolicitud")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UsuarioIdUsuario")
-                        .HasColumnType("int");
-
-                    b.HasKey("IdPedido");
-
-                    b.HasIndex("ArticuloIdArticulo");
-
-                    b.HasIndex("UsuarioIdUsuario");
-
-                    b.ToTable("SolicitudDePedidos");
                 });
 
             modelBuilder.Entity("models.Usuarios", b =>
@@ -307,30 +280,9 @@ namespace Mantenedor_de_bodega.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("models.SolicitudDePedido", b =>
-                {
-                    b.HasOne("models.Articulos", "Articulo")
-                        .WithMany("solicitudDePedidos")
-                        .HasForeignKey("ArticuloIdArticulo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("models.Usuarios", "Usuario")
-                        .WithMany("solicitudDePedidos")
-                        .HasForeignKey("UsuarioIdUsuario")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Articulo");
-
-                    b.Navigation("Usuario");
-                });
-
             modelBuilder.Entity("models.Articulos", b =>
                 {
                     b.Navigation("Bodegas");
-
-                    b.Navigation("solicitudDePedidos");
                 });
 
             modelBuilder.Entity("models.Bodega", b =>
@@ -351,8 +303,6 @@ namespace Mantenedor_de_bodega.Migrations
             modelBuilder.Entity("models.Usuarios", b =>
                 {
                     b.Navigation("MovimientosInventarios");
-
-                    b.Navigation("solicitudDePedidos");
                 });
 #pragma warning restore 612, 618
         }

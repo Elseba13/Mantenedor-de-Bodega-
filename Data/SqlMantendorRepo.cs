@@ -85,6 +85,16 @@ namespace Mantenedor.Data
             _context.Usuarios.Add(cmd);
         }
 
+        public void CreateSolicitudDePedido(SolicitudDePedido cmd)
+        {
+            if(cmd == null)
+            {
+                throw new ArgumentNullException (nameof(cmd));
+            }
+
+            _context.SolicitudDePedidos.Add(cmd);
+        }
+
         public void DeleteArticulos(Articulos cmd)
         {
             if (cmd == null)
@@ -151,7 +161,17 @@ namespace Mantenedor.Data
             {
                 throw new ArgumentNullException(nameof(cmd));
             }
-            _context.Usuarios.Remove(cmd);
+            _context.Usuarios.Remove(cmd); 
+        }
+
+        public void DeleteSolicitudDePedido(SolicitudDePedido cmd)
+        {
+            if(cmd == null)
+            {
+                throw new ArgumentNullException(nameof(cmd));
+            }
+
+            _context.SolicitudDePedidos.Remove(cmd);
         }
 
         // Métodos de obtención de todas las entidades
@@ -191,6 +211,11 @@ namespace Mantenedor.Data
             return _context.Usuarios.ToList();
         }
 
+        public IEnumerable<SolicitudDePedido> GetAllSolicitudDePedidos()
+        {
+            return _context.SolicitudDePedidos.ToList(); 
+        }
+
         // Métodos de obtención de una entidad por su Id
 
         public Articulos GetArticulosById(int id)
@@ -221,6 +246,11 @@ namespace Mantenedor.Data
         public Usuarios GetUsuariosById(int id)
         {
             return _context.Usuarios.FirstOrDefault(u => u.IdUsuario == id);
+        }
+
+        public SolicitudDePedido GetSolicituDePedidoById(int id)
+        {
+            return _context.SolicitudDePedidos.FirstOrDefault(s => s.IdPedido == id); 
         }
 
         // Método para guardar cambios en la base de datos
@@ -268,6 +298,11 @@ namespace Mantenedor.Data
         }
 
         public void UpdateUsuarios(Usuarios cmd)
+        {
+
+        }
+
+        public void UpdateSolicitudDePedido(SolicitudDePedido cmd)
         {
 
         }

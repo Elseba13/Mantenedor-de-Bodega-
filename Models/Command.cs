@@ -54,7 +54,8 @@ namespace models
         public string ClasificacioArticulo { get; set; }
 
         // Colección de inventarios donde se encuentra este Artículo
-        public ICollection<Inventario> Bodegas { get; set; } = new List<Inventario>();
+        public ICollection<Inventario> Bodegas { get; set; } = new List<Inventario>(); 
+        public ICollection<SolicitudDePedido> solicitudDePedidos { get; set; } = new List<SolicitudDePedido>();
     }
 
     // Clase que representa un Inventario (relación entre Artículo y Bodega)
@@ -68,8 +69,7 @@ namespace models
         public int CodigoBodega { get; set; }
         public Bodega bodega { get; set; }
 
-        // Stock inicial y actual del Artículo en la Bodega
-        public int StockInicial { get; set; }
+        //Actual del Artículo en la Bodega
         public int StockActual { get; set; }
     }
 
@@ -100,6 +100,7 @@ namespace models
 
         // Colección de movimientos de inventario realizados por este Usuario
         public ICollection<MovimientosInventario> MovimientosInventarios { get; set; } = new List<MovimientosInventario>();
+        public ICollection<SolicitudDePedido> solicitudDePedidos { get; set; } = new List<SolicitudDePedido>(); 
     }
 
     // Clase que representa un Movimiento de Inventario
@@ -128,5 +129,28 @@ namespace models
 
         // Usuario que realizó el movimiento
         public Usuarios Usuario { get; set; }
+
+        public int StockInicialBodegaOrigen { get; set; }
+
+        public int StockFinalBodegaOrigen { get; set; }
+
+        public int StockInicialBodegaDestino { get; set; }
+
+        public int StockFinalBodegaDestino { get; set; }
+    }
+
+    public class SolicitudDePedido
+    {
+        public int IdPedido { get; set; } 
+
+        public DateTime FechaDePedido { get; set; }  
+
+        public string TipoDeSolicitud { get; set; }
+
+        public Usuarios Usuario { get; set; }
+
+        public int Cantidad { get; set; }
+
+        public Articulos Articulo { get; set; }
     }
 }

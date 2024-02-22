@@ -49,7 +49,6 @@ namespace Mantenedor.Dtos
         public int CodigoBodega { get; set; }
         public MantenedorUpdateDtoBodega Bodega { get; set; } 
 
-        public int StockInicial { get; set; }
         public int StockActual { get; set; }
     }
 

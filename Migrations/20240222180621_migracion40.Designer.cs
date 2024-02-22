@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Mantenedor_de_bodega.Migrations
 {
     [DbContext(typeof(MantenedorContext))]
-    partial class MantenedorContextModelSnapshot : ModelSnapshot
+    [Migration("20240222180621_migracion40")]
+    partial class migracion40
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -201,10 +204,6 @@ namespace Mantenedor_de_bodega.Migrations
                     b.Property<DateTime>("FechaDePedido")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TipoDeSolicitud")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("UsuarioIdUsuario")
                         .HasColumnType("int");
 
@@ -214,7 +213,7 @@ namespace Mantenedor_de_bodega.Migrations
 
                     b.HasIndex("UsuarioIdUsuario");
 
-                    b.ToTable("SolicitudDePedidos");
+                    b.ToTable("SolicitudDePedido");
                 });
 
             modelBuilder.Entity("models.Usuarios", b =>

@@ -55,6 +55,12 @@ namespace Mantenedor.Data
         MovimientosInventario GetMovimientosInventarioById(int id);
         void CreateMovimientosInventario(MovimientosInventario cmd);
         void UpadateMovimientosInventario(MovimientosInventario cmd); 
-        void DeleteMovimientoInventario(MovimientosInventario cmd); 
+        void DeleteMovimientoInventario(MovimientosInventario cmd);
+
+        IEnumerable<SolicitudDePedido> GetAllSolicitudDePedidos();
+        SolicitudDePedido GetSolicituDePedidoById(int id);
+        void CreateSolicitudDePedido(SolicitudDePedido cmd);
+        void UpdateSolicitudDePedido(SolicitudDePedido cmd); 
+        void DeleteSolicitudDePedido(SolicitudDePedido cmd);
     }
 } 
