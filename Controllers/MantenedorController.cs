@@ -934,8 +934,7 @@ namespace Mantenedor.Controllers
                 Usuario = usuarioModel,
                 FechaDePedido = DateTime.Now,
                 Articulo = articuloModel,
-                Cantidad = Cantidad,
-                TipoDeSolicitud = TipoDeSolicitud
+                Cantidad = Cantidad
             };  
 
             _repository.CreateSolicitudDePedido(solicitudModel);

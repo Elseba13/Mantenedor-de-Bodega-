@@ -145,8 +145,6 @@ namespace models
 
         public DateTime FechaDePedido { get; set; }  
 
-        public string TipoDeSolicitud { get; set; }
-
         public Usuarios Usuario { get; set; }
 
         public int Cantidad { get; set; }
