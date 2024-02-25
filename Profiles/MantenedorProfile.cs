@@ -16,10 +16,10 @@ namespace Mantenedor.Profiles
             CreateMap<MantenedorCreateDtoCentroDeSalud,CentroDeSalud>();
             CreateMap<MantenedorUpdateDtoCentroDeSalud,CentroDeSalud>();
             CreateMap<CentroDeSalud,MantenedorUpdateDtoCentroDeSalud>(); 
-            CreateMap<Articulos, MantenedorDtoArticulos>(); // Configuración de mapeo para Articulos a MantenedorDtoArticulos
-            CreateMap<MantenedorCreateDtoArticulos,Articulos>();
-            CreateMap<MantenedorUpdateDtoArticulos,Articulos>(); 
-            CreateMap<Articulos,MantenedorUpdateDtoArticulos>(); 
+            CreateMap<ArancelCentro, MantenedorDtoArancelCentro>(); // Configuración de mapeo para Articulos a MantenedorDtoArticulos
+            CreateMap<MantenedorCreateDtoArancelCentro,ArancelCentro>();
+            CreateMap<MantenedorUpdateDtoArancelCentro,ArancelCentro>(); 
+            CreateMap<ArancelCentro,MantenedorUpdateDtoArancelCentro>(); 
             CreateMap<Motivos, MantenedorDtoMotivos>(); // Configuración de mapeo para Motivos a MantenedorDtoMotivos
             CreateMap<MantenedorCreateDtoMotivos,Motivos>();
             CreateMap<MantenedorUpdateDtoMotivos,Motivos>(); 

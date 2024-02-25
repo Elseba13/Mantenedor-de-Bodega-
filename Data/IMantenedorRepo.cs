@@ -24,12 +24,13 @@ namespace Mantenedor.Data
         void UpdateCentroDeSalud(CentroDeSalud cmd);
         void DeleteCentroDeSalud(CentroDeSalud cmd); 
 
-        // Métodos para obtener todos los Artículos y un Artículo por su Id
-        IEnumerable<Articulos> GetAllArticulos(); 
-        Articulos GetArticulosById(int id);
-        void CreateArticulos(Articulos cmd); 
-        void UpdateArticulos(Articulos cmd); 
-        void DeleteArticulos(Articulos cmd);
+
+        IEnumerable<ArancelCentro> GetAllArancelCentro(); 
+        ArancelCentro GetArancelCentroById(int id); 
+        void CreateArancelCentro(ArancelCentro cmd);
+        void UpdateArancelCentro(ArancelCentro cmd);
+        void DeleteArancelCentro(ArancelCentro cmd); 
+
 
         IEnumerable<Inventario> GetAllInventarios(); 
         void CreateInventario(Inventario cmd);

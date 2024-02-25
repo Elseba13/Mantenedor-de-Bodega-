@@ -26,22 +26,24 @@ namespace Mantenedor.Dtos
     }
 
     // Clase que representa un Artículo
-    public class MantenedorCreateDtoArticulos
+    public class MantenedorCreateDtoArancelCentro
     {
 
         public int IdArticulo { get; set; } // Identificador único del Artículo
-        public string NombreArticulo { get; set; } // Nombre del Artículo
-        public string ClasificacioArticulo { get; set; } // Clasificación del Artículo
+        public string Descripcion { get; set; } 
+        public bool EstaActivo { get; set; } 
+        public string NombreFantasia { get; set; }
+
         
     }
 
     public class MantenedorCreateDtoInventario
     {
-        public int IdArticulos { get; set; }    
-        public MantenedorCreateDtoArticulos Articulos { get; set; }
+        public int IdArancel { get; set; }    
+        
 
         public int CodigoBodega {  get; set; }
-        public MantenedorCreateDtoBodega Bodega { get; set; }
+        
 
         public int StockActual { get; set; } 
 
@@ -76,11 +78,7 @@ namespace Mantenedor.Dtos
         public int IdMovimiento { get; set; } // Identificador único del Movimiento de Inventario
         public int Cantidad { get; set; } // Cantidad del movimiento
         public DateTime? FechaDeMovimiento { get; set; } // Fecha del movimiento
-        public Bodega BodegaDeOrigen { get; set; }
-        public Motivos? Motivo { get; set; }
-        public Bodega? BodegaDestino { get; set; }
-        public Articulos Articulo { get; set; }
-        public Usuarios Usuario { get; set; }
+        
     }
 
 

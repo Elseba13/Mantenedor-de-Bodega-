@@ -39,20 +39,31 @@ namespace models
 
         // Colección de Bodegas asociadas a este Centro de Salud
         public ICollection<Bodega> bodegas { get; set; } = new List<Bodega>();
+        public ICollection<ArancelCentro> arancelCentros { get; set; } = new List<ArancelCentro>();
+        public ICollection<SolicitudDePedido> solicitudes { get; set; } = new List<SolicitudDePedido>();
+
     }
 
     // Clase que representa un Artículo
-    public class Articulos
+    public class ArancelCentro
     {
-        // Identificador único del Artículo
-        public int IdArticulo { get; set; }
-
-        // Nombre del Artículo
-        public string NombreArticulo { get; set; }
+        public int Id { get; set; }
 
         // Clasificación del Artículo
-        public string ClasificacioArticulo { get; set; }
+        public string Descripción { get; set; }
 
+        public CentroDeSalud centroDeSalud { get; set; }  
+
+        public bool EstaActivo { get; set; } 
+
+        public int IdGrupo { get; set; } 
+
+        public int IdSubGrupo { get; set; } 
+
+        public string NombreFantasia { get; set; }
+
+        public int IdTipoArancel { get; set; }
+             
         // Colección de inventarios donde se encuentra este Artículo
         public ICollection<Inventario> Bodegas { get; set; } = new List<Inventario>(); 
         public ICollection<SolicitudDePedido> solicitudDePedidos { get; set; } = new List<SolicitudDePedido>();
@@ -62,12 +73,12 @@ namespace models
     public class Inventario
     {
         // Identificador del Artículo en el Inventario
-        public int IdArticulos { get; set; }
-        public Articulos articulos { get; set; }
+        public int? IdArancel { get; set; }
+        public ArancelCentro? arancelCentro { get; set; }
 
         // Identificador de la Bodega en el Inventario
-        public int CodigoBodega { get; set; }
-        public Bodega bodega { get; set; }
+        public int? CodigoBodega { get; set; }
+        public Bodega? bodega { get; set; }
 
         //Actual del Artículo en la Bodega
         public int StockActual { get; set; }
@@ -113,7 +124,7 @@ namespace models
         public int Cantidad { get; set; }
 
         // Fecha del movimiento
-        public DateTime? FechaDeMovimiento { get; set; }
+        public DateTime FechaDeMovimiento { get; set; }
 
         // Bodega de origen del movimiento
         public Bodega BodegaDeOrigen { get; set; }
@@ -125,7 +136,7 @@ namespace models
         public Bodega? BodegaDestino { get; set; }
 
         // Artículo involucrado en el movimiento
-        public Articulos Articulo { get; set; }
+        public ArancelCentro Arancel { get; set; }
 
         // Usuario que realizó el movimiento
         public Usuarios Usuario { get; set; }
@@ -149,6 +160,8 @@ namespace models
 
         public int Cantidad { get; set; }
 
-        public Articulos Articulo { get; set; }
+        public ArancelCentro arancelCentro { get; set; }
+
+        public CentroDeSalud centro { get; set; }
     }
 }

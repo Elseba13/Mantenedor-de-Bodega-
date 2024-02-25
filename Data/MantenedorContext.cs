@@ -17,9 +17,8 @@ public class MantenedorContext : DbContext
     // DbSet para la entidad CentroDeSalud, que representa la tabla de centros de salud en la base de datos
     public DbSet<CentroDeSalud> CentroDeSaluds { get; set; }
 
-    // DbSet para la entidad Articulos, que representa la tabla de artículos en la base de datos
-    public DbSet<Articulos> Articulos { get; set; }
-
+    public DbSet<ArancelCentro> ArancelCentros { get; set; }    
+ 
     public DbSet<Inventario> Inventarios { get; set; }
 
     // DbSet para la entidad Motivos, que representa la tabla de motivos en la base de datos
@@ -46,24 +45,26 @@ public class MantenedorContext : DbContext
             .HasKey(c => c.CodigoCentroSalud);
 
         // Configura la clave primaria para la entidad Articulos
-        modelBuilder.Entity<Articulos>()
-            .HasKey(a => a.IdArticulo);
+        modelBuilder.Entity<ArancelCentro>()
+            .HasKey(c => c.Id); 
 
         //Configura la clave primaria compuesta de la entidad Inventario
         modelBuilder.Entity<Inventario>()
-            .HasKey(i => new { i.IdArticulos, i.CodigoBodega });
+            .HasKey(i => new { i.IdArancel, i.CodigoBodega });
 
         //Configura la clave foranea de articulos en la entidad de Inventario
         modelBuilder.Entity<Inventario>()
-            .HasOne(i => i.articulos)
+            .HasOne(i => i.arancelCentro)
             .WithMany(a => a.Bodegas)
-            .HasForeignKey(i => i.IdArticulos) ;
+            .HasForeignKey(i => i.IdArancel)
+            .OnDelete(DeleteBehavior.SetNull); 
 
         //Configura la clave foranea de bodegas en la entidad de Inventario
         modelBuilder.Entity<Inventario>()
             .HasOne(i => i.bodega)
             .WithMany(a => a.Articulos)
-            .HasForeignKey(i => i.CodigoBodega);
+            .HasForeignKey(i => i.CodigoBodega)
+            .OnDelete(DeleteBehavior.SetNull);
 
         // Configura la clave primaria para la entidad Motivos
         modelBuilder.Entity<Motivos>()

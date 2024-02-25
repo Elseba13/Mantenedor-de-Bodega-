@@ -138,55 +138,55 @@ namespace Mantenedor.Controllers
 
 
         // Acción para obtener todas los Artículos
-        [HttpGet("GetAllArticulos")]
-        public ActionResult<IEnumerable<Articulos>> GetAllArticulos()
+        [HttpGet("GetAllArancelCentro")]
+        public ActionResult<IEnumerable<ArancelCentro>> GetAllArancelCentro()
         {
-            var articulosItems = _repository.GetAllArticulos();
-            return Ok(_mapper.Map<IEnumerable<MantenedorDtoArticulos>>(articulosItems));
+            var articulosItems = _repository.GetAllArancelCentro;
+            return Ok(_mapper.Map<IEnumerable<MantenedorDtoArancelCentro>>(articulosItems));
         }
 
         // Acción para obtener un Artículo por su Id
-        [HttpGet("GetArticulosById/{id}", Name = "GetArticulosById")]
-        public ActionResult<MantenedorDtoArticulos> GetArticulosById(int id)
+        [HttpGet("GetArancelCentroById/{id}", Name = "GetArancelCentroById")]
+        public ActionResult<MantenedorDtoArancelCentro> GetArancelCentroById(int id)
         {
-            var articulosItems = _repository.GetArticulosById(id);
-            if (articulosItems != null)
+            var arancelItems = _repository.GetArancelCentroById(id); 
+            if (arancelItems != null)
             {
-                return Ok(_mapper.Map<MantenedorDtoArticulos>(articulosItems));
+                return Ok(_mapper.Map<MantenedorDtoArancelCentro>(arancelItems));
             }
             return NotFound();
         }
 
         // Acción para crear una bodega 
-        [HttpPost("CreateArticulos")]
-        public ActionResult<MantenedorDtoArticulos> CreateArticulo(MantenedorCreateDtoArticulos mantenedorCreateDtoArticulos)
+        [HttpPost("CreateArancelCentro")]
+        public ActionResult<MantenedorDtoArancelCentro> CreateArticulo(MantenedorCreateDtoArancelCentro mantenedorCreateDtoArancelCentro)
         {
-            var articulosModel = _mapper.Map<Articulos>(mantenedorCreateDtoArticulos);
+            var arancelModel = _mapper.Map<ArancelCentro>(mantenedorCreateDtoArancelCentro);
 
-            _repository.CreateArticulos(articulosModel);
+            _repository.CreateArancelCentro(arancelModel);
             _repository.saveChanges();
 
-            var mantenedorArticulosDto = _mapper.Map<MantenedorDtoArticulos>(articulosModel);
+            var mantenedorArancelCentroDto = _mapper.Map<MantenedorDtoArancelCentro>(arancelModel);
 
 
-            return CreatedAtRoute(nameof(GetArticulosById), new { id = mantenedorArticulosDto.IdArticulo }, mantenedorArticulosDto);
+            return CreatedAtRoute(nameof(GetArancelCentroById), new { id = mantenedorArancelCentroDto.Id }, mantenedorArancelCentroDto);
         }
 
 
 
         //Accion para Actualizar articulos 
-        [HttpPut("UpdateArticulos/{id}")]
-        public ActionResult UpdateArticulos(int id, MantenedorUpdateDtoArticulos mantenedorUpdateDtoArticulos)
+        [HttpPut("UpdateArancelCentro/{id}")]
+        public ActionResult UpdateArticulos(int id, MantenedorUpdateDtoArancelCentro mantenedorUpdateDtoArancelCentro)
         {
-            var articulosModelFromRepo = _repository.GetArticulosById(id);
-            if (articulosModelFromRepo == null)
+            var arancelModelFromRepo = _repository.GetArancelCentroById(id);
+            if (arancelModelFromRepo == null)
             {
                 return NotFound();
             }
 
-            _mapper.Map(mantenedorUpdateDtoArticulos, articulosModelFromRepo);
+            _mapper.Map(mantenedorUpdateDtoArancelCentro, arancelModelFromRepo);
 
-            _repository.UpdateArticulos(articulosModelFromRepo);
+            _repository.UpdateArancelCentro(arancelModelFromRepo);
 
             _repository.saveChanges();
 
@@ -194,29 +194,29 @@ namespace Mantenedor.Controllers
         }
 
         //Accion para actulizar parcialmente articulos 
-        [HttpPatch("PartialArticulosUpdate/{id}")]
-        public ActionResult PartialArticulosUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoArticulos> jsonPatchDocument)
+        [HttpPatch("PartialArancelCentroUpdate/{id}")]
+        public ActionResult PartialArticulosUpdate(int id, JsonPatchDocument<MantenedorUpdateDtoArancelCentro> jsonPatchDocument)
         {
 
-            var articulosModelFromRepo = _repository.GetArticulosById(id);
+            var arancelModelFromRepo = _repository.GetArancelCentroById(id);
 
-            if (articulosModelFromRepo == null)
+            if (arancelModelFromRepo == null)
             {
                 return NotFound();
             }
 
-            var articulosToPatch = _mapper.Map<MantenedorUpdateDtoArticulos>(articulosModelFromRepo);
+            var arancelToPatch = _mapper.Map<MantenedorUpdateDtoArancelCentro>(arancelModelFromRepo);
 
-            jsonPatchDocument.ApplyTo(articulosToPatch, ModelState);
+            jsonPatchDocument.ApplyTo(arancelToPatch, ModelState);
 
-            if (!TryValidateModel(articulosToPatch))
+            if (!TryValidateModel(arancelToPatch))
             {
                 return ValidationProblem(ModelState);
             }
 
-            _mapper.Map(articulosToPatch, articulosModelFromRepo);
+            _mapper.Map(arancelToPatch, arancelModelFromRepo);
 
-            _repository.UpdateArticulos(articulosModelFromRepo);
+            _repository.UpdateArancelCentro(arancelModelFromRepo);
 
             _repository.saveChanges();
 
@@ -225,19 +225,19 @@ namespace Mantenedor.Controllers
 
 
         //Accion para eliminar articulos por ID 
-        [HttpDelete("DeleteArticulos/{id}")]
+        [HttpDelete("DeleteArancelCentro/{id}")]
 
         public ActionResult DeleteArticulos(int id)
         {
 
-            var articulosModelFromRepo = _repository.GetArticulosById(id);
+            var arancelModelFromRepo = _repository.GetArancelCentroById(id);
 
-            if (articulosModelFromRepo == null)
+            if (arancelModelFromRepo == null)
             {
                 return NotFound();
             }
 
-            _repository.DeleteArticulos(articulosModelFromRepo);
+            _repository.DeleteArancelCentro(arancelModelFromRepo);
             _repository.saveChanges();
 
             return NoContent();
@@ -386,28 +386,21 @@ namespace Mantenedor.Controllers
         public ActionResult AumentoDeStock(int id, int stock, int idUsuario, int IdBodega)
         {
             // Obtener el modelo del artículo por su ID
-            var articuloModel = _repository.GetArticulosById(id);
+            var arancelModel = _repository.GetArancelCentroById(id);
 
             // Obtener el modelo del usuario por su ID
             var usuarioModel = _repository.GetUsuariosById(idUsuario);
 
-            var inventarioModel = _context.Inventarios.FirstOrDefault(i => i.IdArticulos == id && i.CodigoBodega == IdBodega);
+            var inventarioModel = _context.Inventarios.FirstOrDefault(i => i.IdArancel == id && i.CodigoBodega == IdBodega);
 
             // Modelo de bodega inicializado
-            var bodegaModel = new Bodega();
+            var bodegaModel = _repository.GetBodegaById(IdBodega);
 
             // Iterar sobre las bodegas asociadas al artículo para encontrar la bodega deseada por su ID
-            foreach (var bodega in articuloModel.Bodegas)
-            {
-                if (bodega.bodega.CodigoBodega == IdBodega)
-                {
-                    bodegaModel = bodega.bodega;
-                    break;
-                }
-            }
+            
 
             // Verificar si el artículo fue encontrado
-            if (articuloModel == null)
+            if (arancelModel == null)
             {
                 return NotFound("El Articulo no fue encontrado");
             }
@@ -432,24 +425,16 @@ namespace Mantenedor.Controllers
                 Motivo = motivosModel, // Asignar el motivo al movimiento
                 BodegaDeOrigen = bodegaModel, // Asignar la bodega de origen al movimiento
                 BodegaDestino = null, // No hay bodega de destino en un aumento de stock
-                Articulo = articuloModel, // Asignar el artículo al movimiento
+                Arancel = arancelModel, // Asignar el artículo al movimiento
                 Usuario = usuarioModel, // Asignar el usuario al movimiento 
                 StockInicialBodegaOrigen = inventarioModel.StockActual,
                 StockFinalBodegaDestino = inventarioModel.StockActual + stock 
             };
 
-            // Actualizar el stock actual de la bodega correspondiente al aumento de stock
-            foreach (var bodega in articuloModel.Bodegas)
-            {
-                if (bodega.bodega.CodigoBodega == IdBodega)
-                {
-                    bodega.StockActual += stock; // Aumentar el stock actual
-                    break;
-                }
-            }
 
-            // Actualizar el artículo en el repositorio
-            _repository.UpdateArticulos(articuloModel);
+            inventarioModel.StockActual += stock;
+
+            _repository.UpdateInventario(inventarioModel);
 
             // Crear el nuevo movimiento de inventario en el repositorio
             _repository.CreateMovimientosInventario(movimientosInventario);
@@ -470,25 +455,18 @@ namespace Mantenedor.Controllers
         public ActionResult DisminucionDeStock(int id, int stock, int idUsuario, int IdBodega)
         {
             // Obtener el modelo del artículo por su ID
-            var articulosModel = _repository.GetArticulosById(id);
+            var arancelModel = _repository.GetArancelCentroById(id);
 
             // Obtener el modelo del usuario por su ID
             var usuarioModel = _repository.GetUsuariosById(idUsuario);
 
             // Modelo de bodega inicializado
-            var bodegaModel = new Bodega();
+            var bodegaModel = _repository.GetBodegaById(IdBodega); 
 
-            var inventarioModel = _context.Inventarios.FirstOrDefault(i => i.IdArticulos == id && i.CodigoBodega == IdBodega);
+            var inventarioModel = _context.Inventarios.FirstOrDefault(i => i.IdArancel == id && i.CodigoBodega == IdBodega);
 
             // Iterar sobre las bodegas asociadas al artículo para encontrar la bodega deseada por su ID
-            foreach (var bodega in articulosModel.Bodegas)
-            {
-                if (bodega.bodega.CodigoBodega == IdBodega)
-                {
-                    bodegaModel = bodega.bodega;
-                    break;
-                }
-            }
+           
 
             // Verificar si el usuario fue encontrado
             if (usuarioModel == null)
@@ -497,7 +475,7 @@ namespace Mantenedor.Controllers
             }
 
             // Verificar si el artículo fue encontrado
-            if (articulosModel == null)
+            if (arancelModel == null)
             {
                 return NotFound("El articulo ingresado no existe");
             }
@@ -516,24 +494,17 @@ namespace Mantenedor.Controllers
                 Motivo = motivosModel, // Asignar el motivo al movimiento
                 BodegaDeOrigen = bodegaModel, // Asignar la bodega de origen al movimiento
                 BodegaDestino = null, // No hay bodega de destino en un descuento de stock
-                Articulo = articulosModel, // Asignar el artículo al movimiento
+                Arancel = arancelModel, // Asignar el artículo al movimiento
                 Usuario = usuarioModel, // Asignar el usuario al movimiento 
                 StockInicialBodegaOrigen = inventarioModel.StockActual,
                 StockFinalBodegaOrigen = inventarioModel.StockActual - stock
             };
 
-            // Actualizar el stock actual de la bodega correspondiente al descuento de stock
-            foreach (var bodegas in articulosModel.Bodegas)
-            {
-                if (bodegas.bodega.CodigoBodega == IdBodega)
-                {
-                    bodegas.StockActual -= stock; // Disminuir el stock actual
-                    break;
-                }
-            }
+            inventarioModel.StockActual -= stock; 
+            
 
             // Actualizar el artículo en el repositorio
-            _repository.UpdateArticulos(articulosModel);
+            _repository.UpdateInventario(inventarioModel);
 
             // Crear el nuevo movimiento de inventario en el repositorio
             _repository.CreateMovimientosInventario(movimientosInventarioModel);
@@ -636,14 +607,14 @@ namespace Mantenedor.Controllers
 
 
         [HttpPost("AsignarArticulosEnBodega")]
-        public ActionResult AsignarArticuloEnBodega(int idArticulo, int idBodega, int stock, int idUsuario)
+        public ActionResult AsignarArticuloEnBodega(int id, int idBodega, int stock, int idUsuario)
         {
-            var articulosModel = _repository.GetArticulosById(idArticulo);
+            var arancelModel = _repository.GetArancelCentroById(id);
             var bodegasModel = _repository.GetBodegaById(idBodega);
             var usuarioModel = _repository.GetUsuariosById(idUsuario); 
 
 
-            if (articulosModel == null)
+            if (arancelModel == null)
             {
                 return NotFound();
             }
@@ -653,7 +624,7 @@ namespace Mantenedor.Controllers
                 return NotFound();
             }
 
-            var inventarioModel = _context.Inventarios.FirstOrDefault(i => i.IdArticulos == idArticulo && i.CodigoBodega == idBodega);
+            var inventarioModel = _context.Inventarios.FirstOrDefault(i => i.IdArancel == id && i.CodigoBodega == idBodega);
             if (inventarioModel != null)
             {
                 return Conflict();
@@ -666,8 +637,8 @@ namespace Mantenedor.Controllers
 
             var inventario = new Inventario
             {
-                IdArticulos = idArticulo,
-                articulos = articulosModel,
+                IdArancel = id,
+                arancelCentro = arancelModel,
                 CodigoBodega = idBodega,
                 bodega = bodegasModel,
                 StockActual = stock
@@ -680,7 +651,7 @@ namespace Mantenedor.Controllers
                 BodegaDeOrigen = bodegasModel,
                 Motivo = motivosModel,
                 BodegaDestino = null,
-                Articulo = articulosModel,
+                Arancel = arancelModel,
                 Usuario = usuarioModel,
                 StockInicialBodegaOrigen = 0,
                 StockFinalBodegaOrigen = stock
@@ -688,7 +659,7 @@ namespace Mantenedor.Controllers
 
 
            
-            _repository.UpdateArticulos(articulosModel);
+            _repository.UpdateArancelCentro(arancelModel);
             _repository.UpdateBodega(bodegasModel);
             _repository.CreateInventario(inventario);
             _repository.CreateMovimientosInventario(movimientosModel); 
@@ -702,19 +673,19 @@ namespace Mantenedor.Controllers
 
         //Acción para hacer el ajuste de inventario
         [HttpPut("AjusteDeInventario")]
-        public ActionResult AjusteDeInventario(int idArticulo, int idBodega, int stockReal, int idUsuario)
+        public ActionResult AjusteDeInventario(int id, int idBodega, int stockReal, int idUsuario)
         {
             // Obtener el modelo del usuario por su ID
             var usuarioModel = _repository.GetUsuariosById(idUsuario);
 
             // Obtener el modelo del artículo por su ID
-            var articuloModel = _repository.GetArticulosById(idArticulo);
+            var arancelModel = _repository.GetArancelCentroById(id);
 
             // Obtener el modelo de la bodega por su ID
             var bodegaModel = _repository.GetBodegaById(idBodega);
 
             // Obtener el modelo de inventario asociado al artículo y la bodega
-            var inventarioModel = _context.Inventarios.FirstOrDefault(i => i.IdArticulos == idArticulo && i.CodigoBodega == idBodega);
+            var inventarioModel = _context.Inventarios.FirstOrDefault(i => i.IdArancel == id && i.CodigoBodega == idBodega);
 
             // Verificar si el modelo de inventario fue encontrado
             if (inventarioModel == null)
@@ -739,7 +710,7 @@ namespace Mantenedor.Controllers
                 BodegaDeOrigen = _repository.GetBodegaById(idBodega), // Establecer la bodega de origen del movimiento
                 Motivo = motivosModel, // Asignar el motivo al movimiento
                 BodegaDestino = null, // No hay bodega de destino en un ajuste de inventario
-                Articulo = _repository.GetArticulosById(idArticulo), // Asignar el artículo al movimiento
+                Arancel = arancelModel, // Asignar el artículo al movimiento
                 Usuario = usuarioModel,// Asignar el usuario al movimiento
                 StockInicialBodegaOrigen = inventarioModel.StockActual,
                 StockFinalBodegaOrigen = stockReal 
@@ -766,10 +737,10 @@ namespace Mantenedor.Controllers
 
         //Accion de traslado de articulos
         [HttpPost("TrasladoDeArticulos")]
-        public ActionResult TrasladoDeArticulos(int idArticulos, int BodegaOrigen, int BodegaDestino, int idUsuario, int cantidad)
+        public ActionResult TrasladoDeArticulos(int id, int BodegaOrigen, int BodegaDestino, int idUsuario, int cantidad)
         {
             // Obtener el modelo del artículo por su ID
-            var articuloModel = _repository.GetArticulosById(idArticulos);
+            var arancelModel = _repository.GetArancelCentroById(id);
 
             // Obtener el modelo de la bodega de origen por su ID
             var bodegaOrigenModel = _repository.GetBodegaById(BodegaOrigen);
@@ -781,13 +752,13 @@ namespace Mantenedor.Controllers
             var usuarioModel = _repository.GetUsuariosById(idUsuario);
 
             // Verificar si alguno de los modelos no fue encontrado
-            if (articuloModel == null || bodegaOrigenModel == null || bodegaDestinoModel == null || usuarioModel == null)
+            if (arancelModel == null || bodegaOrigenModel == null || bodegaDestinoModel == null || usuarioModel == null)
             {
                 return NotFound(); // Si algún modelo no fue encontrado, retorna un error NotFound
             }
 
             // Buscar el inventario en la bodega de origen asociado al artículo
-            var inventarioOrigen = _context.Inventarios.FirstOrDefault(i => i.IdArticulos == idArticulos && i.CodigoBodega == BodegaOrigen);
+            var inventarioOrigen = _context.Inventarios.FirstOrDefault(i => i.IdArancel == id && i.CodigoBodega == BodegaOrigen);
 
             // Verificar si el inventario en la bodega de origen fue encontrado o si la cantidad solicitada excede el stock disponible
             if (inventarioOrigen == null || inventarioOrigen.StockActual < cantidad)
@@ -797,7 +768,7 @@ namespace Mantenedor.Controllers
 
  
             // Buscar el inventario en la bodega de destino asociado al artículo
-            var inventarioDestino = _context.Inventarios.FirstOrDefault(i => i.IdArticulos == idArticulos && i.CodigoBodega == BodegaDestino);
+            var inventarioDestino = _context.Inventarios.FirstOrDefault(i => i.IdArancel == id && i.CodigoBodega == BodegaDestino);
 
             if(inventarioDestino != null)
             {
@@ -814,7 +785,7 @@ namespace Mantenedor.Controllers
                     BodegaDeOrigen = bodegaOrigenModel,
                     BodegaDestino = bodegaDestinoModel,
                     Motivo = motivosModelExistente,
-                    Articulo = articuloModel,
+                    Arancel = arancelModel,
                     Usuario = usuarioModel,
                     StockInicialBodegaOrigen = inventarioOrigen.StockActual,
                     StockFinalBodegaOrigen = inventarioOrigen.StockActual - cantidad,
@@ -849,8 +820,8 @@ namespace Mantenedor.Controllers
             {
                 inventarioDestino = new Inventario
                 {
-                    IdArticulos = idArticulos,
-                    articulos = articuloModel,
+                    IdArancel = id,
+                    arancelCentro = arancelModel,
                     CodigoBodega = BodegaDestino,
                     bodega = bodegaDestinoModel,
                     StockActual = 0
@@ -872,7 +843,7 @@ namespace Mantenedor.Controllers
                 BodegaDeOrigen = bodegaOrigenModel,
                 BodegaDestino = bodegaDestinoModel,
                 Motivo = motivosModel,
-                Articulo = articuloModel,
+                Arancel = arancelModel,
                 Usuario = usuarioModel, 
                 StockInicialBodegaOrigen = inventarioOrigen.StockActual,
                 StockFinalBodegaOrigen = inventarioOrigen.StockActual - cantidad,
@@ -907,22 +878,23 @@ namespace Mantenedor.Controllers
         }
 
         [HttpPost("CreateSolicitudDePedido")]
-        public ActionResult CreateSolicitudDePedido(int idUsuario, int idArticulo, int Cantidad, string TipoDeSolicitud, int CodigoBodega)
+        public ActionResult CreateSolicitudDePedido(int idUsuario, int id, int Cantidad, string TipoDeSolicitud, int CodigoBodega)
         {
             var usuarioModel = _repository.GetUsuariosById(idUsuario);
-            var articuloModel = _repository.GetArticulosById(idArticulo);
+            var arancelModel = _repository.GetArancelCentroById(id);
+            var centroModel = _repository.GetCentroDeSaludById(arancelModel.centroDeSalud.CodigoCentroSalud); 
 
             if (usuarioModel == null)
             {
                 return NotFound();
             }
 
-            if (articuloModel == null)
+            if (arancelModel == null)
             {
                 return NotFound(); 
             }
 
-            var inventarioModel = _context.Inventarios.FirstOrDefault(i => i.IdArticulos == idArticulo && i.CodigoBodega == CodigoBodega); 
+            var inventarioModel = _context.Inventarios.FirstOrDefault(i => i.IdArancel == id && i.CodigoBodega == CodigoBodega); 
 
             if(inventarioModel.StockActual < Cantidad)
             {
@@ -933,8 +905,9 @@ namespace Mantenedor.Controllers
             {
                 Usuario = usuarioModel,
                 FechaDePedido = DateTime.Now,
-                Articulo = articuloModel,
-                Cantidad = Cantidad
+                arancelCentro = arancelModel,
+                Cantidad = Cantidad,
+                centro = centroModel
             };  
 
             _repository.CreateSolicitudDePedido(solicitudModel);

@@ -14,14 +14,14 @@ namespace Mantenedor.Data
 
         // Métodos de creación de entidades en la base de datos
 
-        public void CreateArticulos(Articulos cmd)
+        public void CreateArancelCentro(ArancelCentro cmd)
         {
             if (cmd == null)
             {
                 throw new ArgumentNullException(nameof(cmd));
             }
 
-            _context.Articulos.Add(cmd);
+            _context.ArancelCentros.Add(cmd);
         }
 
         public void CreateInventario(Inventario cmd)
@@ -95,14 +95,14 @@ namespace Mantenedor.Data
             _context.SolicitudDePedidos.Add(cmd);
         }
 
-        public void DeleteArticulos(Articulos cmd)
+        public void DeleteArancelCentro(ArancelCentro cmd)
         {
             if (cmd == null)
             {
                 throw new ArgumentNullException(nameof(cmd));
             }
 
-            _context.Articulos.Remove(cmd);
+            _context.ArancelCentros.Add(cmd); 
         }
 
         public void DeleteInventario(Inventario cmd)
@@ -176,9 +176,9 @@ namespace Mantenedor.Data
 
         // Métodos de obtención de todas las entidades
 
-        public IEnumerable<Articulos> GetAllArticulos()
+        public IEnumerable<ArancelCentro> GetAllArancelCentro()
         {
-            return _context.Articulos.ToList();
+            return _context.ArancelCentros.ToList(); 
         }
 
         public IEnumerable<Inventario> GetAllInventarios()
@@ -218,9 +218,9 @@ namespace Mantenedor.Data
 
         // Métodos de obtención de una entidad por su Id
 
-        public Articulos GetArticulosById(int id)
+        public ArancelCentro GetArancelCentroById(int id)
         {
-            return _context.Articulos.FirstOrDefault(a => a.IdArticulo == id);
+            return _context.ArancelCentros.FirstOrDefault(a => a.Id == id);
         }
 
         public Bodega GetBodegaById(int id)
@@ -272,7 +272,7 @@ namespace Mantenedor.Data
 
         }
 
-        public void UpdateArticulos(Articulos cmd)
+        public void UpdateArancelCentro(ArancelCentro cmd)
         {
 
         }
@@ -283,11 +283,6 @@ namespace Mantenedor.Data
         }
 
         public void UpdateCentroDeSalud(CentroDeSalud cmd)
-        {
-
-        }
-
-        public void UpdateCentroDeSalud(Articulos cmd)
         {
 
         }
