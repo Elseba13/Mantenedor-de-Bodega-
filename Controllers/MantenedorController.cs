@@ -617,32 +617,41 @@ namespace Mantenedor.Controllers
         [HttpPost("AsignarArticulosEnBodega")]
         public ActionResult AsignarArticuloEnBodega(int id, int idBodega, int stock, int idUsuario)
         {
+            // Obtener el modelo de arancel utilizando el repositorio
             var arancelModel = _repository.GetArancelCentroById(id);
+
+            // Obtener el modelo de bodega utilizando el repositorio
             var bodegasModel = _repository.GetBodegaById(idBodega);
-            var usuarioModel = _repository.GetUsuariosById(idUsuario); 
 
+            // Obtener el modelo de usuario utilizando el repositorio
+            var usuarioModel = _repository.GetUsuariosById(idUsuario);
 
+            // Verificar si el modelo de arancel es nulo
             if (arancelModel == null)
             {
-                return NotFound();
+                return NotFound(); // Devolver respuesta Not Found si el arancel no se encuentra
             }
 
+            // Verificar si el modelo de bodega es nulo
             if (bodegasModel == null)
             {
-                return NotFound();
+                return NotFound(); // Devolver respuesta Not Found si la bodega no se encuentra
             }
 
+            // Verificar si ya existe un inventario para el arancel en la bodega
             var inventarioModel = _context.Inventarios.FirstOrDefault(i => i.IdArancel == id && i.CodigoBodega == idBodega);
             if (inventarioModel != null)
             {
-                return Conflict();
+                return Conflict(); // Devolver respuesta de conflicto si ya existe un inventario para el arancel en la bodega
             }
 
+            // Crear un modelo de motivos para el movimiento de inventario
             var motivosModel = new Motivos
             {
                 Motivo = "Insercion Inicial"
             };
 
+            // Crear un nuevo objeto de inventario con los datos proporcionados
             var inventario = new Inventario
             {
                 IdArancel = id,
@@ -652,6 +661,7 @@ namespace Mantenedor.Controllers
                 StockActual = stock
             };
 
+            // Crear un nuevo objeto de movimientos de inventario con los datos proporcionados
             var movimientosModel = new MovimientosInventario
             {
                 Cantidad = stock,
@@ -665,19 +675,25 @@ namespace Mantenedor.Controllers
                 StockFinalBodegaOrigen = stock
             };
 
-
-           
+            // Actualizar el modelo de arancel en el repositorio
             _repository.UpdateArancelCentro(arancelModel);
+
+            // Actualizar el modelo de bodega en el repositorio
             _repository.UpdateBodega(bodegasModel);
+
+            // Crear un nuevo inventario en el repositorio
             _repository.CreateInventario(inventario);
-            _repository.CreateMovimientosInventario(movimientosModel); 
+
+            // Crear un nuevo movimiento de inventario en el repositorio
+            _repository.CreateMovimientosInventario(movimientosModel);
+
+            // Guardar los cambios en la base de datos
             _repository.saveChanges();
 
-
-
-
+            // Devolver una respuesta Ok para indicar que la operación se realizó con éxito
             return Ok();
         }
+
 
         //Acción para hacer el ajuste de inventario
         [HttpPut("AjusteDeInventario")]
