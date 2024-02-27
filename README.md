@@ -8,7 +8,7 @@ Api Rest desarrollada en .Net haciendo uso de entity framework, que sus principa
 4.Realizar ajuste de inventario 
 
 Tambien cuenta con el respectivo CRUD en base a la siguiente estructura de base de datos: 
-![Estructura de base de datos!]("C:\Users\sebas\Downloads\estructura.png")  
+![Estructura de base de datos]("C:\Users\sebas\Downloads\estructura.png")  
 
 Para ejecutar la api hay que ir a la consola y agregar el siguiente comando: 
 dotnet run 
