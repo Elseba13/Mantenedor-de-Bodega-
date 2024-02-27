@@ -141,7 +141,7 @@ namespace Mantenedor.Controllers
         [HttpGet("GetAllArancelCentro")]
         public ActionResult<IEnumerable<ArancelCentro>> GetAllArancelCentro()
         {
-            var articulosItems = _repository.GetAllArancelCentro;
+            var articulosItems = _repository.GetAllArancelCentro();
             return Ok(_mapper.Map<IEnumerable<MantenedorDtoArancelCentro>>(articulosItems));
         }
 
@@ -159,10 +159,19 @@ namespace Mantenedor.Controllers
 
         // Acción para crear una bodega 
         [HttpPost("CreateArancelCentro")]
-        public ActionResult<MantenedorDtoArancelCentro> CreateArticulo(MantenedorCreateDtoArancelCentro mantenedorCreateDtoArancelCentro)
+        public ActionResult<MantenedorDtoArancelCentro> CreateArticulo(MantenedorCreateDtoArancelCentro mantenedorCreateDtoArancelCentro, int codigoCentroSalud)
         {
             var arancelModel = _mapper.Map<ArancelCentro>(mantenedorCreateDtoArancelCentro);
 
+            var centroModel = _repository.GetCentroDeSaludById(codigoCentroSalud); 
+
+            if(centroModel == null) {
+                return NotFound(); 
+            }
+
+            arancelModel.centroDeSalud = centroModel;
+
+  
             _repository.CreateArancelCentro(arancelModel);
             _repository.saveChanges();
 
@@ -396,8 +405,7 @@ namespace Mantenedor.Controllers
             // Modelo de bodega inicializado
             var bodegaModel = _repository.GetBodegaById(IdBodega);
 
-            // Iterar sobre las bodegas asociadas al artículo para encontrar la bodega deseada por su ID
-            
+          
 
             // Verificar si el artículo fue encontrado
             if (arancelModel == null)
@@ -878,7 +886,7 @@ namespace Mantenedor.Controllers
         }
 
         [HttpPost("CreateSolicitudDePedido")]
-        public ActionResult CreateSolicitudDePedido(int idUsuario, int id, int Cantidad, string TipoDeSolicitud, int CodigoBodega)
+        public ActionResult CreateSolicitudDePedido(int idUsuario, int id, int Cantidad, int CodigoBodega)
         {
             var usuarioModel = _repository.GetUsuariosById(idUsuario);
             var arancelModel = _repository.GetArancelCentroById(id);

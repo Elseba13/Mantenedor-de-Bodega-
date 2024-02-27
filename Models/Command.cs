@@ -50,11 +50,11 @@ namespace models
         public int Id { get; set; }
 
         // Clasificación del Artículo
-        public string Descripción { get; set; }
+        public string? Descripcion { get; set; }
 
         public CentroDeSalud centroDeSalud { get; set; }  
 
-        public bool EstaActivo { get; set; } 
+        public bool EstaActivo { get; set; } = false;
 
         public int IdGrupo { get; set; } 
 

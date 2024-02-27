@@ -16,7 +16,7 @@ namespace Mantenedor.Profiles
             CreateMap<MantenedorCreateDtoCentroDeSalud,CentroDeSalud>();
             CreateMap<MantenedorUpdateDtoCentroDeSalud,CentroDeSalud>();
             CreateMap<CentroDeSalud,MantenedorUpdateDtoCentroDeSalud>(); 
-            CreateMap<ArancelCentro, MantenedorDtoArancelCentro>(); // Configuración de mapeo para Articulos a MantenedorDtoArticulos
+            CreateMap<ArancelCentro,MantenedorDtoArancelCentro>(); // Configuración de mapeo para Articulos a MantenedorDtoArticulos
             CreateMap<MantenedorCreateDtoArancelCentro,ArancelCentro>();
             CreateMap<MantenedorUpdateDtoArancelCentro,ArancelCentro>(); 
             CreateMap<ArancelCentro,MantenedorUpdateDtoArancelCentro>(); 
