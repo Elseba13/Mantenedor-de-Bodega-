@@ -901,6 +901,7 @@ namespace Mantenedor.Controllers
             return Ok();
         }
 
+        //Acción para crear una solicitud de pedido 
         [HttpPost("CreateSolicitudDePedido")]
         public ActionResult CreateSolicitudDePedido(int idUsuario, int id, int Cantidad, int CodigoBodega)
         {
@@ -942,6 +943,43 @@ namespace Mantenedor.Controllers
 
         }
 
+        //Acción para obtener todas las solicitudes de pedido 
+        [HttpGet("GetAllSolicitudPedidos")]
+        public ActionResult<IEnumerable<SolicitudDePedido>> GetAllSolicitudPedidos()
+        {
+            var solicitudDePedidosItems = _repository.GetAllSolicitudDePedidos();
+            return Ok(_mapper.Map<IEnumerable<MantenedorDtoSolicitudPedido>>(solicitudDePedidosItems));
+        }
+
+        [HttpGet("GetSolicitudPedidoById/{id}", Name = "GetSolicitudPedidoById")]
+        public ActionResult<MantenedorDtoSolicitudPedido> GetSolicitudPedidoById(int id)
+        {
+            var solicitudItems = _repository.GetSolicituDePedidoById(id);
+            if ( solicitudItems != null)
+            {
+                return Ok(_mapper.Map<MantenedorDtoSolicitudPedido>(solicitudItems));
+            }
+            return NotFound();
+        }
+
+
+        //Acción para eliminar una solicitud de pedido
+        [HttpDelete("DeleteSolicitudPedidos/{id}")]
+        public ActionResult DeleteSolicitudPedidos(int id)
+        {
+
+            var solicitudModelFromRepo = _repository.GetSolicituDePedidoById(id);
+
+            if (solicitudModelFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            _repository.DeleteSolicitudDePedido(solicitudModelFromRepo);
+            _repository.saveChanges();
+
+            return NoContent();
+        }
 
     }
 

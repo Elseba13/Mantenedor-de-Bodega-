@@ -84,5 +84,13 @@ namespace Mantenedor.Dtos
         
     }
 
+    public class MantenedorUpdateDtoSolicitudPedido
+    {
+        public int IdPedido { get; set; }
+        public DateTime FechaDePedido { get; set; }  
+        public int Cantidad { get; set;}
+
+    } 
+
 
 }

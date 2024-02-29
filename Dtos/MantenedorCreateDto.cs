@@ -30,8 +30,8 @@ namespace Mantenedor.Dtos
     {
 
         public int IdArticulo { get; set; } // Identificador único del Artículo
-        public string Descripcion { get; set; } 
-        public bool EstaActivo { get; set; } 
+        public string Descripcion { get; set; }
+        public bool EstaActivo { get; set; } = false;
         public string NombreFantasia { get; set; }
 
         
@@ -79,6 +79,13 @@ namespace Mantenedor.Dtos
         public int Cantidad { get; set; } // Cantidad del movimiento
         public DateTime? FechaDeMovimiento { get; set; } // Fecha del movimiento
         
+    }
+
+    public class MantenedorCreateDtoSolicitudPedido
+    {
+        public int IdPedido { get; set; }   
+        public DateTime FechaDePedido { get; set; }
+        public int Cantidad { get; set; } 
     }
 
 
